@@ -1,18 +1,42 @@
-.button{width: 100px !important;}
-#outsidePanel .button{width: 115px !important;}
-.eventPanel .button {width: 122px !important;}
+/* Base button style */
+.button {
+  width: 100px;
+}
+
+/* Override for buttons inside #outsidePanel */
+#outsidePanel .button {
+  width: 115px;
+}
+
+/* Override for buttons inside .eventPanel */
+.eventPanel .button {
+  width: 122px;
+}
+
+/* Pseudo-element content for #lootButtons before element */
 #lootButtons:before {
-	content: "prendre :" !important;
+  content: "prendre :";
 }
+
+/* Pseudo-element content for #dropMenu before element */
 #dropMenu:before {
-	content: "déposer :" !important;
+  content: "déposer :";
 }
+
+/* Width for #hullRow */
 #hullRow {
-    width: 80px !important;
+  width: 80px;
 }
+
+/* Width for div#workers */
 div#workers {
-    width: 160px !important;
+  width: 160px;
 }
+
+/* Override for tooltip inside button div */
 div.button div.tooltip {
-	width: 120px !important;
+  width: 120px;
 }
+
+/* Add "!important" only when necessary */
+/* e.g., to override existing rules */
