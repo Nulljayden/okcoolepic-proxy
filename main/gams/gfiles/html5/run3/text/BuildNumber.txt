@@ -1,13 +1,16 @@
 def factorial(n):
     # Check if input is a positive integer
     if not isinstance(n, int) or n < 0:
+        # Raise a ValueError if input is not a positive integer
         raise ValueError("Input must be a positive integer")
 
     # Calculate factorial using recursion
     if n == 0 or n == 1:
+        # Return 1 if n is 0 or 1 (base case for recursion)
         return 1
     else:
+        # Return n multiplied by the factorial of n-1 (recursive case)
         return n * factorial(n-1)
 
-# Test the function
+# Test the function with an example input
 print(factorial(5))  # Output: 120
