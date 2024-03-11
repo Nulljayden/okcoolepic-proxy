@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebGL Loading Screen</title>
     <style>
+        /* Set the background color, display, justify-content, align-items, height, margin, and overflow properties for the body element */
         body {
             background-color: black;
             display: flex;
@@ -15,18 +16,21 @@
             overflow: hidden;
         }
 
+        /* Define the .webgl-content class with position, text-align, width, and display properties */
         .webgl-content {
             position: relative;
             text-align: center;
             width: min(80vw, 600px);
         }
 
+        /* Create a pseudo-element with content, display, padding-top, and position properties */
         .webgl-content::before {
             content: "";
             display: block;
             padding-top: 100%;
         }
 
+        /* Define the .logo, .progress, and .footer classes with position, left, top, and transform properties */
         .logo,
         .progress,
         .footer {
@@ -36,6 +40,7 @@
             transform: translate(-50%, -50%);
         }
 
+        /* Style the .logo class with background-repeat, background-position, background-size, width, and height properties */
         .logo {
             background-repeat: no-repeat;
             background-position: center;
@@ -44,6 +49,7 @@
             height: 130px;
         }
 
+        /* Style the .progress class with height, width, margin-top, display, and position properties */
         .progress {
             height: 18px;
             width: 141px;
@@ -51,6 +57,7 @@
             display: flex;
         }
 
+        /* Define the .empty and .full classes with height, width, display, and inline-block properties */
         .empty,
         .full {
             height: 100%;
@@ -58,6 +65,7 @@
             display: inline-block;
         }
 
+        /* Style the .empty class with background-repeat, background-position, background-size, float, and right properties */
         .empty {
             background-repeat: no-repeat;
             background-position: right;
@@ -65,6 +73,7 @@
             float: right;
         }
 
+        /* Style the .full class with background-repeat, background-position, background-size, width, transition, and position properties */
         .full {
             background-repeat: no-repeat;
             background-position: left;
@@ -73,13 +82,8 @@
             transition: width 0.5s ease-in-out;
         }
 
-        /* Dark theme */
+        /* Define the dark theme variables for --dark-logo, --dark-empty, and --dark-full */
         :root {
             --dark-logo: url('progressLogo.Dark.png');
             --dark-empty: url('progressEmpty.Dark.png');
-            --dark-full: url('progressFull.Dark.png');
-        }
-
-        .webgl-content.dark {
-            --light-logo: url('progressLogo.Light.png');
-            --light-empty: url('progressEmpty.Light
+            --dark-full: url('
