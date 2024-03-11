@@ -1,29 +1,33 @@
 :root {
-  --main-bg: #000;
-  --main-color: #fff;
-  --main-padding: 0;
-  --main-margin: 0;
-  --main-overflow: hidden;
-  --main-user-select: none;
-  --text-decoration-none: none;
-  --color-red: red;
-  --color-88f: #88f;
-  --stroke-width-10: 10px;
-  --stroke-width-1: 1px;
-  --stroke-width-01: 0.1px;
-  --fill-none: none;
-  --radius-1em: 1em;
-  --bg-rgba-000-08: rgba(0, 0, 0, 0.8);
+  /* Define global CSS variables for reusability and theming */
+  --main-bg: #000; /* Main background color */
+  --main-color: #fff; /* Main text color */
+  --main-padding: 0; /* Default padding for elements */
+  --main-margin: 0; /* Default margin for elements */
+  --main-overflow: hidden; /* Default overflow behavior */
+  --main-user-select: none; /* Disable text selection */
+  --text-decoration-none: none; /* Remove default text decoration */
+  --color-red: red; /* Red color for specific uses */
+  --color-88f: #88f; /* Light blue color for specific uses */
+  --stroke-width-10: 10px; /* 10px stroke width */
+  --stroke-width-1: 1px; /* 1px stroke width */
+  --stroke-width-01: 0.1px; /* 0.1px stroke width */
+  --fill-none: none; /* No fill for specific uses */
+  --radius-1em: 1em; /* 1em border radius */
+  --bg-rgba-000-08: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
 }
 
 .container {
-  --local-font-family: sans-serif;
-  --local-color: var(--main-color);
-  --local-bg: var(--main-bg);
-  --local-padding: var(--main-padding);
-  --local-margin: var(--main-margin);
-  --local-overflow: var(--main-overflow);
-  --local-user-select: var(--main-user-select);
+  /* Define local CSS variables for the container element */
+  --local-font-family: sans-serif; /* Font family for the container */
+  --local-color: var(--main-color); /* Inherit main color */
+  --local-bg: var(--main-bg); /* Inherit main background */
+  --local-padding: var(--main-padding); /* Inherit main padding */
+  --local-margin: var(--main-margin); /* Inherit main margin */
+  --local-overflow: var(--main-overflow); /* Inherit main overflow */
+  --local-user-select: var(--main-user-select); /* Inherit main user-select */
+  
+  /* Apply local CSS variables to the container element */
   font-family: var(--local-font-family);
   color: var(--local-color);
   background: var(--local-bg);
@@ -32,35 +36,4 @@
   top: 0;
   right: 0;
   bottom: 0;
-  padding: var(--local-padding);
-  margin: var(--local-margin);
-  overflow: var(--local-overflow);
-  user-select: var(--local-user-select);
-  -moz-user-select: var(--local-user-select);
-  -webkit-user-select: var(--local-user-select);
-}
 
-.a {
-  text-decoration: var(--text-decoration-none);
-  color: var(--color-88f);
-}
-
-.a:hover {
-  color: var(--color-red);
-}
-
-/* ... continue with the rest of the CSS rules, using CSS variables */
-
-
-import React from "react";
-import "./styles.css";
-
-const App = () => {
-  return (
-    <div className="container">
-      {/* Add your components here */}
-    </div>
-  );
-};
-
-export default App;
