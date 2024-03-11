@@ -5,18 +5,21 @@
  * This is a version modified by Stefano Gioffre'.
  */
 
+// Vec3 class representing a 3D vector or point
 Canvas3D.Vec3 = function(vx, vy, vz) {
-	this.x = vx;
-	this.y = vy;
-	this.z = vz;
+	this.x = vx; // X component of the vector
+	this.y = vy; // Y component of the vector
+	this.z = vz; // Z component of the vector
 }
 
+// Set the X, Y, and Z components of the vector
 Canvas3D.Vec3.prototype.set = function(vx, vy, vz) {
 	this.x = vx;
 	this.y = vy;
 	this.z = vz;
 }
 
+// Add the given vector to the current vector
 Canvas3D.Vec3.prototype.addVector = function(V) {
 	this.x += V.x;
 	this.y += V.y;
@@ -24,6 +27,7 @@ Canvas3D.Vec3.prototype.addVector = function(V) {
 	return this;
 }
 
+// Multiply the vector by the given scalar
 Canvas3D.Vec3.prototype.multiply = function(fScalar) {
 	this.x *= fScalar;
 	this.y *= fScalar;
@@ -31,6 +35,7 @@ Canvas3D.Vec3.prototype.multiply = function(fScalar) {
 	return this;
 }
 
+// Subtract the given vector from the current vector
 Canvas3D.Vec3.prototype.subVector = function(V) {
 	this.x -= V.x;
 	this.y -= V.y;
@@ -38,22 +43,27 @@ Canvas3D.Vec3.prototype.subVector = function(V) {
 	return this;
 }
 
+// Return a new vector that is the result of adding the given vector to the current vector
 Canvas3D.Vec3.prototype.returnAdd = function(V) {
 	return new Canvas3D.Vec3(this.x + V.x, this.y + V.y, this.z + V.z);
 }
 
+// Return a new vector that is the result of subtracting the given vector from the current vector
 Canvas3D.Vec3.prototype.returnSub = function(V) {
 	return new Canvas3D.Vec3(this.x - V.x, this.y - V.y, this.z - V.z);
 }
 
+// Return a clone of the current vector
 Canvas3D.Vec3.prototype.clone = function() {
 	return new Canvas3D.Vec3(this.x, this.y, this.z);
 }
 
+// Calculate the dot product of the current vector and the given vector
 Canvas3D.Vec3.prototype.dot = function(V) {
 	return ((this.x * V.x) + (this.y * V.y) + (this.z * V.z));
 }
 
+// Calculate the cross product of the current vector and the given vector
 Canvas3D.Vec3.prototype.cross = function(V) {
 	var vx = V.x;
 	var vy = V.y;
@@ -61,45 +71,15 @@ Canvas3D.Vec3.prototype.cross = function(V) {
 	return new Canvas3D.Vec3((this.y * vz) - (this.z * vy), (this.z * vx) - (this.x * vz), (this.x * vy) - (this.y * vx));
 }
 
+// Calculate the length (magnitude) of the vector
 Canvas3D.Vec3.prototype.length = function() {
 	return Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
 }
 
+// Normalize the vector (set its length to 1)
 Canvas3D.Vec3.prototype.unit = function() {
 	var l = 1/Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
 	return new Canvas3D.Vec3(this.x * l, this.y * l, this.z * l);
 }
 
-Canvas3D.Vec3.prototype.rotateX = function(a) {
-	var ry = this.y;
-	var rz = this.z;
-	var c = Math.cos(a);
-	var s = Math.sin(a);
-	this.y = c * ry - s * rz;
-	this.z = s * ry + c * rz;
-}
-
-Canvas3D.Vec3.prototype.rotateY = function(a) {
-	var rx = this.x;
-	var rz = this.z;
-	var c = Math.cos(a);
-	var s = Math.sin(a);
-	this.x = c * rx - s * rz;
-	this.z = s * rx + c * rz;
-}
-
-Canvas3D.Vec3.prototype.rotateZ = function(a) {
-	var rx = this.x;
-	var ry = this.y;
-	var c = Math.cos(a);
-	var s = Math.sin(a);
-	this.x = c * rx - s * ry;
-	this.y = s * rx + c * ry;
-}
-
-Canvas3D.Vec3.prototype.dist = function(oVec) {
-	var x = oVec.x - this.x;
-	var y = oVec.y - this.y;
-	var z = oVec.z - this.z;
-	return Math.sqrt(x*x + y*y + z*z);
-}
+//
