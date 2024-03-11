@@ -4,19 +4,22 @@ using System.Linq;
 
 class Program
 {
-static void Main()
-{
-List<string> list = new List<string>() { "apple", "banana", "cherry", "date", "elderberry" };
+    // Declare a list of strings
+    static void Main()
+    {
+        List<string> list = new List<string>() { "apple", "banana", "cherry", "date", "elderberry" };
 
-IEnumerable<string> query =
-from item in list
-where item.Length < 6
-orderby item
-select item;
+        // Define a LINQ query to filter, sort, and select items from the list
+        IEnumerable<string> query =
+        from item in list // Iterate through each item in the list
+        where item.Length < 6 // Filter items with a length less than 6 characters
+        orderby item // Sort items in ascending order
+        select item; // Select the items to be included in the query
 
-foreach (string s in query)
-{
-Console.WriteLine(s);
-}
-}
+        // Iterate through each item in the query and print it to the console
+        foreach (string s in query)
+        {
+            Console.WriteLine(s);
+        }
+    }
 }
