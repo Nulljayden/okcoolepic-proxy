@@ -1,4 +1,35 @@
-.idea/
-node_modules/
+my-space-app/
+├── node_modules/
+│   ├── ...
+│   └── ...
+├── public/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── SpaceCompany.js
+│   └── index.html
+├── package.json
+└── server.js
 
-SpaceCompany.min.js
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Space App</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <h1>Welcome to My Space App!</h1>
+    <script src="/js/SpaceCompany.js"></script>
+  </body>
+</html>
+
+
+const express = require('express');
+const app = express();
+const path = require('path');
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req,
