@@ -1,33 +1,43 @@
+/**
+ * Score object to calculate and manage the player's score.
+ */
 var Score = {
 
-	name : 'Score',
+  /**
+   * The name of the object to be used as a namespace.
+   * @type {string}
+   */
+  name: 'Score',
 
-	options : {},
+  /**
+   * Options for the Score object.
+   * @type {Object}
+   */
+  options: {},
 
-	init : function(options) {
-		this.options = $.extend(this.options, options);
-	},
+  /**
+   * Initializes the Score object with the given options.
+   * @param {Object} options - The options to initialize the object with.
+   */
+  init: function(options) {
+    if (typeof options !== 'object') {
+      console.error('Invalid options provided to Score.init');
+      return;
+    }
+    this.options = $.extend(this.options, options);
+  },
 
-	calculateScore : function() {
-		var scoreUnadded = Prestige.getStores(false);
-		var fullScore = 0;
-		
-		var factor = [1, 1.5, 1, 2, 2, 3, 3, 2, 2, 2, 2, 1.5, 1, 
-			     1, 10, 30, 50, 100, 150, 150, 3, 3, 5, 4];
-		for(var i = 0; i< factor.length; i++){
-			fullScore += scoreUnadded[i] * factor[i];
-		}
-		
-		fullScore = fullScore + $SM.get('stores["alien alloy"]', true) * 10;
-		fullScore = fullScore + Ship.getMaxHull() * 50;
-		return Math.floor(fullScore);
-	},
+  /**
+   * Calculates the player's score based on the current game state.
+   * @return {number} The calculated score.
+   */
+  calculateScore: function() {
+    var scoreUnadded = Prestige.getStores(false);
+    var fullScore = 0;
 
-	save: function() {
-		$SM.set('playStats.score', Score.calculateScore());
-	},
+    const factor = [1, 1.5, 1, 2, 2, 3, 3, 2, 2, 2, 2, 1.5, 1, 1, 10, 30, 50, 100, 150, 150, 3, 3, 5, 4];
+    for (let i = 0; i < factor.length; i++) {
+      fullScore += scoreUnadded[i] * factor[i];
+    }
 
-	totalScore : function() {
-		return $SM.get('previous.score', true) + Score.calculateScore();
-	}
-};
+    fullScore += $SM.get('stores
