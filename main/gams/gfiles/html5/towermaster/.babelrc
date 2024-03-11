@@ -1,15 +1,14 @@
 {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "browsers": [
-            "ios >= 9",
-            "android >= 4"
-          ]
-        }
-      }
-    ]
+    "@babel/preset-env",
+    {
+      "targets": {
+        "ie": "9",
+        "android": "4"
+      },
+      "useBuiltIns": "entry",
+      "corejs": "3.22",
+      "forceAllTransforms": true
+    }
   ]
 }
