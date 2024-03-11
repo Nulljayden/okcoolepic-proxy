@@ -1,29 +1,29 @@
-@font-face {
-  font-family: "Clear Sans";
-  font-weight: 200;
-  font-style: normal;
+/* Define a new font face called "Clear Sans" with three different weights: light, regular, and bold. */
 
-  src: url("ClearSans-Light-webfont.eot") format("embedded-opentype"),
-       url("ClearSans-Light-webfont.svg#clear_sans_lightregular") format("svg"),
-       url("ClearSans-Light-webfont.woff") format("woff");
+/* Light weight font face */
+@font-face {
+  font-family: "Clear Sans"; /* Name the font face "Clear Sans" */
+  font-weight: 200; /* Set the font weight to light */
+  font-style: normal; /* Set the font style to normal */
+
+  src: url("ClearSans-Light-webfont.eot") format("embedded-opentype"), /* Use the EOT format for older versions of Internet Explorer */
+       url("ClearSans-Light-webfont.svg#clear_sans_lightregular") format("svg"), /* Use the SVG format for older versions of iOS and Android */
+       url("ClearSans-Light-webfont.woff") format("woff"); /* Use the WOFF format for modern browsers */
 }
 
+/* Regular weight font face */
 @font-face {
-  font-family: "Clear Sans";
-  font-weight: normal;
-  font-style: normal;
+  font-family: "Clear Sans"; /* Name the font face "Clear Sans" */
+  font-weight: normal; /* Set the font weight to normal */
+  font-style: normal; /* Set the font style to normal */
 
-  src: url("ClearSans-Regular-webfont.eot") format("embedded-opentype"),
-       url("ClearSans-Regular-webfont.svg#clear_sansregular") format("svg"),
-       url("ClearSans-Regular-webfont.woff") format("woff");
+  src: url("ClearSans-Regular-webfont.eot") format("embedded-opentype"), /* Use the EOT format for older versions of Internet Explorer */
+       url("ClearSans-Regular-webfont.svg#clear_sansregular") format("svg"), /* Use the SVG format for older versions of iOS and Android */
+       url("ClearSans-Regular-webfont.woff") format("woff"); /* Use the WOFF format for modern browsers */
 }
 
+/* Bold weight font face */
 @font-face {
-  font-family: "Clear Sans";
-  font-weight: 700;
-  font-style: normal;
-
-  src: url("ClearSans-Bold-webfont.eot") format("embedded-opentype"),
-       url("ClearSans-Bold-webfont.svg#clear_sansbold") format("svg"),
-       url("ClearSans-Bold-webfont.woff") format("woff");
-}
+  font-family: "Clear Sans"; /* Name the font face "Clear Sans" */
+  font-weight: 700; /* Set the font weight to bold */
+  font-style: normal; /* Set the font style to
