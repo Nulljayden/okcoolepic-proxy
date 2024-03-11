@@ -1,3 +1,26 @@
-.button{width: 100px !important;}
-#outsidePanel .button{width: 115px !important;}
-.eventPanel .button {width: 122px !important;}
+/*
+---------------------------------
+Button Width Styles
+---------------------------------
+*/
+
+/*
+Sets the width of all buttons to 100 pixels, with importance to override other styles.
+*/
+.button{
+  width: 100px !important;
+}
+
+/*
+Sets the width of all buttons within the outsidePanel to 115 pixels, with importance to override other styles.
+*/
+#outsidePanel .button{
+  width: 115px !important;
+}
+
+/*
+Sets the width of all buttons within the eventPanel to 122 pixels, with importance to override other styles.
+*/
+.eventPanel .button {
+  width: 122px !important;
+}
