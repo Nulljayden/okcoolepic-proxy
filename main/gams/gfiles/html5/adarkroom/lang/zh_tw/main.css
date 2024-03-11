@@ -1,3 +1,19 @@
-.button{width: 100px !important;}
-#outsidePanel .button{width: 115px !important;}
-.eventPanel .button {width: 122px !important;}
+.button {
+  width: 100px;
+}
+
+.wide-button {
+  width: 115px;
+}
+
+.extra-wide-button {
+  width: 122px;
+}
+
+#outsidePanel .button {
+  @extend .wide-button;
+}
+
+.eventPanel .button {
+  @extend .extra-wide-button;
+}
