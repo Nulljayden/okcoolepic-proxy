@@ -1,28 +1,31 @@
-(function () {
-  var lastTime = 0;
-  var vendors = ['webkit', 'moz'];
-  for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
-      window[vendors[x] + 'CancelRequestAnimationFrame'];
+(() => {
+  const vendors = ['webkit', 'moz'];
+  let requestAnimationFrame, cancelAnimationFrame;
+
+  for (const vendor of vendors) {
+    requestAnimationFrame = requestAnimationFrame || window[`${vendor}RequestAnimationFrame`];
+    cancelAnimationFrame = cancelAnimationFrame || window[`${vendor}CancelAnimationFrame`] || window[`${vendor}CancelRequestAnimationFrame`];
   }
 
-  if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = function (callback) {
-      var currTime = new Date().getTime();
-      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      var id = window.setTimeout(function () {
+  if (!requestAnimationFrame) {
+    const vendorsLength = vendors.length;
+    requestAnimationFrame = (callback) => {
+      const currTime = new Date().getTime();
+      const timeToCall = Math.max(0, 16 - (currTime - (lastTime || currTime)));
+      const id = setTimeout(() => {
         callback(currTime + timeToCall);
-      },
-      timeToCall);
-      lastTime = currTime + timeToCall;
+      }, timeToCall);
+      if (!lastTime) lastTime = currTime;
       return id;
     };
   }
 
-  if (!window.cancelAnimationFrame) {
-    window.cancelAnimationFrame = function (id) {
+  if (!cancelAnimationFrame) {
+    cancelAnimationFrame = (id) => {
       clearTimeout(id);
     };
   }
-}());
+
+  window.requestAnimationFrame = requestAnimationFrame;
+  window.cancelAnimationFrame = cancelAnimationFrame;
+})();
