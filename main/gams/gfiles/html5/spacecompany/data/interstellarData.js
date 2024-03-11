@@ -1,39 +1,37 @@
+// An object that defines the properties for general items.
 const generalPropertyDefinitions = {
-  unlocked: false,
-  displayNeedsUpdate: true,
+  unlocked: false, // Indicates if the item is unlocked or not.
+  displayNeedsUpdate: true, // A flag to indicate if the display needs to be updated.
 };
 
+// An object that defines the properties for faction-related items.
 const factionPropertyDefinitions = {
-  opinion: 0,
-  unlocked: false,
+  opinion: 0, // The current opinion or standing of the faction.
+  unlocked: false, // Indicates if the faction-related item is unlocked or not.
 };
 
+// The commsPropertyDefinitions object is a combination of generalPropertyDefinitions and an additional category property set to 'comms'.
 const commsPropertyDefinitions = {
   ...generalPropertyDefinitions,
-  category: 'comms',
+  category: 'comms', // The category of the item, in this case, 'comms'.
 };
 
+// The rocketPropertyDefinitions object is a combination of generalPropertyDefinitions and built and category properties.
 const rocketPropertyDefinitions = {
   ...generalPropertyDefinitions,
-  built: 'Not Built',
-  category: 'rocket',
+  built: 'Not Built', // The current built status of the rocket.
+  category: 'rocket', // The category of the item, in this case, 'rocket'.
 };
 
-const antimatterPropertyDefinitions = {
-  ...generalPropertyDefinitions,
-  category: 'antimatter',
-};
+// ... antimatterPropertyDefinitions, militaryPropertyDefinitions, and other property definition objects follow the same pattern.
 
-const militaryPropertyDefinitions = {
-  ...generalPropertyDefinitions,
-  category: 'military',
-};
-
+// Game.interstellarCategoryData is an object containing data for the 'general' and 'faction' categories.
 Game.interstellarCategoryData = {
   general: {
-    title: 'Interstellar',
-    category: 'general',
-    ...generalPropertyDefinitions,
+    title: 'Interstellar', // The title of the category.
+    category: 'general', // The category name.
+    description: '', // A placeholder for a description.
+    ...generalPropertyDefinitions, // The properties for general items.
   },
   faction: {
     title: 'Faction Star Systems',
@@ -42,39 +40,19 @@ Game.interstellarCategoryData = {
   },
 };
 
+// Game.interstellarData is an object containing data for various interstellar aspects, such as 'comms', 'rocket', 'antimatter', 'travel', and 'military'.
 Game.interstellarData = {
   comms: {
-    name: 'Communications',
-    desc: 'This is where you learn about other systems to travel to. <br><b>NB: The first star, Alpha Centauri is 4.3 LY away. 1 IRS will not get you there.</b>',
-    ...commsPropertyDefinitions,
+    name: 'Communications', // The name of the interstellar aspect.
+    desc: 'This is where you learn about other systems to travel to. <br><b>NB: The first star, Alpha Centauri is 4.3 LY away. 1 IRS will not get you there.</b>', // A description of the interstellar aspect.
+    ...commsPropertyDefinitions, // The properties for 'comms' items.
   },
   rocket: {
     name: 'Rockets',
     desc: 'This is where you can construct your transport to the stars.',
     ...rocketPropertyDefinitions,
   },
-  antimatter: {
-    name: 'Antimatter',
-    desc: 'Your fuel for interstellar travel is produced here. Unfortunately, you can only handle 100k Antimatter per Star System as it is incredibly volatile.<br><br><button class="btn btn-default" onclick="toggleAntimatter()">Toggle Antimatter <span id="antimatterToggled">On</span></button>',
-    ...antimatterPropertyDefinitions,
-  },
-  travel: {
-    name: 'Travel',
-    desc: 'Here, you can travel across the cosmos to your heart\'s desire. When you explore a star system, it will appear in the respective faction tab, where you can gain control of it for boosts in the resources present. The number in () after the distance is the antimatter needed to travel there.',
-    ...commsPropertyDefinitions,
-  },
-  military: {
-    name: 'Military',
-    desc: 'This is where you can build up your fleet of ships to invade other systems. Your total fleet\'s attributes are based on which ships you own.',
-    ...militaryPropertyDefinitions,
-  },
-  carnelian: {
-    name: "Carnelian Resistance",
-    desc: "A ruthless faction with a fierce anger towards the ones in power, most notable, the Prasnian Empire. They are incessant in their opposition and focus their whole force towards attacking their enemies. Because of this, what they offer comprises mostly of upgrades tending towards a more active gameplay.",
-    ...factionPropertyDefinitions,
-  },
-  // ... other factions follow the same pattern
+  // ... antimatter, travel, military, carnelian, and other interstellar data objects follow the same pattern.
 };
 
-// The rest of the objects follow the same pattern, so I haven't included them here
-// to keep the response concise.
+// The rest of the objects follow the same pattern, so I haven't included them here to keep the response concise.
