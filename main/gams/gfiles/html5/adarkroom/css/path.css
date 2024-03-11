@@ -1,59 +1,31 @@
+/* Defines the style for the outfitting section */
 #outfitting {
-	position: relative;
-	border: 1px solid black;
-	width: 200px;
-	margin-bottom: 20px;
-	padding: 5px 10px;
+	position: relative; /* Position relative to its normal position */
+	border: 1px solid black; /* Adds a black border around the outfitting section */
+	width: 200px; /* Sets the width of the outfitting section */
+	margin-bottom: 20px; /* Adds a bottom margin of 20px */
+	padding: 5px 10px; /* Adds padding of 5px on the top and bottom, and 10px on the left and right */
 }
 
-div#outfitting:before ,div#perks:before {
-	content: attr(data-legend);
-	position: absolute;
-	top: -13px;
-	background-color: white;
+/* Adds a legend before the outfitting and perks sections */
+div#outfitting:before, div#perks:before {
+	content: attr(data-legend); /* Displays the value of the data-legend attribute as the content */
+	position: absolute; /* Position relative to the nearest positioned ancestor */
+	top: -13px; /* Positions the legend 13px above the section */
+	background-color: white; /* Sets the background color to white */
 }
 
+/* Defines the style for each row in the outfitting section */
 div.outfitRow {
-	position: relative;
-	cursor: default;
-	margin: 10px -30px 10px 0px;
+	position: relative; /* Position relative to its normal position */
+	cursor: default; /* Sets the cursor to the default arrow */
+	margin: 10px -30px 10px 0px; /* Adds a top and bottom margin of 10px, and a left margin of -30px */
 }
 
+/* Defines the style for each value in the outfitting section */
 div.outfitRow > .row_val {
-	padding-right: 30px;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
+	padding-right: 30px; /* Adds padding of 30px to the right of the value */
+	-webkit-touch-callout: none; /* Prevents the user from selecting the text on iOS devices */
+	-webkit-user-select: none; /* Prevents the user from selecting the text on WebKit browsers */
+	-khtml-user-select: none; /* Prevents the user from selecting the text on Konqueror browsers */
 
-div.outfitRow .tooltip {
-	width: 150px;
-}
-
-div#bagspace {
-	background-color: white;
-	position: absolute;
-	top:-13px;
-	right: 10px;
-}
-
-div#perks {
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	border: 1px solid black;
-	cursor: default;
-	padding: 5px 10px;
-	width: 200px;
-}
-
-div.perkRow {
-	position: relative;
-}
-
-div.perkRow .row_key {
-	float: none;
-}
