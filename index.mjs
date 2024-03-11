@@ -1,80 +1,41 @@
 import createServer from '@tomphttp/bare-server-node';
 import http from 'http';
 import nodeStatic from 'node-static';
-//const cors = require('cors');
-//const frameguard = require('frameguard') //imports iframe block
-//const config = require('./config.json')
+
+// Set the port to use, or use 8080 if not set
 const port = process.env.PORT || 8080;
-//const Corrosion = require('./lib/server')
-//const btoa = e => new Buffer.from(e).toString("base64")
 
-/*const proxy = new Corrosion({
-  prefix: "/beta/",
-  codec: "base64",
-  title: "Classes",
-  forceHttps: true,
-  requestMiddleware: [
-  Corrosion.middleware.blacklist([
-    'accounts.google.com'
-  ], 'This page is unavailable.'),
-]
-});*/
+// Create a new bare server instance
+const bare = createServer('/bare/');
 
-//proxy.bundleScripts();
-
-const bare =  createServer('/bare/');
+// Create a new node-static server instance
 const serve = new nodeStatic.Server('main/');
 
+// Create a new HTTP server instance
 const server = http.createServer();
 
-//app.use(frameguard({ action: 'SAMEORIGIN' })) //blocks iframing this site
-
+// Handle incoming requests
 server.on('request', (req, res) => {
-  if (bare.shouldRoute(req)) {
-    bare.routeRequest(req, res);
-  } else {
-    serve.serve(req, res);
-  }
+  // Route the request through the bare server
+  bare.route(req, res, serve);
 });
 
+// Handle incoming upgrades
 server.on('upgrade', (req, socket, head) => {
-  if (bare.shouldRoute(req, socket, head)) {
-    bare.routeUpgrade(req, socket, head);
-  }else{
-    socket.end();
-  }
+  // Route the upgrade through the bare server
+  bare.routeUpgrade(req, socket, head);
 });
 
-/*app.get('/', function(req, res){
-  res.sendFile('index.html', {root: './main'});
+// Handle any unknown routes
+server.on('*', (req, res) => {
+  res.statusCode = 404;
+  res.end('404 Not Found');
 });
 
-app.use('/g/', function(req, res, next){
-  res.sendFile('gams.html', {root: './main'});
-});
-
-app.get('/js/go.js', function(req, res){
-  res.sendFile('go.js', {root: './main/js/'});
-});
-
-app.get('/favicon.ico', function(req, res){
-  res.sendFile('favicon.ico', {root: './main/img/'});
-});
-
-app.use(express.static('./main', {
-  extensions: ['html']
-}));*/
-
-/*app.use(function (req, res) {
-  if (req.url.startsWith(proxy.prefix)) {
-    proxy.request(req,res);
-  } else {
-    res.status(404).sendFile('404.html', {root: './main'});
-  }
-}).post('*', (req, res) => {})*/
-
+// Start the server
 server.listen({
   port: port,
 });
 
-console.log(`Listening on http://localhost:${port}`)
+console.log(`Listening on http://localhost:${port}`);
+
