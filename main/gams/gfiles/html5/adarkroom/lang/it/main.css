@@ -1,11 +1,14 @@
+/* Set the width of the .button class to 100px */
 .button {
   width: 100px;
 }
 
+/* Override the width of the .button class when it is a child of the #outsidePanel element, setting it to 115px */
 #outsidePanel .button {
   width: 115px;
 }
 
+/* Further override the width of the .button class when it is a child of both the #outsidePanel and .eventPanel elements, setting it to 122px */
 .eventPanel #outsidePanel .button {
   width: 122px;
 }
