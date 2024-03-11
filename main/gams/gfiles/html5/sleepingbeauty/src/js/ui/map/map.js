@@ -1,6 +1,7 @@
 import XY from "util/xy.js";
 import * as pubsub from "util/pubsub.js";
 import Memory from "./memory.js";
+import ROT from "rot-js";
 
 const FONT_BASE = 18;
 const FONT_ZOOM = 120;
@@ -19,12 +20,12 @@ let center = new XY(0, 0); // level coords in the middle of the map
 let memory = null;
 
 function levelToDisplay(xy) { // level XY to display XY; center = middle point
-	let half = new XY(options.width, options.height).scale(0.5).floor();
+	let half = new XY(Math.floor(options.width / 2), Math.floor(options.height / 2));
 	return xy.minus(center).plus(half);
 }
 
 function displayToLevel(xy) { // display XY to level XY; middle point = center
-	let half = new XY(options.width, options.height).scale(0.5).floor();
+	let half = new XY(Math.floor(options.width / 2), Math.floor(options.height / 2));
 	return xy.minus(half).plus(center);
 }
 
@@ -54,82 +55,68 @@ function update(levelXY) {
 }
 
 export function setCenter(newCenter) {
-	center = newCenter.clone();
-	display.clear();
+	if (newCenter && newCenter instanceof XY) {
+		center = newCenter.clone();
+		display.clear();
 
-	let displayXY = new XY();
-	for (displayXY.x=0; displayXY.x<options.width; displayXY.x++) {
-		for (displayXY.y=0; displayXY.y<options.height; displayXY.y++) {
-			update(displayToLevel(displayXY));
+		let displayXY = new XY();
+		for (displayXY.x=0; displayXY.x<options.width; displayXY.x++) {
+			for (displayXY.y=0; displayXY.y<options.height; displayXY.y++) {
+				update(displayToLevel(displayXY));
+			}
 		}
+	} else {
+		console.error("Invalid center parameter");
 	}
 }
 
 export function setLevel(l) {
-	level = l;
-	memory = Memory.forLevel(level);
+	if (l && l instanceof Level) {
+		level = l;
+		memory = Memory.forLevel(level);
+	} else {
+		console.error("Invalid level parameter");
+	}
 }
 
 function zoom(size2) {
-	let node = display.getContainer();
-	node.style.transition = `transform ${ZOOM_TIME}ms`;
+	if (size2 && size2 > 0) {
+		let node = display.getContainer();
+		node.style.transition = `transform ${ZOOM_TIME}ms`;
 
-	let size1 = options.fontSize;
-	let scale = size2/size1;
+		let size1 = options.fontSize;
+		let scale = size2/size1;
 
-	node.style.transform = `scale(${scale})`;
-	setTimeout(() => {
-		options.fontSize = size2;
-		display.setOptions(options);
-		fit();
-		setCenter(center);
-		node.style.transition = "";
-		node.style.transform = "";
-	}, ZOOM_TIME);
+		node.style.transform = `scale(${scale})`;
+		setTimeout(() => {
+			options.fontSize = size2;
+			display.setOptions(options);
+			fit();
+			setCenter(center);
+			node.style.transition = "";
+			node.style.transform = "";
+		}, ZOOM_TIME);
+	} else {
+		console.error("Invalid font size parameter");
+	}
 }
 
 function handleMessage(message, publisher, data) {
-	switch (message) {
-		case "visibility-change":
-			setCenter(data.xy);
-		break;
+	if (level && center) {
+		switch (message) {
+			case "visibility-change":
+				setCenter(data.xy);
+			break;
 
-		case "visual-change":
-			if (publisher != level) { return; }
-			update(data.xy);
-		break;
+			case "visual-change":
+				if (publisher != level) { return; }
+				update(data.xy);
+			break;
+		}
+	} else {
+		console.error("Missing level or center parameter");
 	}
 }
 
 export function zoomIn() {
-	return zoom(FONT_ZOOM);
-}
-
-export function zoomOut() {
-	return zoom(FONT_BASE);
-}
-
-export function init(parent) {
-	parent.appendChild(display.getContainer());
-	pubsub.subscribe("visual-change", handleMessage);
-	pubsub.subscribe("visibility-change", handleMessage);
-
-	window.addEventListener("resize", e => {
-		fit();
-		setCenter(center);
-	});
-
-	fit();
-	activate();
-}
-
-export function activate() {
-	let node = display.getContainer().parentNode;
-	node.classList.remove("hidden");
-	node.classList.remove("inactive");
-}
-
-export function deactivate() {
-	let node = display.getContainer().parentNode;
-	node.classList.add("inactive");
-}
+	return
