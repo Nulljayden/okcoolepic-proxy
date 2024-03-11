@@ -1,40 +1,48 @@
 $.audio = {
-	sounds: {},
-	references: [],
-	play: function( sound ) {
-		if( !$.mute ){
-			var audio = $.audio.sounds[ sound ];
-			if( audio.length > 1 ){
-				audio = $.audio.sounds[ sound ][ Math.floor( $.util.rand( 0, audio.length ) ) ];
-			} else {
-				audio = $.audio.sounds[ sound ][ 0 ];
-			}
-			audio.pool[ audio.tick ].play();		
-			if( audio.tick < audio.count - 1 ) {
-				audio.tick++;
-			} else {
-				audio.tick = 0;
-			}
-		}
-	}
+  sounds: {},
+  references: [],
+  play: function(sound) {
+    if (!$.mute) {
+      const audio = $.audio.sounds[sound];
+      const pool = audio.pool;
+      const tick = audio.tick;
+
+      if (pool[tick]) {
+        pool[tick].play();
+      } else {
+        console.error(`No sound found for tick ${tick} in sound ${sound}`);
+      }
+
+      audio.tick = (tick + 1) % audio.count;
+    }
+  }
 };
 
-for( var k in $.definitions.audio ) {
-	$.audio.sounds[ k ] = [];
+if ($.definitions && $.definitions.audio) {
+  for (const [k, v] of Object.entries($.definitions.audio)) {
+    if (v.params && Array.isArray(v.params)) {
+      $.audio.sounds[k] = {
+        tick: 0,
+        count: v.count,
+        pool: []
+      };
 
-	$.definitions.audio[ k ].params.forEach( function( elem, index, array ) {
-		$.audio.sounds[ k ].push( {
-			tick: 0,
-			count: $.definitions.audio[ k ].count,
-			pool: []
-		} );
+      $.audio.sounds[k].pool = v.params.map((param, index) => {
+        const audio = new Audio();
 
-		for( var i = 0; i < $.definitions.audio[ k ].count; i++ ) {
-			var audio = new Audio();
-			audio.src = jsfxr( elem );			
-			$.audio.references.push( audio );
-			$.audio.sounds[ k ][ index ].pool.push( audio );
-		}
+        try {
+          audio.src = jsfxr(param);
+          $.audio.references.push(audio);
+        } catch (e) {
+          console.error(`Error creating sound for param ${param}: ${e.message}`);
+        }
 
-	} );
+        return audio;
+      });
+    } else {
+      console.error(`Invalid audio definition for key ${k}`);
+    }
+  }
+} else {
+  console.error("Missing or invalid audio definitions");
 }
