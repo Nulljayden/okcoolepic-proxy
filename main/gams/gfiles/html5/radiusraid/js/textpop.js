@@ -1,45 +1,43 @@
-/*==============================================================================
-Init
-==============================================================================*/
-$.TextPop = function( opt ) {
-	for( var k in opt ) {
-		this[k] = opt[k];
-	}
-	this.alpha = 2;
-	this.vy = 0;
-};
+/**
+ * TextPop object constructor
+ * @param {object} opt - object containing the object properties
+ */
+function TextPop(opt) {
+  // Set the object properties
+  for (var k in opt) {
+    this[k] = opt[k];
+  }
 
-/*==============================================================================
-Update
-==============================================================================*/
-$.TextPop.prototype.update = function( i ) {
-	this.vy -= 0.05;
-	this.y += this.vy * $.dt;
-	this.alpha -= 0.03 * $.dt;
+  // Set default values for the object properties
+  this.alpha = 2;
+  this.vy = 0;
+  this.hue = 0;
+  this.saturation = 0;
+  this.lightness = 0;
 
-	if( this.alpha <= 0 ){
-		$.textPops.splice( i, 1 );
-	}
-};
-
-/*==============================================================================
-Render
-==============================================================================*/
-$.TextPop.prototype.render = function( i ) {
-	$.ctxmg.beginPath();
-	$.text( {
-		ctx: $.ctxmg,
-		x: this.x,
-		y: this.y,
-		text: '+' + this.value,
-		hspacing: 1,
-		vspacing: 0,
-		halign: 'center',
-		valign: 'center',
-		scale: 2,
-		snap: 0,
-		render: 1
-	} );
-	$.ctxmg.fillStyle = 'hsla(' + this.hue + ', ' + this.saturation + '%, ' + this.lightness + '%, ' + this.alpha + ')';
-	$.ctxmg.fill();
+  // Check if the required variables are defined
+  if (typeof $.TextPops === 'undefined') {
+    console.error('$.TextPops is not defined');
+  }
+  if (typeof $.dt === 'undefined') {
+    console.error('$.dt is not defined');
+  }
+  if (typeof $.ctxmg === 'undefined') {
+    console.error('$.ctxmg is not defined');
+  }
+  if (typeof $.text === 'undefined') {
+    console.error('$.text is not defined');
+  }
 }
+
+/**
+ * Update the object properties
+ * @param {number} i - index of the object in the array
+ */
+TextPop.prototype.update = function(i) {
+  this.vy -= 0.05 * $.dt;
+  this.y += this.vy * $.dt;
+  this.alpha -= 0.03 * $.dt;
+
+  // Remove the object from the array if its alpha value is less than or equal to 0
+  this.delete
