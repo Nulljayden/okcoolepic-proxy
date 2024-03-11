@@ -1,23 +1,17 @@
-{
-  "files": {
-    "javascript": {
-      "file1": {
-        "name": "file1.js",
-        "size": 1234,
-        "lastModified": "2022-01-01T12:00:00Z"
-      },
-      "file2": {
-        "name": "file2.js",
-        "size": 5678,
-        "lastModified": "2022-02-01T13:00:00Z"
-      }
+// This is a JavaScript object that contains information about various files.
+const files = {
+  // This property holds information about JavaScript files.
+  "javascript": {
+    // Each JavaScript file is represented as a property of the "javascript" property.
+    "file1": {
+      // The "name" property stores the name of the file.
+      "name": "file1.js",
+      // The "size" property stores the size of the file in bytes.
+      "size": 1234,
+      // The "lastModified" property stores the date and time when the file was last modified.
+      "lastModified": "2022-01-01T12:00:00Z"
     },
-    "css": {
-      "file1": {
-        "name": "file1.css",
-        "size": 888,
-        "lastModified": "2021-12-01T10:00:00Z"
-      }
-    }
-  }
-}
+    "file2": {
+      "name": "file2.js",
+      "size": 5678,
+      "lastModified": "2
