@@ -1,16 +1,8 @@
-const colours = ["red", "orange", "yellow", "dodgerblue", "yellowgreen", "darkorchid", "hotpink"],
-shapes = ["minus", "circle", "triangle", "plus", "square", "hexagon", "dot"],
-BOARD_SIZE = 8,
-score = {
-  number: 0,
-  set(n) {
-    this.number = n;
-    squareElem.dataset.score = n;
-  },
-  add(n) {
-    this.set(n + this.number);
-  }
-};
+// Define an array of string values representing various colors
+const colours = ["red", "orange", "yellow", "dodgerblue", "yellowgreen", "darkorchid", "hotpink"];
 
-class Tile {
-  constructor(x
+// Define an array of string values representing various shapes
+const shapes = ["minus", "circle", "triangle", "plus", "square", "hexagon", "dot"];
+
+// Define the size of the game board
+const BOARD_SIZE = 
