@@ -1,229 +1,161 @@
 /* Set default font size and margins for the body tag */
 body {
+  /* Set the default font size to 16px */
   font-size: 16px;
+  /* Reset the margin to 0 */
   margin: 0;
 }
 
 /* Define CSS variables for repeated values */
 :root {
+  /* Define a CSS variable for border width */
   --border-width: 1px;
+  /* Define a CSS variable for border color */
   --border-color: black;
+  /* Define a CSS variable for padding */
   --padding: 5px;
+  /* Define a CSS variable for text alignment */
   --text-align: center;
+  /* Define a CSS variable for dark background color */
   --background-color-dark: #5B6073;
+  /* Define a CSS variable for light background color */
   --background-color-light: #F5F5F5;
+  /* Define a CSS variable for dark text color */
   --color-dark: white;
+  /* Define a CSS variable for light text color */
   --color-light: black;
 }
 
 /* Reset margin and padding for some elements */
 .reset-margin {
+  /* Reset the margin and padding to 0 */
   margin: 0;
   padding: 0;
 }
 
 /* Display elements as table cells */
 .display-table-cell {
+  /* Display the element as a table cell */
   display: table-cell;
 }
 
 /* Set maximum width for some elements */
 .max-width {
+  /* Set the maximum width to 100% */
   max-width: 100%;
 }
 
 /* Define styles for the layout */
 #settingsRow {
+  /* Position the element fixed at the bottom of the viewport */
   position: fixed;
+  /* Set the bottom position to 0 */
   bottom: 0;
+  /* Set the background color to the dark background color variable */
   background-color: var(--background-color-dark);
+  /* Set the width to 100% */
   width: 100%;
+  /* Set the left position to 0 */
   left: 0;
+  /* Set the height to 30px */
   height: 30px;
 }
 
 #settingsTable {
+  /* Set the width to 100% */
   width: 100%;
 }
 
 #buyCol {
+  /* Set the height to 100% */
   height: 100%;
 }
 
 #wrapper {
+  /* Set the padding to 15px */
   padding: 15px;
+  /* Set the height to 100% */
   height: 100%;
 }
 
 .thing {
+  /* Set the border width to the border width variable */
   border: var(--border-width) solid var(--border-color);
 }
 
 .grid {
+  /* Set the width to 100% */
   width: 100%;
+  /* Set the height to 100% */
   height: 100%;
 }
 
 .battleCell {
+  /* Set the width to 10% */
   width: 10%;
+  /* Set the height to 10% */
   height: 10%;
 }
 
 .pointer {
+  /* Set the cursor to pointer */
   cursor: pointer;
 }
 
 .inline {
+  /* Display the element inline-block */
   display: inline-block;
 }
 
 .playerGather {
+  /* Set the font size to 1.2em */
   font-size: 1.2em;
+  /* Set the text alignment to the text alignment variable */
   text-align: var(--text-align);
+  /* Set the width to 100% */
   width: 100%;
+  /* Set the height to 96% */
   height: 96%;
-  border: var(--border-width) solid var(--border-color);
+  /* Set the border bottom to 10px */
   padding-bottom: 10px;
 }
 
 .progress {
+  /* Reset the margin bottom to 0 */
   margin-bottom: 0;
 }
 
 .title {
+  /* Set the font weight to bold */
   font-weight: bold;
+  /* Set the font size to 1.4em */
   font-size: 1.4em;
 }
 
 #rightCol {
+  /* Set the height to 100% */
   height: 100%;
 }
 
 #topRow {
+  /* Set the height to 18% */
   height: 18%;
+  /* Set the min-height to 180px */
   min-height: 180px;
 }
 
 .ownedArea {
+  /* Set the font size to 1.3em */
   font-size: 1.3em;
 }
 
 #bottomRow {
+  /* Set the height to 75% */
   height: 75%;
+  /* Set the min-height to 500px */
   min-height: 500px;
 }
 
 #leftMenu {
+  /* Set the height to 100% */
   height: 100%;
-  padding: 10px;
-  padding-top: 0;
-}
-
-.buyTitle {
-  font-size: 1.5em;
-  cursor: pointer;
-}
-
-.colDiv {
-  text-align: var(--text-align);
-  font-size: 1.2em;
-}
-
-.message {
-  display: block;
-  margin-top: 5px;
-  font-size: 1.3em;
-}
-
-#logContainer {
-  margin-top: 10px;
-  width: 100%;
-  border: 2px solid black;
-  padding-top: 5px;
-}
-
-.titleRow {
-  margin: 0;
-  margin-bottom: 5px;
-  color: var(--color-dark);
-  border-bottom: 2px solid black;
-}
-
-.buyHere {
-  height: 150px;
-  padding: var(--padding);
-  overflow-y: auto;
-}
-
-.thing {
-  display: inline-block;
-  width: 30%;
-  padding: var(--padding);
-  text-align: var(--text-align);
-  background-color: var(--background-color-dark);
-  color: var(--color-dark);
-  font-size: 1.2em;
-  border: 1px solid var(--color-light);
-}
-
-.queueItem {
-  display: inline-block;
-  font-size: .9em;
-  border: 1px solid black;
-  cursor: pointer;
-  text-align: var(--text-align);
-  padding: 2px;
-}
-
-#fireBtn {
-  margin-top: 5px;
-  min-width: 60%;
-  padding: 4px;
-}
-
-#structuresCollectBtn {
-  min-width: 60%;
-  padding: 4px;
-}
-
-#scienceCollectBtn {
-  min-width: 60%;
-  padding: 4px;
-}
-
-#structuresQueue {
-  height: 50px;
-  overflow-y: auto;
-}
-
-#noQueue {
-  font-size: 1.4em;
-}
-
-.queueItem:nth-child(0) {
-  border: 1px solid yellow;
-}
-
-#structures {
-  text-align: var(--text-align);
-}
-
-.queue {
-  padding: 3px;
-  color: var(--color-dark);
-}
-
-#trimpTrapText {
-  font-size: .75em;
-}
-
-.buyBox {
-  border: 2px solid black;
-  margin: 0 0 5px 0;
-}
-
-.collecting {
-  padding: 6px;
-}
-
-#log {
