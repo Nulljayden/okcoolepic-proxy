@@ -1,25 +1,29 @@
 if (!Array.prototype.includes) {
-    Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
-        "use strict";
-        var O = Object(this);
-        var len = parseInt(O.length, 10) || 0;
-        if (len === 0) { return false; }
-        var n = parseInt(arguments[1], 10) || 0;
-        var k;
-        if (n >= 0) {
-            k = n;
-        } else {
-            k = len + n;
-            if (k < 0) {k = 0;}
-        }
-        var currentElement;
-        while (k < len) {
-            currentElement = O[k];
-            if (searchElement === currentElement) { // FIXME NaN !== NaN
-                return true;
-            }
-            k++;
-        }
-        return false;
-    };
+  Array.prototype.includes = function(searchElement, fromIndex = 0) {
+    'use strict';
+    const O = Object(this);
+    const len = O.length >>> 0;
+    if (len === 0) {
+      return false;
+    }
+    const n = fromIndex | 0;
+    const k = n >= 0 ? n : len - Math.abs(n);
+    for (; k < len; k++) {
+      if (O[k] === searchElement) {
+        return true;
+      }
+    }
+    return false;
+  };
+}
+
+// Additional polyfill for handling NaN comparisons
+Number.prototype.isNaN = function() {
+  return this !== this;
+};
+
+if (!Array.prototype.includesNaN) {
+  Array.prototype.includesNaN = function() {
+    return this.some(el => el !== el);
+  };
 }
