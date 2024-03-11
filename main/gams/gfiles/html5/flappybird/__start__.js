@@ -1,88 +1,101 @@
 (function () {
-    var CANVAS_ID = 'application-canvas';
+    // Configuration constants
+    const CANVAS_ID = 'application-canvas';
+    const INPUT_SETTINGS = {
+        useKeyboard: true,
+        useMouse: true,
+        useTouch: true,
+        useGamepads: true
+    };
+    const CONTEXT_OPTIONS = {};
+    const ASSET_PREFIX = '';
+    const SCRIPT_PREFIX = '';
+    const SCRIPTS = [];
+    const CONFIG_FILENAME = 'config.json';
+    const PRELOAD_MODULES = [];
+    const SCENE_PATH = 'scene.json';
 
-    var canvas, devices, app;
+    let canvas, devices, app;
 
-    var createCanvas = function () {
+    const createCanvas = () => {
         canvas = document.createElement('canvas');
-        canvas.setAttribute('id', CANVAS_ID);
-        canvas.setAttribute('tabindex', 0);
-        // canvas.style.visibility = 'hidden';
-
-        // Disable I-bar cursor on click+drag
-        canvas.onselectstart = function () { return false; };
-
+        canvas.id = CANVAS_ID;
+        canvas.tabIndex = 0;
+        canvas.onselectstart = e => e.preventDefault();
         document.body.appendChild(canvas);
-
         return canvas;
     };
 
-    var createInputDevices = function (canvas) {
-        var devices = {
-            elementInput: new pc.ElementInput(canvas, {
-                useMouse: INPUT_SETTINGS.useMouse,
-                useTouch: INPUT_SETTINGS.useTouch
-            }),
-            keyboard: INPUT_SETTINGS.useKeyboard ? new pc.Keyboard(window) : null,
-            mouse: INPUT_SETTINGS.useMouse ? new pc.Mouse(canvas) : null,
-            gamepads: INPUT_SETTINGS.useGamepads ? new pc.GamePads() : null,
-            touch: INPUT_SETTINGS.useTouch && pc.platform.touch ? new pc.TouchDevice(canvas) : null
-        };
+    const createInputDevices = canvas => ({
+        elementInput: new pc.ElementInput(canvas, {
+            useMouse: INPUT_SETTINGS.useMouse,
+            useTouch: INPUT_SETTINGS.useTouch
+        }),
+        keyboard: INPUT_SETTINGS.useKeyboard ? new pc.Keyboard(window) : null,
+        mouse: INPUT_SETTINGS.useMouse ? new pc.Mouse(canvas) : null,
+        gamepads: INPUT_SETTINGS.useGamepads ? new pc.GamePads() : null,
+        touch: INPUT_SETTINGS.useTouch && pc.platform.touch ? new pc.TouchDevice(canvas) : null
+    });
 
-        return devices;
-    };
-
-    var configureCss = function (fillMode, width, height) {
-        // Configure resolution and resize event
+    const configureCss = (fillMode, width, height) => {
         if (canvas.classList) {
-            canvas.classList.add('fill-mode-' + fillMode);
+            canvas.classList.add(`fill-mode-${fillMode}`);
         }
 
-        // css media query for aspect ratio changes
-        var css  = "@media screen and (min-aspect-ratio: " + width + "/" + height + ") {";
-        css += "    #application-canvas.fill-mode-KEEP_ASPECT {";
-        css += "        width: auto;";
-        css += "        height: 100%;";
-        css += "        margin: 0 auto;";
-        css += "    }";
-        css += "}";
+        const css = `
+            @media screen and (min-aspect-ratio: ${width}/${height}) {
+                #${CANVAS_ID}.fill-mode-KEEP_ASPECT {
+                    width: auto;
+                    height: 100%;
+                    margin: 0 auto;
+                }
+            }
+        `;
 
-        // append css to style
         if (document.head.querySelector) {
             document.head.querySelector('style').innerHTML += css;
         }
     };
 
-    var reflow = function () {
+    const reflow = () => {
         app.resizeCanvas(canvas.width, canvas.height);
         canvas.style.width = '';
         canvas.style.height = '';
 
-        var fillMode = app._fillMode;
-
-        if (fillMode == pc.FILLMODE_NONE || fillMode == pc.FILLMODE_KEEP_ASPECT) {
-            if ((fillMode == pc.FILLMODE_NONE && canvas.clientHeight < window.innerHeight) || (canvas.clientWidth / canvas.clientHeight >= window.innerWidth / window.innerHeight)) {
-                canvas.style.marginTop = Math.floor((window.innerHeight - canvas.clientHeight) / 2) + 'px';
-            } else {
-                canvas.style.marginTop = '';
-            }
+        switch (app._fillMode) {
+            case pc.FILLMODE_NONE:
+            case pc.FILLMODE_KEEP_ASPECT:
+                if (
+                    (app._fillMode == pc.FILLMODE_NONE && canvas.clientHeight < window.innerHeight) ||
+                    (canvas.clientWidth / canvas.clientHeight >= window.innerWidth / window.innerHeight)
+                ) {
+                    canvas.style.marginTop = `${Math.floor((window.innerHeight - canvas.clientHeight) / 2)}px`;
+                } else {
+                    canvas.style.marginTop = '';
+                }
+                break;
+            case pc.FILLMODE_STRETCH:
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.style.margin = 0;
+                break;
         }
     };
 
-    var displayError = function (html) {
-        var div = document.createElement('div');
+    const displayError = html => {
+        const div = document.createElement('div');
 
-        div.innerHTML  = [
-            '<table style="background-color: #8CE; width: 100%; height: 100%;">',
-            '  <tr>',
-            '      <td align="center">',
-            '          <div style="display: table-cell; vertical-align: middle;">',
-            '              <div style="">' + html + '</div>',
-            '          </div>',
-            '      </td>',
-            '  </tr>',
-            '</table>'
-        ].join('\n');
+        div.innerHTML = `
+            <table style="background-color: #8CE; width: 100%; height: 100%;">
+                <tr>
+                    <td align="center">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <div style="">${html}</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        `;
 
         document.body.appendChild(div);
     };
@@ -97,10 +110,10 @@
             mouse: devices.mouse,
             gamepads: devices.gamepads,
             touch: devices.touch,
-            graphicsDeviceOptions: window.CONTEXT_OPTIONS,
-            assetPrefix: window.ASSET_PREFIX || "",
-            scriptPrefix: window.SCRIPT_PREFIX || "",
-            scriptsOrder: window.SCRIPTS || []
+            graphicsDeviceOptions: CONTEXT_OPTIONS,
+            assetPrefix: ASSET_PREFIX,
+            scriptPrefix: SCRIPT_PREFIX,
+            scriptsOrder: SCRIPTS
         });
     } catch (e) {
         if (e instanceof pc.UnsupportedBrowserError) {
@@ -116,8 +129,8 @@
         return;
     }
 
-    var configure = function () {
-        app.configure(CONFIG_FILENAME, function (err) {
+    const configure = () => {
+        app.configure(CONFIG_FILENAME, err => {
             if (err) {
                 console.error(err);
             }
@@ -125,34 +138,4 @@
             configureCss(app._fillMode, app._width, app._height);
 
             // do the first reflow after a timeout because of
-            // iOS showing a squished iframe sometimes
-            setTimeout(function () {
-                reflow();
-
-                window.addEventListener('resize', reflow, false);
-                window.addEventListener('orientationchange', reflow, false);
-
-                app.preload(function (err) {
-                    if (err) {
-                        console.error(err);
-                    }
-
-                    app.loadScene(SCENE_PATH, function (err, scene) {
-                        if (err) {
-                            console.error(err);
-                        }
-
-                        app.start();
-                    });
-                });
-            });
-        });
-    };
-
-    if (PRELOAD_MODULES.length > 0) {
-        loadModules(PRELOAD_MODULES, ASSET_PREFIX, configure);
-    } else {
-        configure();
-    }
-
-})();
+            // iOS showing a squished if
