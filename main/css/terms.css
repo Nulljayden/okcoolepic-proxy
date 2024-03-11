@@ -1,19 +1,23 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
+/* Use a class or id to target the body, instead of targeting all bodies */
+body.my-website {
   margin: 0;
   padding: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif; /* Add a fallback font */
   background-color: white;
   color: black;
 }
 
-.classwork {
-  display: none;
+/* Use a class to target elements instead of targeting all elements with the same tag name */
+.classwork-item {
+  display: none; /* Hide the element */
 }
 
-a {
-  color: rgb(123, 166, 180);
+/* Use a class or id to target links instead of targeting all links */
+.nav-link {
+  color: hsl(215, 30%, 50%); /* Use a more specific color value */
+}
+
+/* Add a hover state for links */
+.nav-link:hover {
+  color: hsl(215, 40%, 40%); /* Change the color slightly on hover */
 }
