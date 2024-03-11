@@ -1,4 +1,5 @@
 /*global module:false*/
+
 module.exports = function(grunt) {
 
   // Project configuration.
@@ -9,6 +10,7 @@ module.exports = function(grunt) {
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
       '* Authored <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;*/\n',
+
     // Task configuration.
     concat: {
       options: {
@@ -17,7 +19,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: ['variable.js', 'utils.js', 'game.js', 'achievements.js', 'constants.js', 'core.js', 'loading.js', 'notification.js', 'resources.js', 'saving.js', 'solarSystem.js', 'solCenter.js', 'wonder.js', 'interstellar.js'],
-        dest: '<%= pkg.name %>.min.js'
+        dest: 'build/<%= pkg.name %>.js'
       }
     },
     uglify: {
@@ -25,17 +27,7 @@ module.exports = function(grunt) {
         banner: '<%= banner %>'
       },
       dist: {
-        src: '<%= concat.dist.dest %>',
-        dest: '<%= pkg.name %>.min.js'
+        src: 'build/<%= pkg.name %>.js',
+        dest: 'build/<%= pkg.name %>.min.js'
       }
-    }
-  });
 
-  // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-
-  // Default task.
-  grunt.registerTask('default', ['concat', 'uglify']);
-
-};
