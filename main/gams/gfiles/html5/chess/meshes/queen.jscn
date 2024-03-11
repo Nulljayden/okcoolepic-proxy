@@ -1,21 +1,31 @@
+// The 'geometry' object contains all the necessary data for rendering a 3D object.
 const geometry = {
+  // An array of objects, each representing a separate 3D mesh.
   obj: [{
+    // The 'vrt' array stores the vertex coordinates for this mesh.
     vrt: [
+      // Each set of three numbers represents the x, y, and z coordinates of a single vertex.
       [2.8, 0.1424, -2.795],
       // ...
       [-0.0001, 15.3165, 0.0002],
     ],
+    // The 'fac' array defines the faces of the mesh by specifying the indices of the vertices in the 'vrt' array.
     fac: [
+      // Each set of four numbers represents a single face, with the last number (0 in this case) being the texture index.
       [0, 8, 1, 0],
       // ...
       [54, 57, 56, 0],
     ],
+    // The 'nrm' array stores the normal vectors for each vertex.
     nrm: [
+      // Each set of three numbers represents the x, y, and z components of a normal vector.
       [0.7071, -0.7071, -0.0045],
       // ...
       [0.5961, 0.5961, 0.5378],
     ],
+    // The 'tex' array contains texture coordinates for each vertex.
     tex: [
+      // Each set of two numbers represents the u and v texture coordinates.
       [
         [7.2839, -24.849],
         // ...
@@ -24,20 +34,8 @@ const geometry = {
       // ...
     ],
   }],
+  // The 'mat' array stores material properties for the object.
   mat: [{
+      // The RGB values for the material's color.
       r: 150,
-      g: 150,
-      b: 150,
-    },
-    {
-      r: 150,
-      g: 150,
-      b: 150,
-    },
-    {
-      r: 150,
-      g: 150,
-      b: 150,
-    },
-  ],
-};
+      g: 150
