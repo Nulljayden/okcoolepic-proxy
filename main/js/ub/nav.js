@@ -1,80 +1,95 @@
-var menuIcon = document.querySelector(".hamburger");
-var menuBtn = document.getElementById("menuBtn");
-var navbar = document.querySelector(".navbar");
-var links = document.querySelector(".pages");
-var linkBtns = document.querySelectorAll("#pageHover");
-var centeredStuff = document.querySelector(".center");
-var dropdown = document.querySelector(".dropdown");
-var dropdownLinks = document.querySelector(".dropdown-links");
+// Add transition class to body on load
+document.body.classList.add('notransition');
 
-document.body.classList.add('notransition'); //disable on load
-document.body.classList.remove('notransition'); //enable after
+// Remove transition class from body after load
+document.addEventListener('load', () => {
+  document.body.classList.remove('notransition');
+});
 
-menuIcon.style.top = ((navbar.clientHeight - linkBtns[0].clientHeight*3)/2 -13).toString() + "px";
+// Get elements
+const menuIcon = document.querySelector('.hamburger');
+const menuBtn = document.querySelector('#menuBtn');
+const navbar = document.querySelector('.navbar');
+const links = document.querySelector('.pages');
+const linkBtns = document.querySelectorAll('.page-link');
+const centeredStuff = document.querySelector('.center');
+const dropdown = document.querySelector('.dropdown');
+const dropdownLinks = document.querySelector('.dropdown-links');
 
-menuIcon.onclick = function(){
-  if(menuBtn.innerText != "close"){
-    menuBtn.innerText = "close";
+// Get navbar height
+const navbarHeight = getComputedStyle(navbar).height;
+
+// Set menu icon position
+const setMenuIconPosition = () => {
+  const linkHeight = linkBtns[0].clientHeight * 3;
+  const offset = (navbarHeight - linkHeight) / 2 - 13;
+  menuIcon.style.top = `${offset}px`;
+};
+
+// Set menu icon position using requestAnimationFrame
+requestAnimationFrame(setMenuIconPosition);
+
+// Toggle menu
+const toggleMenu = () => {
+  if (menuBtn.textContent.trim() !== 'close') {
+    menuBtn.textContent = 'close';
   } else {
-    menuBtn.innerText = "menu";
+    menuBtn.textContent = 'menu';
   }
-  for(var i=0;i<linkBtns.length;i++){
-    linkBtns[i].classList.toggle('show');
+
+  linkBtns.forEach(btn => btn.classList.toggle('show'));
+};
+
+menuIcon.addEventListener('click', toggleMenu);
+
+// Toggle dropdown
+const toggleDropdown = () => {
+  dropdownLinks.style.display = 'block';
+  dropdownLinks.style.opacity = '1';
+  dropdownLinks.style.animation = 'dropdownFadeIn 0.4s';
+};
+
+const hideDropdown = () => {
+  dropdownLinks.style.opacity = '0';
+  dropdownLinks.style.animation = 'dropdownFadeOut 0.3s';
+};
+
+const removeDropdown = () => {
+  dropdownLinks.style.display = 'none';
+};
+
+dropdown.addEventListener('mouseover', toggleDropdown);
+dropdown.addEventListener('mouseout', hideDropdown);
+
+// Listen for animationend event
+dropdownLinks.addEventListener('animationend', () => {
+  if (dropdownLinks.style.opacity === '0') {
+    removeDropdown();
   }
-}
+});
 
-dropdown.onmouseover = function() {
-  dropdownLinks.style.display = "block";
-  dropdownLinks.style.opacity = "1";
-  dropdownLinks.style.animation = "0.4s dropdownFadeIn";
-}
-
-dropdown.onmouseout = function() {
-  dropdownLinks.style.opacity = "0";
-  dropdownLinks.style.animation = "0.3s dropdownFadeOut";
-}
-
-dropdownLinks.addEventListener("animationend", function() {
-  if(dropdownLinks.style.opacity == "0") {
-    dropdownLinks.style.display = "none";
-  }
-}, false);
-
-function encodeUrl(str){
+// Encode URL
+const encodeUrl = str => {
   if (!str) return str;
-  return encodeURIComponent(str.toString().split('').map((char, ind) => ind % 2 ? String.fromCharCode(char.charCodeAt() ^ 2) : char).join(''));
-}
+  return encodeURIComponent(
+    str.split('')
+      .map((char, ind) => ind % 2 ? String.fromCharCode(char.charCodeAt() ^ 2) : char)
+      .join('')
+  );
+};
 
-function updateLinks() {
-  if(localStorage.getItem("quickLinkDetails") != null) {
-    this.links = JSON.parse(localStorage.getItem("quickLinkDetails"));
-  } else {return;}
-  if(this.links.length == 0) {
-    document.querySelector(".dropdown-links").innerHTML = '<a href="settings.html"><span class="material-symbols-outlined" style="font-size:14px;">add_circle</span>&nbsp;Add links in <span style="text-decoration: underline;">Settings</span></a>';
+// Update links
+const updateLinks = () => {
+  const quickLinkDetails = localStorage.getItem('quickLinkDetails');
+
+  if (!quickLinkDetails) {
     return;
   }
-  document.querySelector(".dropdown-links").innerHTML = "";
-  for(var i=0;i<this.links.length;i++){
-    this.newLink = document.createElement("a");
-    this.newLink.href = "#";
-    this.newLink.id = encodeUrl(this.links[i][0]);
-    this.newLink.innerText = this.links[i][1];
-    document.querySelector(".dropdown-links").appendChild(this.newLink);
 
-    this.newLink.onclick = function () {
-      /*this.newFrame = document.createElement("iframe");
-      this.newFrame.style.border = "none";
-      this.newFrame.style.display = "none";
-      this.newFrame.src = "go.html";
-      document.body.appendChild(this.newFrame);*/
-      window.navigator.serviceWorker.register('/sw.js', {
-        scope: __uv$config.prefix
-      }).then(() => {
-        console.log("Service worker (for Quick Links) registered.");
-        window.location.href = __uv$config.prefix + this.id; 
-      });
-    }
-  }
-}
+  const linksArray = JSON.parse(quickLinkDetails);
 
-updateLinks();
+  if (linksArray.length === 0) {
+    dropdownLinks.innerHTML = `
+      <a href="settings.html">
+        <span class="material-symbols-outlined" style="font-size:14px;">add_circle</span>&nbsp;
+
