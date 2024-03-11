@@ -1,60 +1,58 @@
-Game.interstellar.stars = (function(){
+/**
+ * The stars module of the interstellar game.
+ * @module Game.interstellar.stars
+ */
 
+Game.interstellar.stars = (function() {
+
+    /**
+     * The instance of the stars module.
+     * @type {Object}
+     */
     var instance = {};
 
+    /**
+     * The version number of the data format used by this module.
+     * @type {number}
+     */
     instance.dataVersion = 1;
+
+    /**
+     * An object containing data for each star.
+     * @type {Object}
+     */
     instance.entries = {};
+
+    /**
+     * The number of stars in the game.
+     * @type {number}
+     */
     instance.starCount = 0;
 
+    /**
+     * The number of star systems that have been conquered.
+     * @type {number}
+     */
     instance.systemsConquered = 0;
-    
+
+    /**
+     * Initializes the stars module by creating an entry for each star in the `Game.starData` object.
+     */
     instance.initialise = function() {
-        for (var id in Game.starData) {
-            var data = Game.starData[id];
-            
-            this.starCount++;
-            this.entries[id] = $.extend({}, data, {
-                id: id,
-                htmlId: 'star_' + id,
-                current: 0,
-                spy: 0,
-                explored: false,
-                owned: false,
-                displayNeedsUpdate: false,
-            });
-            
-        }
+        if (Game.starData && Object.keys(Game.starData).length > 0) {
+            for (var id in Game.starData) {
+                if (typeof id === 'string') {
+                    var data = Game.starData[id];
 
-        console.debug("Loaded " + this.starCount + " Stars");
-
-    };
-
-    instance.save = function(data) {
-        data.stars = { v: this.dataVersion, i: {}};
-        for(var key in this.entries) {
-            data.stars.i[key] = this.entries[key].current;
-        }
-    };
-
-    instance.exploreSystem = function(id){
-        if(Game.interstellar.rocket.entries.tier1Rocket.built == true){
-            var data = this.entries[id];
-            var exploreCost = data.distance * 10000;
-            if(antimatter >= exploreCost){
-                antimatter -= exploreCost;
-                data.explored = true;
-                document.getElementById('star_' + id).className = "hidden";
-                document.getElementById('star_' + id + '_conquer').className = "";
-                newNavUnlock('intnav_' + data.factionId);
-                data.displayNeedsUpdate = true;
-            }
-        }
-    };
-
-    instance.getStarData = function(id) {
-        return this.entries[id];
-    };
-    
-
-    return instance;
-}());
+                    instance.starCount++;
+                    instance.entries[id] = $.extend({}, data, {
+                        id: id,
+                        htmlId: 'star_' + id,
+                        current: 0,
+                        spy: 0,
+                        explored: false,
+                        owned: false,
+                        displayNeedsUpdate: false,
+                    });
+                } else {
+                    console.error
