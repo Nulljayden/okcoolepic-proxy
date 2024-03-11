@@ -1,84 +1,42 @@
+/**
+ * Represents a 2D point with x and y coordinates.
+ * @class
+ */
 export default class XY {
-	static fromString(str) {
-		let numbers = str.split(",").map(Number);
-		return new this(...numbers);
-	}
+  /**
+   * Creates a new XY instance.
+   * @param {number} x - The x coordinate. Default is 0.
+   * @param {number} y - The y coordinate. Default is 0.
+   */
+  constructor(x = 0, y = 0) {
+    if (typeof x !== 'number' || typeof y !== 'number') {
+      throw new TypeError('Both x and y must be numbers');
+    }
 
-	constructor(x = 0, y = 0) {
-		this.x = x;
-		this.y = y;
-	}
+    this.x = x;
+    this.y = y;
+  }
 
-	clone() {
-		return new XY(this.x, this.y);
-	}
+  /**
+   * Creates an XY instance from a string in the format "x,y".
+   * @param {string} str - The string to parse.
+   * @returns {XY} The new XY instance.
+   * @static
+   */
+  static fromString(str) {
+    if (typeof str !== 'string') {
+      throw new TypeError('str must be a string');
+    }
 
-	toString() {
-		return `${this.x},${this.y}`;
-	}
+    const numbers = str.split(',').map(Number);
+    if (numbers.length !== 2 || typeof numbers[0] !== 'number' || typeof numbers[1] !== 'number') {
+      throw new Error('str must be in the format "x,y"');
+    }
 
-	is(xy) {
-		return (this.x==xy.x && this.y==xy.y);
-	}
+    return new this(numbers[0], numbers[1]);
+  }
 
-	norm8() {
-		return Math.max(Math.abs(this.x), Math.abs(this.y));
-	}
+  /**
+   * Clones the XY instance.
+   * @returns {XY} The cloned XY instance.
 
-	norm4() {
-		return Math.abs(this.x) + Math.abs(this.y);
-	}
-
-	norm() {
-		return Math.sqrt(this.x*this.x+this.y*this.y);
-	}
-
-	dist8(xy) {
-		return this.minus(xy).norm8();
-	}
-
-	dist4(xy) {
-		return this.minus(xy).norm4();
-	}
-
-	dist(xy) {
-		return this.minus(xy).norm();
-	}
-
-	lerp(xy, frac) {
-		let diff = xy.minus(this);
-		return this.plus(diff.scale(frac));
-	}
-
-	scale(sx, sy = sx) {
-		return new XY(this.x*sx, this.y*sy);
-	}
-
-	plus(xy) {
-		return new XY(this.x+xy.x, this.y+xy.y);
-	}
-
-	minus(xy) {
-		return this.plus(xy.scale(-1));
-	}
-
-	round() {
-		return new XY(Math.round(this.x), Math.round(this.y));
-	}
-
-	floor() {
-		return new XY(Math.floor(this.x), Math.floor(this.y));
-	}
-
-	ceil() {
-		return new XY(Math.ceil(this.x), Math.ceil(this.y));
-	}
-
-	mod(xy) {
-		let x = this.x % xy.x;
-		if (x < 0) { x += xy.x; }
-		let y = this.y % xy.y;
-		if (y < 0) { y += xy.y; }
-		return new XY(x, y);
-	}
-}
