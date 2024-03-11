@@ -3,18 +3,9 @@
  * @namespace
  */
 var Button = (function() {
-  /**
-   * Creates a new button object.
-   * @constructor
-   * @param {Object} options - The options for the button.
-   * @param {number} [options.cooldown] - The cooldown time in seconds.
-   * @param {function} [options.click] - The callback function to be executed on button click.
-   * @param {Object} [options.cost] - The cost of clicking the button.
-   * @param {string} [options.id] - The ID of the button.
-   * @param {string} [options.text] - The text of the button.
-   * @param {string} [options.ttPos] - The position of the cost tooltip.
-   */
+  // Constructor function for creating a new button object
   function Button(options) {
+    // Initialize the cooldown and handler data properties based on the options
     if (typeof options.cooldown === 'number') {
       this.data_cooldown = options.cooldown;
     }
@@ -27,12 +18,14 @@ var Button = (function() {
       };
     }
 
+    // Create the button element with the given options
     var el = $('<div>')
       .attr('id', options.id || "BTN_" + Engine.getGuid())
       .addClass('button')
       .text(options.text || "button")
       .click(function() {
         if (!$(this).hasClass('disabled')) {
+          // Apply cooldown and execute the handler when the button is clicked
           Button.cooldown(this);
           this.data_handler(this);
         }
@@ -43,9 +36,10 @@ var Button = (function() {
 
     el.append($("<div>").addClass('cooldown'));
 
-    // waiting for expiry of residual cooldown detected in state
+    // Apply any residual cooldown detected in the state
     Button.cooldown(el, 'state');
 
+    // Add cost tooltip to the button if cost options are provided
     if (options.cost) {
       var costTooltip = $('<div>').addClass('tooltip ' + (options.ttPos || "bottom right"));
       for (var k in options.cost) {
@@ -57,13 +51,16 @@ var Button = (function() {
       }
     }
 
+    // Set the width of the button if provided in the options
     if (options.width) {
       el.css('width', options.width);
     }
 
+    // Return the button element
     return el;
   }
 
+  // Prototype methods for the button object
   Button.prototype.disable = function(disabled) {
     if (disabled !== undefined) {
       Button.setDisabled(this, disabled);
@@ -128,4 +125,26 @@ var Button = (function() {
           if (!$SM.get(id)) {
             return;
           }
-          start =
+          start = $SM.get(id)[0];
+          left = start - Engine.time;
+          if (left > 0) {
+            $SM.set(id, [left, Engine.time + left]);
+          }
+          break;
+        default:
+          start = Engine.time;
+          left = cd;
+          break;
+      }
+      btn.data('onCooldown', true);
+      btn.data('start', start);
+      btn.data('left', left);
+      $SM.set(id, [start, start + left]);
+      setTimeout(function(btn, id) {
+        Button.cooldown(btn, id);
+      }, 1000, btn, id);
+    }
+  };
+
+  return Button;
+})();
