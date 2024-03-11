@@ -1,1 +1,10 @@
-gfiles/rarch/roms/
+#!/bin/bash
+
+# Change to the desired directory
+if cd gfiles/rarch/roms/; then
+  # If the change was successful, do something in the directory
+  echo "Successfully changed to the roms directory."
+else
+  # If the change was not successful, print an error message
+  echo "Error: Failed to change to the roms directory."
+fi
