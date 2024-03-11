@@ -1,19 +1,85 @@
-body {background-color: black;}
-.webgl-content * {border: 0; margin: 0; padding: 0}
-.webgl-content {position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGL Loading Screen</title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
 
-.webgl-content .logo, .progress {position: absolute; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);}
-.webgl-content .logo {background: url('progressLogo.Light.png') no-repeat center / contain; width: 154px; height: 130px;}
-.webgl-content .progress {height: 18px; width: 141px; margin-top: 90px;}
-.webgl-content .progress .empty {background: url('progressEmpty.Light.png') no-repeat right / cover; float: right; width: 100%; height: 100%; display: inline-block;}
-.webgl-content .progress .full {background: url('progressFull.Light.png') no-repeat left / cover; float: left; width: 0%; height: 100%; display: inline-block;}
+        .webgl-content {
+            position: relative;
+            text-align: center;
+            width: min(80vw, 600px);
+        }
 
-.webgl-content .logo.Dark {background-image: url('progressLogo.Dark.png');}
-.webgl-content .progress.Dark .empty {background-image: url('progressEmpty.Dark.png');}
-.webgl-content .progress.Dark .full {background-image: url('progressFull.Dark.png');}
+        .webgl-content::before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
 
-.webgl-content .footer {margin-top: 5px; height: 38px; line-height: 38px; font-family: Helvetica, Verdana, Arial, sans-serif; font-size: 18px;} 
-.webgl-content .footer .webgl-logo, .title, .fs {height: 100%; display: inline-block; background: transparent center no-repeat;} 
-.webgl-content .footer .webgl-logo {background-image: url('webgl-logo.png'); width: 204px; float: left;}
-.webgl-content .footer .title {margin-right: 10px; float: right;}
-.webgl-content .footer .fs {background-image: url('fullscreen.png'); width: 38px; float: right;}
+        .logo,
+        .progress,
+        .footer {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .logo {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 154px;
+            height: 130px;
+        }
+
+        .progress {
+            height: 18px;
+            width: 141px;
+            margin-top: 90px;
+            display: flex;
+        }
+
+        .empty,
+        .full {
+            height: 100%;
+            width: 100%;
+            display: inline-block;
+        }
+
+        .empty {
+            background-repeat: no-repeat;
+            background-position: right;
+            background-size: cover;
+            float: right;
+        }
+
+        .full {
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: cover;
+            width: 0;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Dark theme */
+        :root {
+            --dark-logo: url('progressLogo.Dark.png');
+            --dark-empty: url('progressEmpty.Dark.png');
+            --dark-full: url('progressFull.Dark.png');
+        }
+
+        .webgl-content.dark {
+            --light-logo: url('progressLogo.Light.png');
+            --light-empty: url('progressEmpty.Light
