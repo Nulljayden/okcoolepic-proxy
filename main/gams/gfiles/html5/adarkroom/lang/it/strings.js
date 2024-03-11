@@ -1,4 +1,6 @@
+// An object that stores translations for various words and phrases
 const translations = {
+  // Key-value pair where key is the English word and value is its Italian translation
   "tanner": "conciatore",
   "weapons": "armi",
   "the compass points southwest": "la bussola punta a sud-ovest",
@@ -48,12 +50,10 @@ const translations = {
   "the small settlement has clearly been burning a while.": "le fiamme nel piccolo insediamento hanno sicuramente bruciato a lungo.",
   "the people here were broken a long time ago.": "le persone di questo luogo, da lungo tempo, non hanno piu' nulla.",
   "the walls are scorched from an old battle.": "le pareti portano i segni di un'antica battaglia.",
-  "the traps contain ": "le trappole contengono ",
+  "the traps contain  ": "le trappole contengono  ",
   "land blows more often": "i colpi vanno a segno piu' spesso",
   "precise": "preciso",
   "A&nbsp;Murky&nbsp;Swamp": "Una&nbsp;Fosca&nbsp;Palude",
   "iron sword": "spada di ferro",
   "a man charges down the hall, a rusty blade in his hand": "un uomo si lancia all'attacco nel corridoio, brandendo una lama arrugginita",
-  "melee weapons deal more damage": "le armi bianche causano maggiori danni",
-  "steelworks": "acciaieria",
-  "give 500": "dagli
+  "melee weapons deal more damage": "le armi bianche causano maggiori
