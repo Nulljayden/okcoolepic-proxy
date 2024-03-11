@@ -1,3 +1,23 @@
 {
-  "files": {}
+  "files": {
+    "javascript": {
+      "file1": {
+        "name": "file1.js",
+        "size": 1234,
+        "lastModified": "2022-01-01T12:00:00Z"
+      },
+      "file2": {
+        "name": "file2.js",
+        "size": 5678,
+        "lastModified": "2022-02-01T13:00:00Z"
+      }
+    },
+    "css": {
+      "file1": {
+        "name": "file1.css",
+        "size": 888,
+        "lastModified": "2021-12-01T10:00:00Z"
+      }
+    }
+  }
 }
