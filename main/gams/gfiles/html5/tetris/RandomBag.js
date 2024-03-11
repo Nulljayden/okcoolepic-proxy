@@ -1,49 +1,40 @@
-function RandomBag(queueSize) {
+class RandomBag {
     // start off empty
-    this.available = [];
-    this.queue = [];
+    available: string[];
+    queue: string[];
+    size: number;
 
-    // initialize by refilling the queue
-    while (this.queue.length < queueSize) {
-	this.queue.push(this.nextAvailable());
-    }
-}
+    constructor(initialQueueSize: number) {
+        // initialize by refilling the queue
+        this.available = RandomBag.initialList.slice(0); // shallow copy
+        this.queue = [];
+        this.size = 0;
 
-RandomBag.initialList = ['i', 'o', 'j', 'l', 'z', 's', 't'];
+        while (this.size < initialQueueSize && this.available.length > 0) {
+            this.queue.push(this.nextAvailable());
+            this.size++;
+        }
 
-/**
-* Returns the letters of the queue
-* @returns {[Char]} the letters of the queue in order of oldest to newest
-*/
-RandomBag.prototype.getQueue = function () {
-    return this.queue;
-};
-
-/**
-* Moves the queue forward by one
-* @returns {Char} the poped value
-*/
-RandomBag.prototype.popQueue = function () {
-    var res = this.queue.shift();
-    this.queue.push(this.nextAvailable());
-    return res;
-};
-
-/**
-* gets the next letter for the queue, and updates the random bag state
-* @returns {Char} the next letter for the queue
-* @private
-*/
-RandomBag.prototype.nextAvailable = function() {
-    var index, res;
-
-    // if the available needs to be rebuilt
-    if (this.available.length === 0) {
-	this.available = RandomBag.initialList.slice(0); // shallow copy
+        if (this.size < initialQueueSize) {
+            throw new Error(`Cannot initialize RandomBag with a queue size of ${initialQueueSize} as the initial list only has ${RandomBag.initialList.length} elements.`);
+        }
     }
 
-    index = Math.floor(Math.random()*this.available.length);
-    res = this.available.splice(index, 1)[0];
+    static initialList: string[] = ['i', 'o', 'j', 'l', 'z', 's', 't'];
 
-    return res;
-};
+    /**
+     * Returns the letters of the queue in order of oldest to newest
+     * @returns {string[]} the letters of the queue
+     */
+    getQueue(): string[] {
+        return this.queue;
+    }
+
+    /**
+     * Gets the next letter for the queue, and updates the random bag state
+     * @returns {string} the next letter for the queue
+     * @private
+     */
+    private nextAvailable(): string {
+        const index = Math.floor(Math.random() * this.available.length);
+        const res = this.available.splice(index, 1
