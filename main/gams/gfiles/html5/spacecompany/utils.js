@@ -1,84 +1,139 @@
+// Define a function that takes a string as an argument and returns the string as is
 var StrLoc = function(str) {
+    // Return the input string without any modifications
     return str;
 };
 
+// Add a format method to the String prototype
 String.prototype.format = function() {
+    // Create a variable to store the formatted string
     var formatted = this;
+
+    // Iterate over the arguments passed to the format method
     for (var i = 0; i < arguments.length; i++) {
+        // Define a variable for the current key and argument
         var key = '{' + i.toString() + '}';
+        var arg = arguments[i];
+
+        // Check if the key exists in the formatted string
         if(formatted.indexOf(key) < 0) {
+            // If the key is not found, throw an error
             throw new Error(StrLoc("Index {0} was not defined in string: {1}").format(i, formatted));
         }
 
-        formatted = formatted.replace(key, arguments[i]);
+        // Replace the key with the corresponding argument
+        formatted = formatted.replace(key, arg);
     }
 
+    // Return the formatted string
     return formatted;
 };
 
+// Add a clamp method to the Number prototype
 Number.prototype.clamp = function(min, max) {
+    // Return the clamped value
     return Math.min(Math.max(this, min), max);
 };
 
+// Add a textWidth method to the jQuery prototype
 $.fn.textWidth = function(text, font) {
+    // If the fakeEl variable is not defined, create it
     if (!$.fn.textWidth.fakeEl) $.fn.textWidth.fakeEl = $('<span>').appendTo(document.body);
+
+    // Define the HTML text to be measured
     var htmlText = text || this.val() || this.text();
-    htmlText = $.fn.textWidth.fakeEl.text(htmlText).html(); //encode to Html
-    htmlText = htmlText.replace(/\s/g, "&nbsp;"); //replace trailing and leading spaces
+
+    // Encode the text to HTML and replace spaces with non-breaking spaces
+    htmlText = $.fn.textWidth.fakeEl.text(htmlText).html().replace(/\s/g, "&nbsp;");
+
+    // Set the font of the fake element to the specified font or the element's font
     $.fn.textWidth.fakeEl.html(htmlText).css('font', font || this.css('font'));
+
+    // Return the width of the fake element
     return $.fn.textWidth.fakeEl.width();
 };
 
+// Add a setText method to the jQuery prototype
 $.fn.setText = function(text) {
+    // If the length of the selected elements is not 1 or the first element's nodeType is not 1, call the text method
     if (this.length != 1 || this[0].nodeType != 1) {
         return this.text(text);
     }
+
+    // Get the first element's childNodes
     var children = this[0].childNodes;
+
+    // If the length of the childNodes is not 1 or the first child node's nodeType is not 3, call the text method
     if (children.length != 1 || children[0].nodeType != 3) {
         return this.text(text);
     }
-    children[0].nodeValue = text;
-    return this;
-}
 
+    // Set the value of the first child node to the specified text
+    children[0].nodeValue = text;
+
+    // Return the jQuery object
+    return this;
+};
+
+// Define the Game.utils object
 Game.utils = (function(){
 
+    // Create an instance of the object
     var instance = {};
 
+    // Define the decimalSeparator property
     instance.decimalSeparator = function() {
+        // Create a variable for the decimal separator
         var n = 1.1;
+
+        // Get the decimal separator from the locale string
         n = n.toLocaleString().substring(1, 2);
+
+        // Return the decimal separator
         return n;
     }();
 
+    // Define the formatEveryThirdPower method
     instance.formatEveryThirdPower = function(notations)
     {
+        // Return a function that takes a value as an argument
         return function (value)
         {
-            // ensure we have a number
+            // Ensure that the value is a number
             var value = value * 1;
 
+            // Initialize variables for the base and notation value
             var base = 0;
             var notationValue = '';
+
+            // Check if the value is greater than or equal to 1,000,000
             if (value >= 1000000)
             {
+                // Divide the value by 1,000 and calculate the base
                 value /= 1000;
                 while(Math.round(value) >= 1000) {
                     value /= 1000;
                     base++;
                 }
 
+                // If the base is greater than the length of the notations array, return the string "Infinity"
                 if (base > notations.length) {
                     return StrLoc('Infinity');
                 } else {
+                    // Set the notation value to the corresponding notation
                     notationValue = notations[base];
                 }
             }
 
+            // Format the value as a string with the specified number of decimal places
             var valueString = (Math.round(value * 1000) / 1000.0).toLocaleString();
 
+            // If the notation value is not empty
             if(notationValue !== '') {
+                // Get the number of digits in the value string
                 var numberCount = valueString.replace(/[^0-9]/g, "").length;
+
+                // Add trailing zeros to the value string if necessary
                 var separator = valueString.indexOf(Game.utils.decimalSeparator) > 0 ? '' : Game.utils.decimalSeparator;
                 switch (numberCount) {
                     case 1: valueString = valueString + separator + '000'; break;
@@ -86,158 +141,6 @@ Game.utils = (function(){
                     case 3: valueString = valueString + separator + '0'; break;
                 }
 
+                // If the number of digits is greater than 4, remove the leading digits
                 if (numberCount > 4) {
-                    valueString = valueString.slice(0, 4 - numberCount)
-                }
-            }
-
-            return valueString + notationValue;
-        };
-    };
-
-    instance.formatScientificNotation2 = function(value) {
-        return Game.utils.formatScientificNotation(value, true)
-    };
-
-    instance.formatScientificNotation = function(value, useExponentNotation){
-        if (value === 0 || (Math.abs(value) > -1000 && Math.abs(value) < 1000))
-        {
-            return Game.utils.formatRaw(value);
-        }
-
-        var sign = value > 0 ? '' : '-';
-        value = Math.abs(value);
-        var exp = ~~(Math.log(value)/Math.LN10);
-        var num = Math.round((value/Math.pow(10, exp)) * 100) / 100;
-        var output = num.toString();
-        if (num === Math.round(num)) {
-            output += '.00';
-        } else if (num * 10 === Math.round(num * 10)) {
-            output += '0';
-        }
-
-        if(useExponentNotation === true) {
-            return sign + output + 'E+' + exp;
-        }
-
-        return sign + output + '*10^' + exp;
-    };
-
-    instance.formatRounded = function(value)
-    {
-        return (Math.round(value * 1000) / 1000).toString();
-    };
-
-    instance.formatRaw = function(value) {
-        if(value === undefined || value === null) {
-            return "";
-        }
-
-        return value.toString();
-    };
-
-    instance.formatters = {
-        'raw': instance.formatRaw,
-        'rounded': instance.formatRaw,
-        'name': instance.formatEveryThirdPower(['', StrLoc(' million'), StrLoc(' billion'), StrLoc(' trillion'), StrLoc(' quadrillion'),
-            StrLoc(' quintillion'), StrLoc(' sextillion'), StrLoc(' septillion'), StrLoc(' octillion'),
-            StrLoc(' nonillion'), StrLoc(' decillion')
-        ]),
-        'shortName': instance.formatEveryThirdPower(['', StrLoc('M'), StrLoc('B'), StrLoc('T'), StrLoc('Qa'), StrLoc('Qi'), StrLoc('Sx'),StrLoc('Sp'), StrLoc('Oc'), StrLoc('No'), StrLoc('De') ]),
-        'shortName2': instance.formatEveryThirdPower(['', StrLoc('M'), StrLoc('G'), StrLoc('T'), StrLoc('P'), StrLoc('E'), StrLoc('Z'), StrLoc('Y')]),
-        'scientific': instance.formatScientificNotation,
-        'scientific2': instance.formatScientificNotation2
-    };
-
-    instance.pad = function(n, width, z) {
-        z = z || '0';
-        n = n + '';
-        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-    };
-
-    // Note: This has to use math.floor otherwise the value will be skewed for large time
-    instance.splitDateTime = function(seconds) {
-        // returns array of [y, d, h, m, s, z]
-        var result = [0, 0, 0, 0, 0, 0];
-        var milliSeconds = Math.floor(seconds * 1000);
-
-        result[0] = Math.floor(milliSeconds / (365 * 24 * 60 * 60 * 1000));
-
-        milliSeconds %= (365 * 24 * 60 * 60 * 1000);
-        result[1] = Math.floor(milliSeconds / (24 * 60 * 60 * 1000));
-
-        milliSeconds %= (24 * 60 * 60 * 1000);
-        result[2] = Math.floor(milliSeconds / (60 * 60 * 1000));
-
-        milliSeconds %= (60 * 60 * 1000);
-        result[3] = Math.floor(milliSeconds / (60 * 1000));
-
-        milliSeconds %= (60 * 1000);
-        result[4] = Math.floor(milliSeconds / 1000);
-        result[5] = milliSeconds;
-
-        return result;
-    };
-
-    instance.getFullTimeDisplay = function(seconds, use24hourTime) {
-        var timeSplit = this.splitDateTime(seconds);
-        var hourMinutePart = this.getTimeDisplay(seconds, use24hourTime);
-
-        if(timeSplit[1] > 0) {
-            return timeSplit[1] + ' Days ' + hourMinutePart;
-        }
-
-        return hourMinutePart;
-    };
-
-    instance.getTimeDisplay = function(seconds, use24hourTime) {
-        if (seconds === 0 || seconds === Number.POSITIVE_INFINITY) {
-            return '~~';
-        }
-
-        var timeSplit = this.splitDateTime(seconds);
-        var suffix = '';
-        if (use24hourTime === false) {
-            if (timeSplit[2] > 12) {
-                timeSplit[2] -= 12;
-                suffix = ' ' + StrLoc('pm');
-            } else {
-                suffix = ' ' + StrLoc('am');
-            }
-        }
-
-        var hourResult = this.pad(timeSplit[2], 2) + ':';
-        var minuteResult = this.pad(timeSplit[3], 2) + ':';
-        var secondResult = this.pad(timeSplit[4], 2);
-        return hourResult + minuteResult + secondResult + suffix;
-    };
-
-    instance.fibonacci = function(n, multi){
-        var a = 0, b = 1, f = 1;
-        for(var i = 2; i <= n; i++) {
-            f = a + b;
-            a = b;
-            b = f;
-        }
-        return f*(multi||1);
-    };
-
-    instance.pascal = function(n){
-        var add = 1, init = 0;
-        for(var i = 0; i < n; i++){
-            init += add;
-            add += 1;
-        }
-        return init;
-    };
-
-    instance.capitaliseFirst = function(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
-
-    instance.randArb = function(min, max){
-        return Math.random() * (max - min) + min;
-    };
-
-    return instance;
-}());
+                    valueString = valueString.slice(0, 
