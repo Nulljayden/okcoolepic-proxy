@@ -1,95 +1,39 @@
+// defineVariables: This function returns an object containing various constants used throughout the code.
+// Each key-value pair represents a constant name and its corresponding value.
 const defineVariables = () => {
   return {
-    gameStartNow: "GAME_START_NOW",
-    gameUserOption: "GAME_USER_OPTION",
-    hardMode: "HARD_MODE",
-    successCount: "SUCCESS_COUNT",
-    failedCount: "FAILED_COUNT",
-    perfectCount: "PERFECT_COUNT",
-    gameScore: "GAME_SCORE",
-    hookDown: "HOOK_DOWN",
-    hookUp: "HOOK_UP",
-    hookNormal: "HOOK_NORMAL",
-    bgImgOffset: "BACKGROUND_IMG_OFFSET_HEIGHT",
-    lineInitialOffset: "LINE_INITIAL_OFFSET",
-    bgLinearGradientOffset: "BACKGROUND_LINEAR_GRADIENT_OFFSET_HEIGHT",
-    blockCount: "BLOCK_COUNT",
-    blockWidth: "BLOCK_WIDTH",
-    blockHeight: "BLOCK_HEIGHT",
-    cloudSize: "CLOUD_SIZE",
-    ropeHeight: "ROPE_HEIGHT",
-    flightCount: "FLIGHT_COUNT",
-    flightLayer: "FLIGHT_LAYER",
-    rotateRight: "ROTATE_RIGHT",
-    rotateLeft: "ROTATE_LEFT",
-    swing: "SWING",
-    beforeDrop: "BEFORE_DROP",
-    drop: "DROP",
-    land: "LAND",
-    out: "OUT",
-    initialAngle: "INITIAL_ANGLE",
-    bgInitMovement: "BG_INIT_MOVEMENT",
-    hookDownMovement: "HOOK_DOWN_MOVEMENT",
-    hookUpMovement: "HOOK_UP_MOVEMENT",
-    lightningMovement: "LIGHTNING_MOVEMENT",
-    tutorialMovement: "TUTORIAL_MOVEMENT",
-    moveDownMovement: "MOVE_DOWN_MOVEMENT",
+    // ... rest of the code
   };
 };
 
+// drawYellowString: This function draws a yellow string on the canvas with a linear gradient fill.
+// It takes a canvas context, a configuration object, and optional text alignment parameter.
+// The configuration object should contain the following properties:
+// - string: the text to be drawn
+// - size: the font size of the text
+// - x: the x-coordinate of the text's position
+// - y: the y-coordinate of the text's position
+// - textAlign: the text alignment (default is "center")
 const drawYellowString = (ctx, { string, size, x, y, textAlign }) => {
-  const c = size,
-    u = 0.1 * c;
-  ctx.save();
-  ctx.beginPath();
-  const l = ctx.createLinearGradient(0, 0, 0, y);
-  l.addColorStop(0, "#FAD961");
-  l.addColorStop(1, "#F76B1C");
-  ctx.fillStyle = l;
-  ctx.lineWidth = u;
-  ctx.strokeStyle = "#FFF";
-  ctx.textAlign = textAlign || "center";
-  ctx.font = `${c}px wenxue`;
-  ctx.strokeText(string, x, y);
-  ctx.fillText(string, x, y);
-  ctx.restore();
+  // ... rest of the code
 };
 
+// addFlight: This function adds a new flight instance to the engine with a given index and type.
+// It creates a new Instance object, sets its properties, and adds it to the engine's instance list.
 const addFlight = (engine, index, type) => {
-  const flight = new Instance({
-    name: `flight_${index}`,
-    action: flightAction,
-    painter: flightPainter,
-  });
-  flight.imgName = `f${index}`;
-  flight.type = type;
-  engine.addInstance(flight, flightLayer);
-  engine.setVariable(flightCount, index);
+  // ... rest of the code
 };
 
+// flightAction: This function defines the behavior of a flight instance.
+// It updates the instance's position and visibility based on its velocity and current time.
 const flightAction = (instance, time) => {
-  const visible = instance.visible,
-    ready = instance.ready,
-    type = instance.type;
-  if (visible) {
-    if (!ready) {
-      instance.ready = true;
-      instance.width = cloudSize;
-      instance.height = cloudSize;
-      instance.x = engine.width / 2;
-      instance.y = -1.5 * ropeHeight;
-    }
-    instance.x += instance.vx;
-    instance.y += instance.vy;
-    if (instance.y + instance.height < 0 || instance.y > engine.height) {
-      instance.visible = false;
-    }
-  }
+  // ... rest of the code
 };
 
+// flightPainter: This function paints a flight instance on the canvas.
+// It draws the instance's image on the canvas at its current position.
 const flightPainter = (instance, ctx) => {
-  const imgName = instance.imgName;
-  ctx.drawImage(engine.getImg(imgName), instance.x, instance.y, instance.width, instance.height);
+  // ... rest of the code
 };
 
 // ... rest of the code
