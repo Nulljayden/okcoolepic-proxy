@@ -1,8 +1,15 @@
-div#hullRow {
-	width: 70px;
+/* Vessel section */
+.vessel-section div {
+  width: 70px;
 }
 
-div#engineRow {
-	width: 70px;
-	margin-bottom: 20px;
+.hull-info {
+  /* Specific to hull info width */
+  width: 70px;
+}
+
+.engine-info {
+  /* Specific to engine info width */
+  width: 70px;
+  margin-bottom: 20px;
 }
