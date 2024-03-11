@@ -1,98 +1,81 @@
+// Game.stargazeUI object provides methods to initialize and update the Stargaze UI
 Game.stargazeUI = (function() {
-  const instance = {};
+  const instance = {}; // The instance object containing all the methods and properties for the Stargaze UI
 
   // ... (other properties)
 
-  // Helper function to create a template
+  // createTemplate(templateString, data) is a helper function to compile a Handlebars template with given data
   const createTemplate = (templateString, data) => Handlebars.compile(templateString)(data);
 
-  // Helper function to create a display
+  // createDisplay(id, data) is a helper function to create a display for a given id and data
   const createDisplay = (id, data) => {
-    instance.tab.addNavEntry(data.category, id);
-    instance.createStargazeNav(data);
-    instance.entries[data.htmlId] = data;
+    instance.tab.addNavEntry(data.category, id); // Add a new navigation entry for the display
+    instance.createStargazeNav(data); // Create the Stargaze navigation for the display
+    instance.entries[data.htmlId] = data; // Store the display data in the entries object
   };
 
-  // Helper function to create a DM info
+  // createDMInfo(data, dmInfoData) is a helper function to create DM info for a given data and dmInfoData
   const createDMInfo = (data, dmInfoData) => {
-    const tabContentRoot = $(`#${instance.tab.getContentElementId(data.id)}`);
-    const dmInfo = createTemplate(instance.dmInfoTemplate, { ...dmInfoData, id });
-    tabContentRoot.append($(dmInfo));
+    const tabContentRoot = $(`#${instance.tab.getContentElementId(data.id)}`); // Get the content element for the tab
+    const dmInfo = createTemplate(instance.dmInfoTemplate, { ...dmInfoData, id }); // Compile the DM info template
+    tabContentRoot.append($(dmInfo)); // Append the compiled template to the content element
   };
 
-  // Helper function to create an upgrade
+  // createUpgrade(data, upgradeData) is a helper function to create an upgrade for a given data and upgradeData
   const createUpgrade = (data, upgradeData) => {
-    const tabContentRoot = $(`#${instance.tab.getContentElementId(data.id)}`);
-    const upgrade = createTemplate(instance[upgradeData.category + "Entries"][upgradeData.id], upgradeData);
-    tabContentRoot.append($(upgrade));
-    instance[upgradeData.category + "Entries"][upgradeData.id] = upgradeData;
+    const tabContentRoot = $(`#${instance.tab.getContentElementId(data.id)}`); // Get the content element for the tab
+    const upgrade = createTemplate(instance[upgradeData.category + "Entries"][upgradeData.id], upgradeData); // Compile the upgrade template
+    tabContentRoot.append($(upgrade)); // Append the compiled template to the content element
+    instance[upgradeData.category + "Entries"][upgradeData.id] = upgradeData; // Store the upgrade data
   };
 
-  // Helper function to create a content
+  // createContent(data) is a helper function to create content for a given data
   const createContent = (data) => {
-    const target = $(`#${instance.tab.getContentElementId(data.id)}`);
-    const tabTitle = createTemplate(data.id === "darkMatter" ? instance.dmTitleTemplate : instance.titleTemplate, data);
-    target.append(tabTitle);
+    const target = $(`#${instance.tab.getContentElementId(data.id)}`); // Get the content element for the tab
+    const tabTitle = createTemplate(data.id === "darkMatter" ? instance.dmTitleTemplate : instance.titleTemplate, data); // Compile the title template
+    target.append(tabTitle); // Append the compiled template to the content element
 
     if (data.id === "darkMatter") {
-      for (const id in Game.darkMatter) {
-        const dmInfoData = Game.darkMatter[id];
-        createDMInfo(data, { ...dmInfoData, id });
+      for (const id in Game.darkMatter) { // Iterate over all the DM data
+        const dmInfoData = Game.darkMatter[id]; // Get the DM data
+        createDMInfo(data, { ...dmInfoData, id }); // Create DM info for the data
       }
     }
 
-    Object.values(Game.stargaze.upgradeEntries).forEach(upgradeData => {
-      if (data.id === upgradeData.category) {
-        createUpgrade(data, upgradeData);
+    Object.values(Game.stargaze.upgradeEntries).forEach(upgradeData => { // Iterate over all the upgrade entries
+      if (data.id === upgradeData.category) { // If the category matches the current data
+        createUpgrade(data, upgradeData); // Create an upgrade for the data
       }
     });
   };
 
-  // Helper function to create a Stargaze nav
+  // createStargazeNav(data) is a helper function to create the Stargaze navigation for a given data
   const createStargazeNav = (data) => {
-    const target = $(`#${instance.tab.getNavElementId(data.id)}`);
-    createContent(data);
+    const target = $(`#${instance.tab.getNavElementId(data.id)}`); // Get the navigation element for the tab
+    createContent(data); // Create the content for the tab
 
     let html;
     if (data.id === "darkMatter") {
-      html = createTemplate(instance.dmNavTemplate, data);
+      html = createTemplate(instance.dmNavTemplate, data); // Compile the DM navigation template
     } else {
-      html = createTemplate(instance.navTemplate, data);
+      html = createTemplate(instance.navTemplate, data); // Compile the regular navigation template
     }
-    target.append($(html));
+    target.append($(html)); // Append the compiled template to the navigation element
   };
 
-  // Initialize the stargaze UI
+  // initialise() is a method to initialize the Stargaze UI
   instance.initialise = function() {
     // ... (other initialization code)
 
-    for (const id in Game.stargaze.entries) {
-      createDisplay(id, Game.stargaze.getStargazeData(id));
+    for (const id in Game.stargaze.entries) { // Iterate over all the Stargaze entries
+      createDisplay(id, Game.stargaze.getStargazeData(id)); // Create a display for the entry
     }
   };
 
-  // Update the stargaze UI
+  // update(delta) is a method to update the Stargaze UI
   instance.update = function(delta) {
     // ... (other update code)
 
-    Object.values(Game.stargaze.entries).forEach(data => {
-      if (data.displayNeedsUpdate) {
-        // ... (other update code)
-      }
-    });
-
-    if (Game.stargaze.rebirthNeedsUpdate) {
-      // ... (other update code)
-    }
-  };
-
-  // Initialize the DM
-  instance.updateDM = function() {
-    // ... (other DM update code)
-  };
-
-  // Initialize the UI components
-  Game.uiComponents.push(instance);
-
-  return instance;
-}());
+    Object.values(Game.stargaze.entries).forEach(data => { // Iterate over all the Stargaze entries
+      if (data.displayNeedsUpdate) { // If the display needs updating
+       
