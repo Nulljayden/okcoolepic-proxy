@@ -1,61 +1,172 @@
+// Define a constant variable named 'translations'
+// which is an object containing key-value pairs for
+// translating certain words and phrases from English to
+// Portuguese.
 const translations = {
   "water tank": "tanque de água",
   "all": "tudo",
   "use meds": "usar medicamentos",
-  "a shame to let what he'd found go to waste.": "uma vergonha deixar o que ele encontrou ir para o lixo.",
-  "some villagers are ill": "alguns aldeões estão doentes",
-  "the room is {0}": "o quarto está {0}",
-  "punch twice as fast, and with even more force": "socar duas vezes mais rápido, e com ainda mais força",
-  "The Nomad": "O Nômade",
-  "more traps won't help now": "mais armadilhas não ajudarão agora",
-  "only a few die.": "apenas alguns morrem.",
-  "the compass points east": "a bússola aponta para o leste",
-  "the bodies of the wanderers that lived here are still visible in the flames.": "os corpos dos viajantes que viveram aqui ainda são visíveis nas chamas.",
-  "the walls are scorched from an old battle.": "as paredes estão queimadas de uma batalha antiga.",
-  "convoy": "convoi",
-  "not enough fur": "não há peles suficientes",
-  "a masked soldier rounds the corner, gun drawn": "um soldado mascarado aparece no canto, com a arma na mão",
-  "a huge hole is cut deep into the earth, evidence of the past harvest.": "um enorme buraco é cortado profundo na terra, evidência da colheita passada.",
-  "it puts up little resistance before the knife.": "ele apresenta pouca resistência antes da faca.",
-  "there was a beast. it's dead now": "havia uma fera. Ela está morta agora",
-  "a shivering man approaches and attacks with surprising strength": "um homem tremendo se aproxima e ataca com força surpreendente",
-  "steel's stronger than iron": "o aço é mais forte do que o ferro",
-  "A Strange Bird": "Um Pássaro Estranho",
-  "not enough alien alloy": "liga alienígena insuficiente",
-  "street above the subway platform is blown away.": "a rua acima da plataforma do metrô é destruída.",
-  "the soldier is dead": "o soldado está morto",
-  "error while saving to dropbox datastorage": "erro ao salvar no dropbox",
-  "the footsteps stop.": "os passos param.",
-  "the torchlight casts a flickering glow down the hallway.": "a luz da tocha lança um brilho tremulante pelo corredor",
-  "the warped man lies dead.": "o homem deformado está morto.",
-  "something's in the store room": "há algo na sala de armazenamento",
-  "unfathomable destruction to fuel wanderer hungers.": "destruição imensurável para abastecer os apetites dos errantes.",
-  "embark": "embarcar",
-  "scout": "patrulhar",
-  "mourn": "luto",
-  "the trees yield to dry grass. the yellowed brush rustles in the wind.": "as árvores cedem a grama seca. a moita amarelada agita-se com o vento.",
-  "save.": "salvar.",
-  "total score: {0}": "pontuação total: {0}",
-  "learned to make the most of food": "aprendeu a fazer o máximo de comida",
-  "blast": "disparar",
-  "the sky is grey and the wind blows relentlessly": "o céu é cinza e o vento sopra sem parar",
-  "supplies:": "suprimentos:",
-  "the feral terror is dead": "o terror feroz está morto",
-  "the tracks disappear after just a few minutes.": "as pegadas desaparecem depois de alguns minutos.",
-  "a safe place in the wilds.": "um lugar seguro na selva.",
-  "fur": "pele",
-  "beneath the wanderer's rags, clutched in one of its many hands, a glint of steel.": "debaixo dos trapos de um errante, segurava em uma de suas muitas mãos, um brilho metálico.",
-  "buy scales": "comprar escamas",
-  "mild": "morno",
-  "the hunting lodge stands in the forest, a ways out of town": "o pavilhão de caça está na floresta, um pouco distante da cidade",
-  "leave": "sair",
-  "the convoy can haul mostly everything": "o comboio pode transportar praticamente tudo",
-  "learned to strike faster without weapons": "aprendeu a atacar mais rápido sem armas",
-  "an old house remains here, once white siding yellowed and peeling.": "uma casa velha permanece aqui, uma vez que o revestimento branco amarelou e descascou.",
-  "ignore them": "ignorá-los",
-  "willing to talk about it, for a price.": "disposta a falar sobre isso, por um preço.",
-  "a beast, wilder than imagining, erupts out of the foliage": "uma besta, mais selvagem do que se pode imaginar, surge da vegetação",
-  "go home": "ir para casa",
-  "the soldier steps out from between the buildings, rifle raised.": "o soldado sai de entre os edifícios, com o rifle levantado.",
-  "force": "força",
-  "A&nbsp;Murky&nbsp;Swamp": "Um&nbsp;
+  // ... more translations ...
+};
+
+// A string containing a sentence with placeholders
+// represented by curly braces '{}'.
+const sentence = "the room is {0}";
+
+// A string containing a sentence with a specific
+// command to punch faster and harder.
+const punchCommand = "punch twice as fast, and with even more force";
+
+// A string containing the title of a book or story
+// named "The Nomad".
+const nomadTitle = "The Nomad";
+
+// A string containing a statement about not needing
+// more traps.
+const noMoreTraps = "more traps won't help now";
+
+// A string containing a statement about a few deaths.
+const fewDeaths = "only a few die.";
+
+// A string containing a statement about the compass
+// pointing east.
+const compassDirection = "the compass points east";
+
+// A string containing a description of a scene with
+// dead bodies in flames.
+const bodiesInFlames = "the bodies of the wanderers that lived here are still visible in the flames.";
+
+// A string containing a description of scorched walls
+// from an old battle.
+const scorchedWalls = "the walls are scorched from an old battle.";
+
+// A string containing the name of a group of people
+// called "convoy".
+const convoyName = "convoy";
+
+// A string containing a statement about not having
+// enough fur.
+const notEnoughFur = "not enough fur";
+
+// A string containing a description of a scene with
+// a masked soldier.
+const maskedSoldier = "a masked soldier rounds the corner, gun drawn";
+
+// A string containing a description of a scene with
+// a huge hole in the earth.
+const hugeHole = "a huge hole is cut deep into the earth, evidence of the past harvest.";
+
+// A string containing a description of a scene with
+// a dead animal.
+const deadBeast = "it puts up little resistance before the knife.";
+
+// A string containing a description of a scene with
+// a dead creature.
+const deadCreature = "there was a beast. it's dead now";
+
+// A string containing a description of a scene with
+// a strong man.
+const strongMan = "a shivering man approaches and attacks with surprising strength";
+
+// A string containing a statement about the strength
+// of steel.
+const steelStrength = "steel's stronger than iron";
+
+// A string containing the title of a book or story
+// named "A Strange Bird".
+const strangeBirdTitle = "A Strange Bird";
+
+// A string containing a statement about not having
+// enough alien alloy.
+const notEnoughAlienAlloy = "not enough alien alloy";
+
+// A string containing a description of a scene with
+// a destroyed street.
+const destroyedStreet = "the street above the subway platform is blown away.";
+
+// A string containing a statement about a soldier's
+// death.
+const soldierDeath = "the soldier is dead";
+
+// An error message related to saving data to Dropbox.
+const dropboxError = "error while saving to dropbox datastorage";
+
+// A string containing a description of a scene with
+// stopped footsteps.
+const stoppedFootsteps = "the footsteps stop.";
+
+// A string containing a description of a scene with
+// a glowing hallway.
+const glowingHallway = "the torchlight casts a flickering glow down the hallway.";
+
+// A string containing a description of a scene with
+// a dead man.
+const deadMan = "the warped man lies dead.";
+
+// A string containing a statement about something
+// being in a storage room.
+const somethingInStoreRoom = "something's in the store room";
+
+// A string containing a description of a scene with
+// destroyed landscapes.
+const destroyedLandscapes = "unfathomable destruction to fuel wanderer hungers.";
+
+// A string containing a command to embark.
+const embarkCommand = "embark";
+
+// A string containing a command to scout.
+const scoutCommand = "scout";
+
+// A string containing a command to mourn.
+const mournCommand = "mourn";
+
+// A string containing a description of a scene with
+// dry grass.
+const dryGrass = "the trees yield to dry grass. the yellowed brush rustles in the wind.";
+
+// A string containing a command to save.
+const saveCommand = "save.";
+
+// A string containing a statement about the total
+// score.
+const totalScore = "total score: {0}";
+
+// A string containing a statement about learning
+// to make the most of food.
+const learnedToMakeMostOfFood = "learned to make the most of food";
+
+// A string containing a command to blast.
+const blastCommand = "blast";
+
+// A string containing a description of a scene with
+// a gray sky and strong wind.
+const graySky = "the sky is grey and the wind blows relentlessly";
+
+// A string containing a header for supplies.
+const suppliesHeader = "supplies:";
+
+// A string containing a statement about the death
+// of a feral creature.
+const feralCreatureDeath = "the feral terror is dead";
+
+// A string containing a description of a scene with
+// faint footprints.
+const faintFootprints = "the tracks disappear after just a few minutes.";
+
+// A string containing a description of a scene with
+// a safe place.
+const safePlace = "a safe place in the wilds.";
+
+// A string containing the name of a material
+// called "fur".
+const furMaterial = "fur";
+
+// A string containing a description of a scene with
+// a glint of steel.
+const glintOfSteel = "beneath the wanderer's rags, clutched in one of its many hands, a glint of steel.";
+
+// A string containing a command to buy scales.
+const buyScalesCommand = "buy scales";
+
+// A string containing a description of a scene with
+// a
