@@ -1,15 +1,15 @@
-my-space-app/
-├── node_modules/
-│   ├── ...
-│   └── ...
-├── public/
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   └── SpaceCompany.js
-│   └── index.html
-├── package.json
-└── server.js
+// Importing required modules
+const express = require('express'); // A web application framework for Node.js
+const app = express(); // Creating an instance of the express application
+const path = require('path'); // A module that provides utilities for working with file and directory paths
+
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public'))); // Serving static files from the 'public' directory
+
+// Handling GET request for the root route
+app.get('/', (req, res) => {
+  // Your code for handling the request goes here
+});
 
 
 <!DOCTYPE html>
@@ -17,19 +17,12 @@ my-space-app/
   <head>
     <meta charset="UTF-8" />
     <title>My Space App</title>
+    <!-- Linking the stylesheet file located in the 'public/css' directory -->
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <h1>Welcome to My Space App!</h1>
+    <!-- Loading the JavaScript file located in the 'public/js' directory -->
     <script src="/js/SpaceCompany.js"></script>
   </body>
 </html>
-
-
-const express = require('express');
-const app = express();
-const path = require('path');
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req,
