@@ -1,10 +1,19 @@
 #!/bin/bash
 
-# Change to the desired directory
+# This script changes the current working directory to the roms directory
+# located in the gfiles/rarch/roms/ path.
+
+# First, we use the 'cd' command to change the current directory to the
+# desired path. The 'if' statement checks if the directory change was
+# successful by testing the return value of the 'cd' command (which is
+# 0 if the change was successful, and non-zero otherwise).
+
+# If the directory change was successful, the script prints a success
+# message to the console.
 if cd gfiles/rarch/roms/; then
-  # If the change was successful, do something in the directory
   echo "Successfully changed to the roms directory."
+# If the directory change was not successful, the script prints an error
+# message to the console.
 else
-  # If the change was not successful, print an error message
   echo "Error: Failed to change to the roms directory."
 fi
