@@ -1,28 +1,36 @@
 /* General Styles */
+
+/* Sets the background color of the body element */
 body {
   background-color: white;
 }
 
+/* Sets the cursor to a pointer when hovering over elements with the classes 'intLink' or 'chessClosePanel' */
 span.intLink, #chessClosePanel {
   cursor: pointer;
 }
 
+/* Sets the text decoration, color, and cursor for anchor tags and span elements */
 a, span {
   text-decoration: none;
-  -moz-user-select: none;
   color: #000000;
   cursor: default;
+}
+
+/* Sets the font family and size for div and span elements */
+div, span {
   font-family: Tahoma, Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
 
+/* Sets the border radius for div elements */
 div {
   border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
 }
 
 /* Chess Board Styles */
+
+/* Sets the position, margin, overflow, background color, and border for the 'chessboardsBox' element */
 #chessboardsBox {
   position: relative;
   margin: 0 auto;
@@ -31,6 +39,7 @@ div {
   border: 1px #76808C solid;
 }
 
+/* Sets the styles for the 'chessSizeHandle' element */
 #chessSizeHandle {
   background-color: transparent;
   color: #333333;
@@ -45,6 +54,7 @@ div {
   cursor: se-resize;
 }
 
+/* Sets the width, height, float, and overflow for the 'chess3DBox' and 'chess2DBox' elements */
 #chess3DBox, #chess2DBox {
   width: 50%;
   height: 400px;
@@ -52,6 +62,8 @@ div {
 }
 
 /* Control Panel Styles */
+
+/* Sets the position, width, height, overflow, background color, color, font size, and box-shadow for the 'chessCtrlPanel' element */
 #chessCtrlPanel {
   position: fixed;
   bottom: 0;
@@ -66,10 +78,12 @@ div {
   box-shadow: 3px 3px red, -8px -2px 8px #2d3637;
 }
 
+/* Sets the styles for the form element inside 'chessCtrlPanel' */
 #chessCtrlPanel form {
   clear: both;
 }
 
+/* Sets the styles for the 'chessClosePanel' element */
 #chessClosePanel {
   width: auto;
   height: auto;
@@ -77,12 +91,15 @@ div {
   float: right;
 }
 
+/* Sets the styles for the paragraph elements inside 'chessCtrlPanel' */
 #chessCtrlPanel p {
   margin-top: 6px;
   text-align: center;
 }
 
 /* Notification Styles */
+
+/* Sets the position, z-index, background color, color, width, padding, margin, font family, font size, text align, border radius, and display for the 'gnotify' element and its child div elements */
 div.gnotify {
   position: fixed;
   z-index: 10000001;
@@ -104,63 +121,6 @@ div.gnotify div {
   display: none;
 }
 
+/* Sets the styles for the 'header' class inside the child div elements of 'gnotify' */
 div.gnotify div.header {
-  font-weight: bold;
-  font-size: 10px;
-}
-
-div.gnotify div.close {
-  float: right;
-  font-weight: bold;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-/* Chess Info Styles */
-#chessInfo {
-  width: 92%;
-  height: 120px;
-  padding: 4px;
-  font-family: Courier New, Courier;
-  font-size: 12px;
-}
-
-#chessMoves, #chessAlgebraic {
-  border: 1px solid #778284;
-  background-color: transparent;
-  color: #ffffff;
-  box-shadow: inset 2px 2px 5px black, 2px 2px 5px black;
-}
-
-#chessAlgebraic {
-  width: 90%;
-  margin-top: 3px;
-  font-size: 11px;
-}
-
-#chessInfo p {
-  text-align: center;
-  margin: 6px 4px 6px 4px;
-}
-
-/* Curtain Styles */
-#chessCurtain {
-  display: table;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background-color: #000000;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  z-index: 10000002;
-}
-
-#chessLoading {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  border: 1px #000000 solid;
-  color: #ffff00;
-}
+  font-weight:
