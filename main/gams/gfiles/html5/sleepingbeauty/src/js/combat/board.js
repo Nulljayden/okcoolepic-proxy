@@ -1,135 +1,127 @@
+// Import required modules: XY from "util/xy.js", Animation from "./animation.js", and pc from "being/pc.js"
 import XY from "util/xy.js";
 import Animation from "./animation.js";
 import pc from "being/pc.js";
 
-const W = 6;
-const H = W;
+// Define the Board class
+class Board {
+  // Initialize the board with a 2D array of null values
+  constructor() {
+    this._data = [];
 
-export default class Board {
-	constructor() {
-		this._data = [];
+    for (let i = 0; i < W; i++) {
+      let col = [];
+      this._data.push(col);
 
-		for (let i=0;i<W;i++) {
-			let col = [];
-			this._data.push(col);
-			for (let j=0;j<H;j++) { col.push(null); }
-		}
-	}
+      for (let j = 0; j < H; j++) {
+        col.push(null);
+      }
+    }
+  }
 
-	randomize() {
-		this._data.forEach(col => {
-			col.forEach((cell, i) => {
-				col[i] = {value:pc.getCombatOption()};
-			});
-		});
-		return this;
-	}
+  // Randomize the board by setting each cell's value to a random combat option
+  randomize() {
+    this._data.forEach(col => {
+      col.forEach((cell, i) => {
+        col[i] = { value: pc.getCombatOption() };
+      });
+    });
 
-	getSize() {
-		return new XY(W, H);
-	}
+    return this;
+  }
 
-	at(xy) {
-		return this._data[xy.x][xy.y];
-	}
+  // Get the size of the board as an XY object
+  getSize() {
+    return new XY(W, H);
+  }
 
-	set(xy, value) {
-		this._data[xy.x][xy.y] = value;
-	}
+  // Get or set the value of a cell at a given xy coordinate
+  at(xy) {
+    return this._data[xy.x][xy.y];
+  }
 
-	_clone() {
-		let clone = new this.constructor();
-		clone._data = JSON.parse(JSON.stringify(this._data));
-		return clone;
-	}
+  set(xy, value) {
+    this._data[xy.x][xy.y] = value;
+  }
 
-	fall() {
-		let animation = new Animation();
+  // Create a clone of the board
+  _clone() {
+    let clone = new this.constructor();
+    clone._data = JSON.parse(JSON.stringify(this._data));
+    return clone;
+  }
 
-		this._data.forEach((col, index) => {
-			this._fallColumn(index, animation);
-		});
+  // Make cells fall down due to gravity
+  fall() {
+    let animation = new Animation();
 
-		return animation;
-	}
+    this._data.forEach((col, index) => {
+      this._fallColumn(index, animation);
+    });
 
-	_fallColumn(x, animation) {
-		let totalFall = 0;
-		let col = this._data[x];
+    return animation;
+  }
 
-		col.forEach((cell, y) => {
-			if (cell) {
-				if (totalFall == 0) { return; }
-				let targetY = y-totalFall;
+  // Make a single column fall
+  _fallColumn(x, animation) {
+    let totalFall = 0;
+    let col = this._data[x];
 
-				col[targetY] = cell;
-				col[y] = null;
+    col.forEach((cell, y) => {
+      if (cell) {
+        if (totalFall == 0) { return; }
+        let targetY = y - totalFall;
 
-				animation.add({
-					cell,
-					from: new XY(x, y),
-					to: new XY(x, targetY),
-				});
-			} else {
-				totalFall++;
-			}
-		});
+        col[targetY] = cell;
+        col[y] = null;
 
-		/* new cells */
-		for (let i=0;i<totalFall;i++) {
-			let cell = {value:pc.getCombatOption()};
-			let sourceY = col.length+i;
-			let targetY = sourceY - totalFall;
-			col[targetY] = cell;
+        animation.add({
+          cell,
+          from: new XY(x, y),
+          to: new XY(x, targetY),
+        });
+      } else {
+        totalFall++;
+      }
+    });
 
-			animation.add({
-				cell,
-				from: new XY(x, sourceY),
-				to: new XY(x, targetY),
-			});
-		}
-	}
+    // Add new cells at the top of the column
+    for (let i = 0; i < totalFall; i++) {
+      let cell = { value: pc.getCombatOption() };
+      let sourceY = col.length + i;
+      let targetY = sourceY - totalFall;
+      col[targetY] = cell;
 
-	findSegment(xy) {
-		function is(sxy) { return sxy.is(xy); }
-		return this.getAllSegments().filter(segment => segment.some(is))[0];
-	}
+      animation.add({
+        cell,
+        from: new XY(x, sourceY),
+        to: new XY(x, targetY),
+      });
+    }
+  }
 
-	getAllSegments() {
-		let clone = this._clone();
-		let segments = [];
-		let xy = new XY();
-		for (xy.x=0; xy.x<W; xy.x++) {
-			for (xy.y=0; xy.y<H; xy.y++) {
-				let cell = clone.at(xy);
-				if (!cell) { continue; }
-				let segment = clone.extractSegment(xy);
-				segments.push(segment);
-			}
-		}
+  // Find a segment of connected cells with the same value as the given xy coordinate
+  findSegment(xy) {
+    function is(sxy) {
+      return sxy.is(xy);
+    }
 
-		return segments.sort((a, b) => b.length-a.length);
-	}
+    return this.getAllSegments().filter(segment => segment.some(is))[0];
+  }
 
-	/* mutates! */
-	extractSegment(xy) {
-		let segment = [];
-		let value = this.at(xy).value;
+  // Get all segments of connected cells with the same value on the board
+  getAllSegments() {
+    let clone = this._clone();
+    let segments = [];
+    let xy = new XY();
 
-		let tryIt = (xy) => {
-			if (xy.x<0 || xy.y<0 || xy.x>=W || xy.y>=H) { return; }
-			let cell = this.at(xy);
-			if (!cell || cell.value != value) { return; }
+    for (xy.x = 0; xy.x < W; xy.x++) {
+      for (xy.y = 0; xy.y < H; xy.y++) {
+        let cell = clone.at(xy);
+        if (!cell) { continue; }
+        let segment = clone.extractSegment(xy);
+        segments.push(segment);
+      }
+    }
 
-			this.set(xy, null);
-			segment.push(xy.clone());
-			tryIt(xy.plus(new XY( 1,  0)));
-			tryIt(xy.plus(new XY(-1,  0)));
-			tryIt(xy.plus(new XY( 0, -1)));
-			tryIt(xy.plus(new XY( 0,  1)));
-		}
-
-		tryIt(xy);
-		return segment;
-	}
-}
+    return segments.sort((a,
