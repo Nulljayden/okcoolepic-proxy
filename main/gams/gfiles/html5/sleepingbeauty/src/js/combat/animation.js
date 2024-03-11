@@ -1,58 +1,46 @@
-const SPEED = 10; // cells per second
+// Define a constant for the animation speed in cells per second
+const SPEED = 10;
 
+// Define a class for the animation
 export default class Animation {
-	constructor() {
-		this._items = [];
-		this._ts = null;
-		this._resolve = null;
-	}
+  // Constructor initializes the class with empty items array, and null values for _ts and _resolve
+  constructor() {
+    this._items = []; // array to store animation items
+    this._ts = null; // timestamp of the last animation frame
+    this._resolve = null; // reference to the animation promise resolve function
+  }
 
-	add(item) {
-		this._items.push(item);
-		item.cell.animated = item.from;
-	}
+  // Add an item to the animation
+  add(item) {
+    this._items.push(item); // add the item to the items array
+    item.cell.animated = item.from; // set the animated property of the cell to the starting position
+  }
 
-	start(drawCallback) {
-		let promise = new Promise(resolve => this._resolve = resolve)
-		this._drawCallback = drawCallback;
-		this._ts = Date.now();
-		this._step();
-		return promise;
-	}
+  // Start the animation with a callback function to draw each frame
+  start(drawCallback) {
+    // Create a new promise and store the resolve function in _resolve
+    let promise = new Promise(resolve => this._resolve = resolve);
+    this._drawCallback = drawCallback; // store the draw callback function
+    this._ts = Date.now(); // set the timestamp of the first animation frame
+    this._step(); // start the animation
+    return promise; // return the promise
+  }
 
-	_step() {
-		let time = Date.now() - this._ts;
+  // The main animation loop
+  _step() {
+    let time = Date.now() - this._ts; // calculate the time since the last frame
 
-		let i = this._items.length;
-		while (i --> 0) { /* down so we can splice */
-			let item = this._items[i];
-			let finished = this._stepItem(item, time);
-			if (finished) { 
-				this._items.splice(i, 1);
-				item.cell.animated = null;
-			}
-		}
+    // Iterate over the items array in reverse order
+    let i = this._items.length;
+    while (i --> 0) {
+      let item = this._items[i]; // get the current item
+      let finished = this._stepItem(item, time); // calculate the new position of the item
+      if (finished) { // if the item has reached its destination
+        this._items.splice(i, 1); // remove the item from the items array
+        item.cell.animated = null; // clear the animated property of the cell
+      }
+    }
 
-		this._drawCallback();
-		if (this._items.length > 0) { 
-			requestAnimationFrame(() => this._step());
-		} else {
-			this._resolve();
-		}
-	}
-
-	_stepItem(item, time) {
-		let dist = item.from.dist8(item.to);
-
-		let frac = (time/1000) * SPEED / dist;
-		let finished = false;
-		if (frac >= 1) {
-			finished = true;
-			frac = 1;
-		}
-
-		item.cell.animated = item.from.lerp(item.to, frac);
-
-		return finished;
-	}
-}
+    this._drawCallback(); // draw the current frame
+    if (this._items.length > 0) { // if there are still items to animate
+      requestAnimationFrame(()
