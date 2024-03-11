@@ -1,3 +1,20 @@
-.button{width: 100px !important;}
-#outsidePanel .button{width: 115px !important;}
-.eventPanel .button {width: 122px !important;}
+/* Base button style */
+.button {
+  width: 100px;
+}
+
+/* Override for buttons inside outsidePanel */
+#outsidePanel .button {
+  width: 115px;
+}
+
+/* Override for buttons inside eventPanel */
+.eventPanel .button {
+  width: 122px;
+}
+
+/* Add !important only when absolutely necessary */
+/* If there are other rules with higher specificity that need to be overridden */
+/* .eventPanel .button.specific-button {
+  width: 150px !important;
+} */
