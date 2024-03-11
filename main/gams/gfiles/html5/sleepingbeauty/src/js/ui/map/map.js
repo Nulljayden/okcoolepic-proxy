@@ -1,12 +1,14 @@
-import XY from "util/xy.js";
-import * as pubsub from "util/pubsub.js";
-import Memory from "./memory.js";
-import ROT from "rot-js";
+import XY from "util/xy.js"; // Importing XY class from util/xy.js
+import * as pubsub from "util/pubsub.js"; // Importing pubsub module from util/pubsub.js
+import Memory from "./memory.js"; // Importing Memory class from memory.js
+import ROT from "rot-js"; // Importing ROT.js library
 
+// Constants for font size and zoom time
 const FONT_BASE = 18;
 const FONT_ZOOM = 120;
 const ZOOM_TIME = 1000;
 
+// Variables for level, options, display, center, and memory
 let level = null;
 let options = {
 	width: 1,
@@ -19,16 +21,19 @@ let display = new ROT.Display(options);
 let center = new XY(0, 0); // level coords in the middle of the map
 let memory = null;
 
+// Function to convert level XY to display XY
 function levelToDisplay(xy) { // level XY to display XY; center = middle point
 	let half = new XY(Math.floor(options.width / 2), Math.floor(options.height / 2));
 	return xy.minus(center).plus(half);
 }
 
+// Function to convert display XY to level XY
 function displayToLevel(xy) { // display XY to level XY; middle point = center
 	let half = new XY(Math.floor(options.width / 2), Math.floor(options.height / 2));
 	return xy.minus(half).plus(center);
 }
 
+// Function to fit the display to the available space
 function fit() {
 	let node = display.getContainer();
 	let parent = node.parentNode;
@@ -47,6 +52,7 @@ function fit() {
 	node.style.top = `${offset.y}px`;
 }
 
+// Function to update the display with the visual at a given level XY
 function update(levelXY) {
 	let visual = memory.visualAt(levelXY);
 	if (!visual) { return; }
@@ -54,6 +60,7 @@ function update(levelXY) {
 	display.draw(displayXY.x, displayXY.y, visual.ch, visual.fg);
 }
 
+// Function to set the center point of the display
 export function setCenter(newCenter) {
 	if (newCenter && newCenter instanceof XY) {
 		center = newCenter.clone();
@@ -70,6 +77,7 @@ export function setCenter(newCenter) {
 	}
 }
 
+// Function to set the level to be displayed
 export function setLevel(l) {
 	if (l && l instanceof Level) {
 		level = l;
@@ -79,6 +87,7 @@ export function setLevel(l) {
 	}
 }
 
+// Function to zoom the display to a given font size
 function zoom(size2) {
 	if (size2 && size2 > 0) {
 		let node = display.getContainer();
@@ -94,29 +103,4 @@ function zoom(size2) {
 			fit();
 			setCenter(center);
 			node.style.transition = "";
-			node.style.transform = "";
-		}, ZOOM_TIME);
-	} else {
-		console.error("Invalid font size parameter");
-	}
-}
-
-function handleMessage(message, publisher, data) {
-	if (level && center) {
-		switch (message) {
-			case "visibility-change":
-				setCenter(data.xy);
-			break;
-
-			case "visual-change":
-				if (publisher != level) { return; }
-				update(data.xy);
-			break;
-		}
-	} else {
-		console.error("Missing level or center parameter");
-	}
-}
-
-export function zoomIn() {
-	return
+	
