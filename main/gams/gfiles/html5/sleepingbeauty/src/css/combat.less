@@ -1,34 +1,43 @@
+/* The `#combat` selector targets the element with the ID of "combat". */
 #combat {
+	/* Positioned at the right and top edges of the viewport. */
 	right: 0;
 	top: 0;
+
+	/* The width is set to 100% minus the value of variable `@w` in viewport width units (vw). */
 	width: unit(100-@w, vw);
+
+	/* The height is set to the value of variable `@h` in viewport height units (vh). */
 	height: unit(@h, vh);
 
+	/* The nested `p` selector targets the `<p>` element within the `#combat` element. */
 	p {
+		/* Centers the text within the `<p>` element. */
 		text-align: center;
+
+		/* Sets the color of the text to goldenrod. */
 		color: goldenrod;
 	}
 
+	/* The nested `ul` selector targets the `<ul>` element within the `#combat` element. */
 	ul {
+		/* Removes the bullet points and paddings from the list. */
 		list-style: none;
+
+		/* Displays the list items as inline elements. */
 		display: inline-block;
 	}
 
+	/* The nested `li span` selector targets the `<span>` element within the `<li>` element. */
 	li span {
+		/* Sets the font size of the text to 24px. */
 		font-size: 24px;
+
+		/* Vertically aligns the text within the `<li>` element. */
 		vertical-align: middle;
 
+		/* Media query to adjust the font size when the viewport is smaller than 1130px in width and 610px in height. */
 		@media (max-width: 1130px) and (max-height: 610px) {
 			font-size: 18px;
 		}
-	}
-
-	li:not(.inactive) span {
-		font-weight: bold;
-	}
-
-	canvas, ul {
-		vertical-align: middle;
-	}
-}
 
