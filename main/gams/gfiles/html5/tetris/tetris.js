@@ -1,10 +1,16 @@
 'use strict';
 
-const FIELD_OFFSET_X = 180;
-const FIELD_OFFSET_Y = 12;
+// OFFSETS
+const FIELD_OFFSET_X = 180; // Horizontal offset for the game field
+const FIELD_OFFSET_Y = 12;   // Vertical offset for the game field
 
+// Button class represents a clickable button with an action, image, and position
 class Button {
     constructor(action, image, x, y) {
+        // action: Function to be executed when the button is clicked
+        // image: Image object or filename for the button
+        // x, y: Position of the button
+
         this.action = action;
         this.image = image;
         this.x = x;
@@ -12,68 +18,84 @@ class Button {
     }
 
     isClicked(x, y) {
-        // button click detection code here
+        // Check if the button is clicked at the given coordinates
     }
 
     draw() {
-        // button drawing code here
+        // Draw the button on the canvas
     }
 }
 
+// Background class handles the background drawing and logic
 class Background {
     constructor() {
-        // background constructor code here
+        // Initialization code for the background
     }
 
     draw(lastPaused) {
-        // background drawing code here
+        // Draw the background on the canvas
+        // lastPaused: The time when the game was last paused
     }
 }
 
+// TtyBlock class represents a scrollable terminal-like block
 class TtyBlock {
     constructor(elementId, width, height, padding) {
-        // tty block constructor code here
+        // elementId: ID of the HTML element to contain the TtyBlock
+        // width, height: Dimensions of the TtyBlock
+        // padding: Padding for the TtyBlock
+
+        // Initialization code for the TtyBlock
     }
 
     addLine(line) {
-        // tty block add line code here
+        // Add a line of text to the TtyBlock
     }
 
     draw(dTime) {
-        // tty block drawing code here
+        // Draw the TtyBlock on the canvas
+        // dTime: Time difference between the current and last frame
     }
 }
 
+// Game class handles the main game logic, update, and drawing
 class Game {
     constructor(inputAssignments, autoRepeatConfig, thresholdConfig) {
-        // game constructor code here
+        // inputAssignments: Object containing input assignments
+        // autoRepeatConfig: Object containing auto-repeat configuration
+        // thresholdConfig: Object containing threshold configuration
+
+        // Initialization code for the game
     }
 
     update(realTime) {
-        // game update code here
+        // Update the game state based on real-time
     }
 
     draw(dTime) {
-        // game drawing code here
+        // Draw the game on the canvas
+        // dTime: Time difference between the current and last frame
     }
 
     getResults() {
-        // game get results code here
+        // Return the game results
     }
 }
 
+// Configuration objects for the game
 const inputAssignments = {
-    // input assignments here
+    // Input assignments for the game
 };
 
 const autoRepeatConfig = {
-    // auto repeat config here
+    // Auto-repeat configuration for the game
 };
 
 const thresholdConfig = {
-    // threshold config here
+    // Threshold configuration for the game
 };
 
+// TetrisControl class handles the Tetris game setup, update, and drawing
 class TetrisControl {
     constructor() {
         this.tetris = new Tetris(this);
@@ -92,31 +114,11 @@ class TetrisControl {
     }
 
     restart() {
-        this.tetris = new Tetris(this);
-        this.tetris.setup();
-        this.tetris.update();
+        // Restart the Tetris game
     }
 }
 
+// Tetris class handles the Tetris game-specific logic, update, and drawing
 class Tetris {
     constructor(controller) {
-        this.background = null;
-        this.game = null;
-        this.timeOffset = 0;
-
-        this.lastEscapeState = false;
-        this.startPauseTime = 0;
-        this.paused = false;
-        this.lastPaused = false;
-
-        this.gameOver = false;
-
-        this.mouseClick = null;
-
-        this.continueButton = null;
-        this.restartButton = null;
-
-        this.lastTime = null;
-        this.dTime = null;
-
-        this.gameEndTty = new TtyBlock('
+        // controller: TetrisControl object that created this Tet
