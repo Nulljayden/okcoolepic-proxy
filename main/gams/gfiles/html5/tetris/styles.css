@@ -1,5 +1,11 @@
-/** PAGE ELEMENTS **/
+/* PAGE ELEMENTS */
 
+/**
+ * Defines the style for the menu cell.
+ * It has a background color of #001d00,
+ * is vertically aligned to the top, has a height of 600px,
+ * and a color of #000000.
+ */
 .menuCell
 {
     background-color: #001d00;
@@ -8,7 +14,14 @@
     color: #000000;
 }
 
-
+/**
+ * Defines the style for the instructions.
+ * It has a margin of 0 5, font size of 15px,
+ * font family of VT323, color of #008000,
+ * background color of #000d00, border of 1px solid #008000,
+ * border radius of 5px, padding of 5px, width of 140,
+ * and displays the instructions for the game.
+ */
 .instructions
 {
     margin: 0 5;
@@ -22,11 +35,20 @@
     width: 140;
 }
 
+/**
+ * Defines the style for the menu.
+ * It has a width of 160px.
+ */
 .menu
 {
-    width: 160;
+    width: 160px;
 }
 
+/**
+ * Defines the style for the menu logo.
+ * It has a width of 150px, margin of 5 5,
+ * text-align of center, and displays the game logo.
+ */
 .menuLogo
 {
     width: 150px;
@@ -34,6 +56,14 @@
     text-align: center;
 }
 
+/**
+ * Defines the style for the menu item.
+ * It has a font family of VT323, margin of 0 auto,
+ * border of 1px solid #008000, border radius of 5px,
+ * background color of #000d00, color of #008000,
+ * padding of 5px, width of 140px, font size of 18px,
+ * and displays the options for the game.
+ */
 .menuItem
 {
     font-family: VT323;
@@ -47,11 +77,23 @@
     font-size: 18px;
 }
 
+/**
+ * Defines the style for the score area.
+ * It has a width of 500px.
+ */
 .scoreArea
 {
     width: 500px;
 }
 
+/**
+ * Defines the style for the play again button.
+ * It has a font family of VT323, text-align of center,
+ * margin of 0 auto, border of 1px solid #008000,
+ * border radius of 5px, background color of #000d00,
+ * color of #008000, padding of 5px, width of 140px,
+ * font size of 18px, and is used to start a new game.
+ */
 .playAgainButton
 {
     font-family: VT323;
@@ -66,35 +108,51 @@
     font-size: 18px;
 }
 
-a.bareLink:link
-{
-    text-decoration: none;
-}
-a.bareLink:active
-{
-    text-decoration: none;
-}
-a.bareLink:visited
+/**
+ * Defines the style for the bare link.
+ * It has no text decoration for link, active, and visited states.
+ */
+a.bareLink:link, a.bareLink:active, a.bareLink:visited
 {
     text-decoration: none;
 }
 
+/**
+ * Defines the style for the selected menu item.
+ * It has a color of #000d00 and background color of #008000.
+ */
 .selectedMenuItem
 {
     color: #000d00;
     background-color: #008000;
 }
 
+/**
+ * Defines the style for the menu item when hovered.
+ * It has a color of #c0c0c0.
+ */
 .menuItem:hover
 {
-    color: #c0c0c0;    
+    color: #c0c0c0;
 }
 
+/**
+ * Defines the style for the body.
+ * It has a background color of #000000.
+ */
 body
 {
     background-color: #000000;
 }
 
+/**
+ * Defines the style for the about text.
+ * It has a margin of 5 5, font size of 16px,
+ * font family of VT323, color of #008000,
+ * background color of #000d00, border of 1px solid #008000,
+ * border radius of 5px, padding of 5px, width of 580,
+ * and displays information about the game.
+ */
 .aboutText
 {
     margin: 5 5;
@@ -108,182 +166,6 @@ body
     width: 580;
 }
 
-.contentCell
-{
-    background-color: #001d00;
-    color: #c0c0c0;
-    font-family: VT323;
-    vertical-align: top;
-}
-
-.applyNameHidden
-{
-    visibility: hidden;
-    text-align: center;
-}
-
-.applyNameVisible
-{
-    visibility: visible;
-    text-align: center;
-}
-
-/* Page table */
-.mainTable
-{
-    margin: 0 auto;
-    border-collapse: collapse;
-    border: 1px solid #000000;
-
-}
-
-/* panel containing the game and controls */
-.gamePanel
-{
-    width: 601px;
-    position: relative;
-    top: 0; left: 0;
-}
-
-/* controls table */
-.controlsTitle
-{
-    text-align: center;
-}
-.controlsTableHeader
-{
-    color: #c0c0c0;
-    font-weight: bold;
-}
-.controlsTable
-{
-    margin: 0 auto;
-    text-align: center;
-    border-collapse: collapse;
-    border: 1px solid #008000;
-    color: #008000;
-    background-color: #000d00;
-}
-.controlsTable td
-{
-    border-color: #008000;
-}
-
-
-.gameCanvas
-{
-    border: 1px solid #008000;
-}
-
-.resTitle
-{
-    font-size: 26px;
-    text-align: center;
-}
-.resultsTable
-{
-    margin: 0 auto;
-    font-size: 26px;
-    border-collapse: collapse;
-    border: 1px solid #008000;
-    color: #008000;
-    background-color: #000d00;
-}
-.resultsTable td
-{
-    border: 1px solid #008000;
-    padding: 10px;
-    width: 200px;
-}
-
-.highScoreTable
-{
-    margin: 0 auto;
-    font-size: 18px;
-    border-collapse: collapse;
-    border: 1px solid #008000;
-    color: #008000;
-    background-color: #000d00;
-}
-.highScoreTable td
-{
-    border: 1px solid #008000;
-    width: 200px;
-}
-.highScoreTableHeader
-{
-    color: #c0c0c0;
-    font-weight: bold;
-}
-
-.resultsLeft
-{
-    text-align: right;
-}
-.resultsRight
-{
-    text-align: left;
-}
-
-/** GAME ELEMENTS **/
-.gameElements
-{
-    position: relative;
-    height: 500px;
-    width: 600px;
-}
-
-.gameCanvas
-{
-    position: absolute;
-    top: 0; left: 0;
-    z-index: 1;
-}
-
-.ttyOutput
-{
-    font-family: VT323;
-    font-size:20px;
-    position: absolute;
-    height: 0px; width: 200px;
-    color: #008800;
-    line-height: 100%;
-    z-index: 2;
-}
-.scoreOutput
-{
-    top: 140px; left: 20px;
-}
-.linesOutput
-{
-    top: 235px; left: 20px;
-}
-.levelOutput
-{
-    top: 328; left: 20px;
-}
-.tickerOutput
-{
-    top: 372; left: 435;
-}
-
-.gameEndOutputHidden
-{
-    top: 60px; left: 195px;
-    width: 210px; height: 216px;
-    background-image: url('media/background/endconsole.png');
-    visibility: hidden;
-}
-
-.gameEndOutputVisible
-{
-    font-family: VT323;
-    font-size:20px;
-    position: absolute;
-    color: #008800;
-    line-height: 100%;
-    z-index: 2;
-    top: 60px; left: 195px;
-    width: 210px; height: 216px;
-    background-image: url('media/background/endconsole.png');
-}
+/**
+ * Defines the style for the content cell.
+ * It has
