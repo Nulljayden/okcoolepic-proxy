@@ -12,13 +12,7 @@ export default class Entity {
 
 	toString() { return this._visual.name; }
 
-	describeThe() { return `the ${this}`; }
-	describeA() {
-		let first = this._visual.name.charAt(0);
-		let article = (first.match(/[aeiou]/i) ? "an" : "a");
-		return `${article} ${this}`;
-	}
-}
-
-String.format.map.the = "describeThe";
-String.format.map.a = "describeA";
+	describe(articleType) {
+		if (!articleType || !this[`describe${articleType}`]) {
+			throw new Error(`Invalid article type: ${articleType}`);
+	
