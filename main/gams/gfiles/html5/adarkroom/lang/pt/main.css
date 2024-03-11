@@ -1,13 +1,26 @@
+/* This stylesheet defines a .button {...} rule with a width of 100px.
+   The 'important' keyword is used to ensure that this width takes precedence
+   over any other width values defined for .button elements in other stylesheets. */
 .button {
   width: 100px;
   important: true;
 }
 
+/* This rule overrides the previous .button {...} rule when .button elements
+   appear within an element with an id of 'outsidePanel'. The width is set to
+   115px, and the 'important' keyword is used again to ensure that this width
+   takes precedence over any other width values defined for .button elements
+   in other stylesheets. */
 #outsidePanel .button {
   width: 115px;
   important: true;
 }
 
+/* This rule overrides the previous .button {...} rules when .button elements
+   appear within an element with a class of 'eventPanel'. The width is set to
+   122px, and the 'important' keyword is used again to ensure that this width
+   takes precedence over any other width values defined for .button elements
+   in other stylesheets. */
 .eventPanel .button {
   width: 122px;
   important: true;
