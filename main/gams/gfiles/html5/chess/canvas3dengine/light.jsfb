@@ -1,75 +1,67 @@
 /*
  * Javascript/Canvas Textured 3D Renderer v0.3
+ * This software is a 3D renderer that uses the Canvas API to draw 3D objects.
  * Copyright (c) 2008 Jacob Seidelin, cupboy@gmail.com
  * This software is free to use for non-commercial purposes. For anything else, please contact the author.
  * This is a version modified by Stefano Gioffre'.
  */
 
+// A counter for unique light IDs
 var __iLightIDCounter = 0;
 
+// The Light constructor creates a new light object
 Canvas3D.Light = function() {
-	this._oPosition = new Canvas3D.Vec3(0,0,0);
-	this._oColor = {r:255,g:255,b:255};
-	this._fIntensity = 1.0;
+	this._oPosition = new Canvas3D.Vec3(0,0,0); // The position of the light
+	this._oColor = {r:255,g:255,b:255}; // The color of the light
+	this._fIntensity = 1.0; // The intensity of the light
 
-	this._iLightID = ++__iLightIDCounter;
+	this._iLightID = ++__iLightIDCounter; // The unique ID of the light
 };
 
+// The prototype for the Light constructor
 var proto = Canvas3D.Light.prototype;
-	
+
+// The setPosition method sets the position of the light
 proto.setPosition = function(oPos) {
 	this._oPosition = oPos;
-	this._bDirty = true;
+	this._bDirty = true; // Set the dirty flag to true
 }
 
+// The getPosition method returns the position of the light
 proto.getPosition = function() {
 	return this._oPosition;
 }
 
+// The setColor method sets the color of the light
 proto.setColor = function(oColor) {
 	this._oColor = oColor;
-	this._bDirty = true;
+	this._bDirty = true; // Set the dirty flag to true
 }
 
+// The getColor method returns the color of the light
 proto.getColor = function() {
 	return this._oColor;
 }
 
+// The setIntensity method sets the intensity of the light
 proto.setIntensity = function(fIntensity) {
 	this._fIntensity = fIntensity;
-	this._bDirty = true;
+	this._bDirty = true; // Set the dirty flag to true
 }
 
+// The getIntensity method returns the intensity of the light
 proto.getIntensity = function(fIntensity) {
 	return this._fIntensity;
 }
 
+// The setScene method sets the scene that the light belongs to
 proto.setScene = function(oScene) {
 	if (this._oScene != oScene) {
 		this._oScene = oScene;
-		this._bDirty = true;
+		this._bDirty = true; // Set the dirty flag to true
 	}
 }
 
+// The draw method draws a representation of the light on the canvas
 proto.draw = function(oContext, iOffsetX, iOffsetY) {
-	var oScene = this._oScene;
-	var oCam = oScene.getActiveCamera();
-
-	var oPos2D = oCam.transform2D(oCam.transformPoint(this._oPosition));
-
-	var iRadius = 3;
-
-	oContext.beginPath();
-	oContext.moveTo(oPos2D.x + iOffsetX + iRadius, oPos2D.y + iOffsetY);
-	oContext.arc(oPos2D.x + iOffsetX, oPos2D.y + iOffsetY, iRadius, 0, 360, false);
-	oContext.fillStyle = "rgb(255,255,0)";
-	oContext.fill();
-}
-
-proto.getDirty = function() {
-	return this._bDirty;
-}
-
-proto.setDirty = function(bDirty) {
-	this._bDirty = bDirty;
-}
+	var o
