@@ -1,19 +1,19 @@
-.customControlsDiv
-{
+/* This styles the container for custom controls. It is positioned absolutely at the top right corner of the viewport. */
+.customControlsDiv {
     position: absolute;
     top: 0px;
     right: 0px;
 }
 
-.controlsArea
-{
+/* This class defines the styles for the area containing the controls. It has some padding, width, and relative positioning. */
+.controlsArea {
     padding: 5px;
     width: 580;
     position: relative;
 }
 
-.controlsUnit
-{
+/* This class defines the styles for a single control unit. It has margins, font size, family, color, background color, border, border radius, padding, and width. */
+.controlsUnit {
     margin: 10px 5px;
     font-size: 16px;
     font-family: VT323;
@@ -25,23 +25,23 @@
     width: 200px;
 }
 
-.controlsUnit:hover
-{
+/* This class defines the styles for a controls unit when it is being hovered over. It changes the background and text color. */
+.controlsUnit:hover {
     cursor: pointer;
     background-color: #008000;
     color: #000d00;
 }
 
-.controlsUnitPending
-{
+/* This class defines the styles for a controls unit that is pending. It changes the background and text color and adds a font weight. */
+.controlsUnitPending {
     cursor: pointer;
     background-color: #008000;
     color: #000d00;
     font-weight: bold;
 }
 
-.enableCustomDiv
-{
+/* This class defines the styles for the enable custom div. It has margins, font size, family, color, background color, border, border radius, padding, width, and height. */
+.enableCustomDiv {
     margin: 10px 5px;
     font-size: 16px;
     font-family: VT323;
@@ -57,57 +57,4 @@
     left: 0px;
 }
 
-.controlsValue
-{
-    float: right;
-}
-
-.noDisplay
-{
-    display: none;
-}
-
-.withDisplay
-{
-    display: inline;
-}
-
-.autoRepeatDiv
-{
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-}
-
-.thresholdDiv
-{
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 150px;
-}
-
-.autoRepeatArea
-{
-    margin: 10px 5px;
-    font-size: 16px;
-    font-family: VT323;
-    color: #008000;
-    background-color: #000d00;
-    border: 1px solid #008000;
-    border-radius: 5px;
-    padding: 5px 10px;
-    width: 560px;
-    height: 50px;
-    position: absolute;
-    top: 265px;
-    left: 0px;
-}
-
-.autoRepeatForm
-{
-    width: 350px;
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-}
+/* This class defines the styles for the value of the controls. It is floated to the right.
