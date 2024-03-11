@@ -1,35 +1,39 @@
 /**
  * Game technology manager.
+ * This module is responsible for managing all game technologies.
  * @namespace Game.tech
  */
 Game.tech = (function() {
 
-  /**
-   * The tech manager instance.
-   * @type {Object}
-   */
+  // The tech manager instance.
+  // This object will contain all the data related to game technologies.
   const instance = {};
 
   /**
    * The version of the tech data.
    * @type {number}
+   * This variable stores the version of the tech data.
    */
   instance.dataVersion = 2;
 
   /**
    * The tech entries.
    * @type {Object}
+   * This object stores all the tech data entries, with their IDs as keys.
    */
   instance.entries = {};
 
   /**
    * The number of tech types.
    * @type {number}
+   * This variable stores the number of tech types available in the game.
    */
   instance.techTypeCount = 0;
 
   /**
    * Initializes the tech manager.
+   * This method initializes the tech manager by initializing the tech UI and
+   * loading all the tech data.
    */
   instance.initialise = function() {
     Game.techUI.initialise();
@@ -45,6 +49,7 @@ Game.tech = (function() {
 
   /**
    * Initializes a tech entry.
+   * This method initializes a new tech entry with the given ID.
    * @param {string} id - The tech ID.
    * @returns {Object} The initialized tech data.
    */
@@ -57,6 +62,7 @@ Game.tech = (function() {
 
   /**
    * Resets the tech manager.
+   * This method resets the tech manager by resetting all the tech data.
    */
   instance.reset = function() {
     for (const id in Game.techData) {
@@ -71,13 +77,15 @@ Game.tech = (function() {
 
   /**
    * Updates the tech manager.
+   * This method updates the tech manager by updating the tech data.
    * @param {number} delta - The time delta.
    */
   instance.update = function(delta) {};
 
   /**
    * Saves the tech data.
-   * @param {Object} data - The data to save.
+   * This method saves the tech data by storing it in the given data object.
+   * @param {Object} data - The data object to save the tech data in.
    */
   instance.save = function(data) {
     data.tech = { v: this.dataVersion, i: {} };
@@ -90,7 +98,8 @@ Game.tech = (function() {
 
   /**
    * Loads the tech data.
-   * @param {Object} data - The data to load.
+   * This method loads the tech data by loading it from the given data object.
+   * @param {Object} data - The data object to load the tech data from.
    */
   instance.load = function(data) {
     if (data.tech && data.tech.v && data.tech.i) {
@@ -111,7 +120,8 @@ Game.tech = (function() {
 
   /**
    * Loads tech data version 1.
-   * @param {Object} data - The data to load.
+   * This method loads tech data version 1 from the given data object.
+   * @param {Object} data - The data object to load the tech data from.
    */
   instance.loadV1 = function(data) {
     // The new tech data matches the old ids stored in the arrays available and researched
@@ -137,23 +147,11 @@ Game.tech = (function() {
 
   /**
    * Loads tech data version 2 or higher.
-   * @param {Object} data - The data to load.
+   * This method loads tech data version 2 or higher from the given data object.
+   * @param {Object} data - The data object to load the tech data from.
    */
   instance.loadV2 = function(data) {
     for (const id in data.tech.i) {
       if (this.entries[id]) {
         if (data.tech.i[id].current !== undefined && data.tech.i[id].current > 0) {
-          this.entries[id].current = 0;
-          this.gainTech(id, data.tech.i[id].current);
-          // We can assume that the tech is unlocked if it has been purchased
-          this.entries[id].unlocked = true;
-        } else if (data.tech.i[id].unlocked !== undefined) {
-          this.entries[id].unlocked = data.tech.i[id].unlocked;
-        }
-      }
-    }
-  };
-
-  /**
-   * Unlocks a tech.
-   * @param {string} id - The tech ID.
+          this
