@@ -8,13 +8,14 @@ import { tutorialAction, tutorialPainter } from './tutorial'
 import * as constant from './constant'
 import { startAnimate, endAnimate } from './animateFuncs'
 
-window.TowerGame = (option = {}) => {
+const gameFactory = (option = {}) => {
   const {
-    width,
-    height,
-    canvasId,
-    soundOn
+    width = 750,
+    height = 1334,
+    canvasId = 'gameCanvas',
+    soundOn = true
   } = option
+
   const game = new Engine({
     canvasId,
     highResolution: true,
@@ -22,40 +23,25 @@ window.TowerGame = (option = {}) => {
     height,
     soundOn
   })
+
   const pathGenerator = (path) => `./assets/${path}`
 
-  game.addImg('background', pathGenerator('background.png'))
-  game.addImg('hook', pathGenerator('hook.png'))
-  game.addImg('blockRope', pathGenerator('block-rope.png'))
-  game.addImg('block', pathGenerator('block.png'))
-  game.addImg('block-perfect', pathGenerator('block-perfect.png'))
-  for (let i = 1; i <= 8; i += 1) {
-    game.addImg(`c${i}`, pathGenerator(`c${i}.png`))
-  }
-  game.addLayer(constant.flightLayer)
-  for (let i = 1; i <= 7; i += 1) {
-    game.addImg(`f${i}`, pathGenerator(`f${i}.png`))
-  }
-  game.swapLayer(0, 1)
-  game.addImg('tutorial', pathGenerator('tutorial.png'))
-  game.addImg('tutorial-arrow', pathGenerator('tutorial-arrow.png'))
-  game.addImg('heart', pathGenerator('heart.png'))
-  game.addImg('score', pathGenerator('score.png'))
-  game.addAudio('drop-perfect', pathGenerator('drop-perfect.mp3'))
-  game.addAudio('drop', pathGenerator('drop.mp3'))
-  game.addAudio('game-over', pathGenerator('game-over.mp3'))
-  game.addAudio('rotate', pathGenerator('rotate.mp3'))
-  game.addAudio('bgm', pathGenerator('bgm.mp3'))
-  game.setVariable(constant.blockWidth, game.width * 0.25)
-  game.setVariable(constant.blockHeight, game.getVariable(constant.blockWidth) * 0.71)
-  game.setVariable(constant.cloudSize, game.width * 0.3)
-  game.setVariable(constant.ropeHeight, game.height * 0.4)
-  game.setVariable(constant.blockCount, 0)
-  game.setVariable(constant.successCount, 0)
-  game.setVariable(constant.failedCount, 0)
-  game.setVariable(constant.gameScore, 0)
-  game.setVariable(constant.hardMode, false)
-  game.setVariable(constant.gameUserOption, option)
+  const backgroundImg = new Image()
+  backgroundImg.src = pathGenerator('background.png')
+
+  const hookImg = new Image()
+  hookImg.src = pathGenerator('hook.png')
+
+  const blockRopeImg = new Image()
+  blockRopeImg.src = pathGenerator('block-rope.png')
+
+  const blockImg = new Image()
+  blockImg.src = pathGenerator('block.png')
+
+  const blockPerfectImg = new Image()
+  blockPerfectImg.src = pathGenerator('block-perfect.png')
+
+  const clouds = []
   for (let i = 1; i <= 4; i += 1) {
     const cloud = new Instance({
       name: `cloud_${i}`,
@@ -64,56 +50,49 @@ window.TowerGame = (option = {}) => {
     })
     cloud.index = i
     cloud.count = 5 - i
+    clouds.push(cloud)
     game.addInstance(cloud)
   }
-  const line = new Instance({
+
+  const lineInstance = new Instance({
     name: 'line',
     action: lineAction,
     painter: linePainter
   })
-  game.addInstance(line)
-  const hook = new Instance({
+  game.addInstance(lineInstance)
+
+  const hookInstance = new Instance({
     name: 'hook',
     action: hookAction,
     painter: hookPainter
   })
-  game.addInstance(hook)
+  game.addInstance(hookInstance)
 
-  game.startAnimate = startAnimate
-  game.endAnimate = endAnimate
-  game.paintUnderInstance = background
-  game.addKeyDownListener('enter', () => {
-    if (game.debug) game.togglePaused()
+  const tutorialInstance = new Instance({
+    name: 'tutorial',
+    action: tutorialAction,
+    painter: tutorialPainter
   })
-  game.touchStartListener = () => {
-    touchEventHandler(game)
-  }
 
-  game.playBgm = () => {
-    game.playAudio('bgm', true)
-  }
+  const tutorialArrowInstance = new Instance({
+    name: 'tutorial-arrow',
+    action: tutorialAction,
+    painter: tutorialPainter
+  })
 
-  game.pauseBgm = () => {
-    game.pauseAudio('bgm')
-  }
+  const audioDropPerfect = new Audio()
+  audioDropPerfect.src = pathGenerator('drop-perfect.mp3')
 
-  game.start = () => {
-    const tutorial = new Instance({
-      name: 'tutorial',
-      action: tutorialAction,
-      painter: tutorialPainter
-    })
-    game.addInstance(tutorial)
-    const tutorialArrow = new Instance({
-      name: 'tutorial-arrow',
-      action: tutorialAction,
-      painter: tutorialPainter
-    })
-    game.addInstance(tutorialArrow)
-    game.setTimeMovement(constant.bgInitMovement, 500)
-    game.setTimeMovement(constant.tutorialMovement, 500)
-    game.setVariable(constant.gameStartNow, true)
-  }
+  const audioDrop = new Audio()
+  audioDrop.src = pathGenerator('drop.mp3')
 
-  return game
-}
+  const audioGameOver = new Audio()
+  audioGameOver.src = pathGenerator('game-over.mp3')
+
+  const audioRotate = new Audio()
+  audioRotate.src = pathGenerator('rotate.mp3')
+
+  const audioBgm = new Audio()
+  audioBgm.src = pathGenerator('bgm.mp3')
+
+  const context = new
