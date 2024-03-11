@@ -1,33 +1,37 @@
+// An array of vertices representing the 3D coordinates of each point in the mesh.
 const vertices = [
   [2.3018, 0.1682, -2.3073],
   [2.308, 1.544, -2.3135],
   // ... rest of the vertices
 ];
 
+// An array of normals representing the direction each vertex is facing.
 const normals = [
   [0.7071, -0.7071, -0.0045],
   [0.7071, -0.7071, -0.0045],
   // ... rest of the normals
 ];
 
+// An array of texture coordinates representing the mapping of a texture onto the mesh.
 const texCoords = [
   [[7.2839, -24.849], [-12.017, -17.2137], [7.3321, -17.2137]],
   [[7.2839, -24.849], [-12.017, -24.849], [-12.017, -17.2137]],
   // ... rest of the texture coordinates
 ];
 
+// An array of faces representing the polygons that make up the mesh, with each face consisting of an array of vertex indices.
 const faces = [
   [0, 4, 1, 0],
   [0, 3, 4, 0],
   // ... rest of the faces
 ];
 
+// An array of materials representing the visual properties of the mesh, such as color.
 const materials = [
   { r: 150, g: 150, b: 150 },
   { r: 150, g: 150, b: 150 },
   { r: 150, g: 150, b: 150 }
 ];
 
-const obj = { vertices, normals, texCoords, faces, materials };
-
-this.obj = [obj];
+// An object that contains all the mesh data.
+const obj = { vertices
