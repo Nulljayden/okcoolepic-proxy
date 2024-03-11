@@ -20,56 +20,61 @@ var analytics =
         actionHire: 'Hire',
         actionBuy: 'Buy'
     },
-    
+
     init: function()
     {
         if (typeof Helpers.analytics === 'undefined' || Helpers.analytics == '') {
             analytics.enabled = false;
             return;
         }
-        
+
+        if (typeof ga === 'undefined') {
+            console.error('Google Analytics is not defined');
+            analytics.enabled = false;
+            return;
+        }
+
         ga('create', Helpers.analytics);
         ga('set', { 'appName': 'Particle Clicker', 'appId': 'ch.cern.particle-clicker', 'appVersion': '0.9' });
         ga('set', 'anonymizeIp', true);
 
+        // Helper function to register modal show/hide events
+        function registerModalEvent(modalSelector, screenName) {
+            $(modalSelector).on('show.bs.modal', function (e) {
+                analytics.sendScreen(screenName);
+            });
+            $(modalSelector).on('hide.bs.modal', function (e) {
+                analytics.sendScreen(analytics.screens.main);
+            });
+        }
 
-        $('#myModal').on('show.bs.modal', function (e) {
-            analytics.sendScreen(analytics.screens.about);
-        });
-        $('#myModal').on('hide.bs.modal', function (e) {
-            analytics.sendScreen(analytics.screens.main);
-        });
-
-        $('#achievements-modal').on('show.bs.modal', function (e) {
-            analytics.sendScreen(analytics.screens.achievements);
-        });
-        $('#achievements-modal').on('hide.bs.modal', function (e) {
-            analytics.sendScreen(analytics.screens.main);
-        });
-
-        $('#infoBox').on('show.bs.modal', function (e) {
-            analytics.sendScreen(analytics.screens.info);
-        });
-        $('#infoBox').on('hide.bs.modal', function (e) {
-            analytics.sendScreen(analytics.screens.main);
-        });
+        registerModalEvent('#myModal', analytics.screens.about);
+        registerModalEvent('#achievements-modal', analytics.screens.achievements);
+        registerModalEvent('#infoBox', analytics.screens.info);
     },
-    
-    sendScreen: function(type)
+
+    trackScreenView: function(type)
     {
         if (!analytics.enabled || typeof type === 'undefined') {
             return;
         }
-        
-        ga('send', 'screenview', { 'screenName': type });
-    },
-    
-    sendEvent: function(category, action, label, value)
-    {
-        if (!analytics.enabled || typeof category === 'undefined' || typeof action === 'undefined' || typeof label === 'undefined' || typeof value === 'undefined') {
+
+        if (typeof ga === 'undefined') {
+            console.error('Google Analytics is not defined');
             return;
         }
-        
+
+        ga('send', 'screenview', { 'screenName': type });
+    },
+
+    sendEvent: function(category, action, label, value)
+    {
+        if (!analytics.enabled || typeof category === 'undefined' || typeof action === 'undefined' || typeof label === 'undefined') {
+            return;
+        }
+
+        value = value || 0; // Set default value for value parameter
+
         //ga('send', 'event', category, action, label, value, {'screenName': analytics.screens.main });
     }
 };
