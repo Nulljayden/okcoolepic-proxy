@@ -1,12 +1,20 @@
 #map {
+	// Set the left and top position of the map to 0
 	left: 0;
 	top: 0;
+
+	// Set the width of the map to be a certain percentage of the viewport width
 	width: unit(@w, vw);
+
+	// Set the height of the map to be a certain percentage of the viewport height
 	height: unit(@h, vh);
 
+	// Ensure that any overflow is hidden
 	overflow: hidden;
 
 	canvas {
+		// Position the canvas relative to its parent container
 		position: relative;
 	}
 }
+
