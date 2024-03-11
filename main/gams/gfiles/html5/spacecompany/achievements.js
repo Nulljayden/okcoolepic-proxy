@@ -1,20 +1,63 @@
+/**
+ * Achievements module for the Game object.
+ * @module Game.achievements
+ */
+
 Game.achievements = (function() {
 
 	'use strict';
 
+	/**
+	 * The achievements instance.
+	 * @type {Object}
+	 */
 	var instance = {};
 
+	/**
+	 * The version number of the data.
+	 * @type {number}
+	 */
 	instance.dataVersion = 6;
 
+	/**
+	 * The next available ID for an achievement.
+	 * @type {number}
+	 */
 	instance.nextId = 0;
 
+	/**
+	 * The current rank of the player.
+	 * @type {number}
+	 */
 	instance.rank = 1;
+
+	/**
+	 * The current XP of the player.
+	 * @type {number}
+	 */
 	instance.xp = 0;
 
+	/**
+	 * The entries in the achievements list.
+	 * @type {Object}
+	 */
 	instance.entries = {};
+
+	/**
+	 * The number of achievements in the list.
+	 * @type {number}
+	 */
 	instance.achievementCount = 0;
+
+	/**
+	 * The number of achievements and their tiers in the list.
+	 * @type {number}
+	 */
 	instance.achievementCountIncludingTiers = 0;
 
+	/**
+	 * Initializes the achievements module.
+	 */
 	instance.initialise = function() {
 		for (var id in Game.achievementsData) {
 			var data = Game.achievementsData[id];
@@ -38,86 +81,47 @@ Game.achievements = (function() {
 		console.debug("Loaded " + this.achievementCount + " (" + this.achievementCountIncludingTiers +") Achievements");
 	};
 
-	instance.getAchievementTitle = function(data, for_tooltip) {
+	/**
+	 * Gets the title of an achievement.
+	 * @param  {Object} data - The achievement data.
+	 * @return {string} The title of the achievement.
+	 */
+	instance.getAchievementTitle = function(data) {
 		if(data.unlocked === data.brackets.length - 1) {
 			var title = data.title.replace('%s', Game.settings.format(data.brackets[data.unlocked]));
-			if(for_tooltip === true) {
-				title += " (Completed)";
-			}
-			return title;
+			return title + " (Completed)";
 		} else {
 			var title = data.title.replace('%s', Game.settings.format(data.brackets[data.unlocked+1]));
-			if(for_tooltip === true) {
-				title += ' (' + data.progressDisplay + '%)';
-			}
-			return title;
+			return title + ' (' + data.progressDisplay + '%)';
 		}
 	};
 
+	/**
+	 * Gets the title of an achievement for a tooltip.
+	 * @param  {Object} data - The achievement data.
+	 * @return {string} The title of the achievement.
+	 */
+	instance.getAchievementTitleForTooltip = function(data) {
+		return this.getAchievementTitle(data, true);
+	};
+
+	/**
+	 * Updates the achievements.
+	 * @param  {number} delta - The time elapsed since the last update.
+	 */
 	instance.update = function(delta) {
 		for(var id in this.entries) {
 			var data = this.entries[id];
+			if(!data.evaluator || !data.progressEvaluator) {
+				continue;
+			}
 			var bracket = data.brackets[data.unlocked + 1];
 
 			if(data.unlocked < data.brackets.length - 1 && data.evaluator(bracket)) {
-				Game.notifySuccess("Achievement Reached", this.getAchievementTitle(data, false));
+				Game.notifySuccess("Achievement Reached", this.getAchievementTitle(data));
 
 				this.unlock(id, data.unlocked + 1);
 
 				newUnlock('more');
 			} else if(data.unlocked < data.brackets.length - 1) {
-				var progressDisplay = Math.floor(100 * data.progressEvaluator(bracket));
-				this.updateProgress(id, progressDisplay);
-			}
-		}
-	};
-
-	instance.unlock = function(id, tier) {
-		if(this.entries[id].unlocked < tier) {
-			this.entries[id].unlocked = tier;
-			this.entries[id].displayNeedsUpdate = true;
-		}
-	};
-
-	instance.updateProgress = function(id, progress) {
-		if(this.entries[id].progressDisplay != progress) {
-			this.entries[id].progressDisplay = progress;
-			this.entries[id].displayNeedsUpdate = true;
-		}
-	};
-
-	instance.save = function(data) {
-		data.achievements = {version: this.dataVersion, entries: {}};
-		for(var id in this.entries) {
-			if(this.entries[id].unlocked >= 0) {
-				data.achievements.entries[id] = {
-					unlocked: this.entries[id].unlocked
-				};
-			}
-		}
-	};
-
-	instance.load = function(data) {
-		if (data.achievements && data.achievements.version) {
-			switch (data.achievements.version) {
-				case 6: this.loadV6(data); break;
-				default: console.debug("Could not load saved achievement data from version " + data.achievements.version); break;
-			}
-		}
-	};
-
-	instance.loadV6 = function(data) {
-		if (data.achievements) {
-			for (var id in data.achievements.entries) {
-				if (this.entries[id]) {
-					if (data.achievements.entries[id].unlocked >= 0) {
-						this.unlock(id, data.achievements.entries[id].unlocked);
-					}
-				}
-			}
-		}
-	};
-
-	return instance;
-
-}());
+	
