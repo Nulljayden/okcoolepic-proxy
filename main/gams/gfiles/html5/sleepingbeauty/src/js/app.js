@@ -9,34 +9,27 @@ import * as actors from "util/actors.js";
 import pc from "being/pc.js";
 import { generate } from "level/generator.js";
 
-// import { draw } from "ui/map/debug.js"
-
 let seed = Date.now();
 console.log("seed", seed);
 ROT.RNG.setSeed(seed);
 
-function init() {
-	map.init(document.querySelector("#map"));
-	combat.init(document.querySelector("#combat"));
-	log.init(document.querySelector("#log"));
-	status.init(document.querySelector("#status"));
+let mapElement: HTMLElement | null = document.querySelector("#map");
+let introElement: HTMLElement | null = document.querySelector("#intro");
 
-	status.update();
+async function init() {
+  if (!mapElement || !introElement) {
+    throw new Error("Map or intro element not found");
+  }
 
-	log.add("A truly beautiful day for a heroic action!")
-	log.add("This tower is surrounded by plains and trees and there might be a princess sleeping on the last floor.");
-	log.pause();
-	log.add("Apparently the only way to get to her is to advance through all tower levels.");
-	log.add("To move around, use {#fff}arrow keys{}, {#fff}numpad{} or {#fff}vim-keys{}.");
-	log.pause();
+  map.init(mapElement);
+  combat.init(document.querySelector("#combat"));
+  log.init(document.querySelector("#log"));
+  status.init(document.querySelector("#status"));
 
-	let level = generate(1);
-	level.activate(level.start, pc);
+  status.update();
 
-//	let canvas = draw(level);
-//	canvas.style.left = canvas.style.top = 0;
-
-	actors.loop();
-}
-
-intro.start(document.querySelector("#intro")).then(init);
+  log.add("A truly beautiful day for a heroic action!");
+  log.add("This tower is surrounded by plains and trees and there might be a princess sleeping on the last floor.");
+  log.pause();
+  log.add("Apparently the only way to get to her is to advance through all tower levels.");
+  log.add("To move around, use arrow keys, numpad or vim-
