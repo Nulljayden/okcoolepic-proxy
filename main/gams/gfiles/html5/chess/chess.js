@@ -5,6 +5,7 @@
  * @license GNU/GPL Version 3
  */
 
+// Variables for the chess game engine
 const HTML_CHESS_VERSION = '1.0 revision #8';
 const HTML_CHESS_AUTHOR = 'Stefano Gioffre';
 const HTML_CHESS_COPYLEFT = '2010 Stefano Gioffre';
@@ -32,10 +33,14 @@ const STARTING_POSITION = [
 ];
 const INITIAL_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
+// Regular expression for denied tag characters
 const rDeniedTagChars = /(^\d)|\W/g;
+
+// Variables for the flat chessboard
 const sAlgBoxEmpty = "digit your move...";
 const bCtrlIsDown = false;
 
+// Object for the flat chessboard
 let etc = {
   aBoard: [],
   aThreats: [],
@@ -61,23 +66,23 @@ let etc = {
 //... other functions and methods
 
 const chess = (function() {
-  // 3d
+  // Variables for the 3D chessboard
   let oSolidBoard, bUseKeyboard = false, graphicsStatus = 0,
 
-  // 2d
+  // Variables for the 2D chessboard
   oBoardTable = null, aCoords, aFlatSquares, sLstSqColr,
 
-  // both visualizations
+  // Variables for both visualizations
   oBoardsBox, bHumanSide = true,
 
-  // resizing vars
+  // Variables for resizing
   nDeskWidth = BOARD_SIZE, nDeskHeight = BOARD_SIZE, nFlatBVMargin = BOARD_MARGIN, // theese values are modificable
   nFlatBoardSide = nDeskHeight - nFlatBVMargin, nPageX, nPageY, iBoardsBoxX, iBoardsBoxY, nDscrsX, nDscrsY, oFilm, nMinWidth = nMinHeight = MIN_BOARD_SIZE,
 
-  // history motion picture
+  // Variables for the history motion picture
   nMotionId, bMotion = false, bBoundLock = false, nFrameRate = FRAME_RATE,
 
-  // DOM
+  // Variables for the DOM
   oPGNBtn, oMovesSelect, oInfoBox, oCtrlForm = null, oNtfArea = null, oNtfClsAll = null, bInfoBox = false, aCloseCalls = [], iNtfs = 0;
 
   //...
@@ -99,33 +104,4 @@ const chess = (function() {
   }
 
   function resetBoard() {
-    //...
-  }
 
-  function trimHistory() {
-    //...
-  }
-
-  function writeHistory(bGraphRendrng, nStartPt, nEndPt, nPieceId, nTarget, nPromo) {
-    //...
-  }
-
-  // Toledo Chess Engine
-  function consider(thnkA, thnkB, thnkH, thnkF, thnkPawnStride, thnkDepth) {
-    //...
-  }
-
-  function engineMove() {
-    //...
-  }
-
-  // Flat chessboard functions
-  function writeFlatPieces() {
-    //...
-  }
-
-  function squareFocus(nPieceId, bMakeActive) {
-    //...
-  }
-
-  function
