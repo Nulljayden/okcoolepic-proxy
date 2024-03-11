@@ -1,10 +1,16 @@
+// Create a new div element
 let node = document.createElement("div");
+// Add the class "bottom" to the div
 node.classList.add("bottom");
+// Set the inner HTML of the div to "BOTTOM"
 node.innerHTML = "BOTTOM";
 
+// Define a string constant "TEST" with the value "xxxxxxxxxx"
 const TEST = "xxxxxxxxxx";
+// Define a string constant "PAD" with the value "  " (two spaces)
 const PAD = "  ";
 
+// Define an array constant "KNIGHT" with the knight ASCII art
 const KNIGHT = [
 	"   .-.   ",
 	" __|=|__ ",
@@ -17,6 +23,7 @@ const KNIGHT = [
 	"  /_|_\\  "
 ];
 
+// Define an array constant "FLOWER" with the flower ASCII art
 const FLOWER = [
     "     ",
     "     ",
@@ -29,11 +36,15 @@ const FLOWER = [
 	" \\|/ "
 ];
 
+// Define a function "colorizeKnight" that takes a character as an argument
+// and returns the character wrapped in a span element with a specific color
 function colorizeKnight(ch) {
 	let color = "#aae";
 	return `<span style="color:${color}">${ch}</span>`;
 }
 
+// Define a function "colorizeFlower" that takes a character as an argument
+// and returns the character wrapped in a span element with a specific color
 function colorizeFlower(ch) {
 	let color = "#f00";
 	if (ch == "o") { color = "#ff0"; }
@@ -42,31 +53,8 @@ function colorizeFlower(ch) {
 	return `<span style="color:${color}">${ch}</span>`;
 }
 
+// Define a function "fit" that calculates the number of columns to fit the knight and flower ASCII art
+// and sets the inner HTML of the node to the formatted ASCII art
 export function fit() {
 	let avail = node.parentNode.offsetWidth;
-	node.innerHTML = TEST;
-	let columns = Math.floor(TEST.length*avail/node.offsetWidth) - 2;
-
-	let knight = KNIGHT.join("\n").replace(/\S/g, colorizeKnight).split("\n");
-	let flower = FLOWER.join("\n").replace(/\S/g, colorizeFlower).split("\n");
-
-	let result = [];
-	for (let i=0;i<knight.length;i++) {
-		let remain = columns;
-		remain -= PAD.length; // padding
-		remain -= 9; // knight
-		remain -= 5; // flower
-
-		let row = `${PAD}${knight[i]}${new Array(remain+1).join(" ")}${flower[i]}`;
-		result.push(row);
-	}
-
-	let final = `<span class='grass'>${new Array(columns+1).join("^")}</span>`;
-	result.push(final);
-
-	node.innerHTML = result.join("\n");
-}
-
-export function getNode() {
-	return node;
-}
+	node.innerHTML =
