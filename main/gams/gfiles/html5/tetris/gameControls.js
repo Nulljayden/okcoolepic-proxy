@@ -1,4 +1,5 @@
-// default input assignments
+// defaultInputAssignments object stores the default key mappings for various game controls.
+// The keys in the object are the control names, and the values are arrays of key names.
 const inputAssignments = {
   shiftLeft: ['left'],
   shiftRight: ['right'],
@@ -9,6 +10,7 @@ const inputAssignments = {
   hardDrop: ['space']
 };
 
+// autoRepeatConfig and thresholdConfig are configuration variables that control the behavior of the game.
 const autoRepeatConfig = 50;
 const thresholdConfig = 200;
 
@@ -48,5 +50,7 @@ function loadGameControls() {
 
   // If the autoRepeat cookie value is not null
   if (autoRepeat !== null) {
-    // Set the autoRepeatConfig value
-
+    // Set the autoRepeatConfig value based on the autoRepeat cookie value
+    autoRepeatConfig = parseInt(autoRepeat);
+  }
+}
