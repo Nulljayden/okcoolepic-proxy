@@ -17,11 +17,14 @@ Bullet
  * @constructor
  */
 $.Bullet = function (opt) {
+  // Initialize the bullet with the given options
   for (var k in opt) {
     this[k] = opt[k];
   }
-  this.enemiesHit = [];
+  this.enemiesHit = []; // Array to store the indices of enemies hit by the bullet
   this.inView = 0;
+
+  // Create a new particle emitter for the bullet
   $.particleEmitters.push(
     new $.ParticleEmitter({
       x: this.x,
@@ -52,7 +55,7 @@ $.Bullet.prototype = Object.create($.Particle.prototype);
  * @param {number} dt - Time delta
  * @param {number} ww - Width of the game world
  * @param {number} wh - Height of the game world
- * @param {number} screen - The screen object
+ * @param {Object} screen - The screen object
  * @param {number} cw - Width of the canvas
  * @param {number} ch - Height of the canvas
  * @param {number} twopi - Two Pi value
@@ -71,18 +74,22 @@ $.Bullet.prototype.update = function (
   ch,
   twopi
 ) {
-  // Apply Forces
+  // Apply forces to move the bullet
   this.x += Math.cos(this.direction) * (this.speed * dt);
   this.y += Math.sin(this.direction) * (this.speed * dt);
+
+  // Calculate the exit point of the bullet
   this.ex = this.x - Math.cos(this.direction) * this.size;
   this.ey = this.y - Math.sin(this.direction) * this.size;
 
-  // Check Collisions
+  // Check for collisions with enemies
   var ei = enemies.length;
   while (ei--) {
     var enemy = enemies[ei];
     if (util.distance(this.x, this.y, enemy.x, enemy.y) <= enemy.radius) {
+      // If the bullet hasn't hit this enemy before
       if (this.enemiesHit.indexOf(enemy.index) == -1) {
+        // Create particle emitters at the impact point
         particleEmitters.push(
           new $.ParticleEmitter({
             x: this.x,
@@ -98,18 +105,27 @@ $.Bullet.prototype.update = function (
           })
         );
 
+        // Add the enemy index to the enemiesHit array
         this.enemiesHit.push(enemy.index);
+
+        // Apply damage to the enemy
         enemy.receiveDamage(ei, this.damage);
 
+        // If more than 3 enemies have been hit, remove the bullet
         if (this.enemiesHit.length > 3) {
           $.bullets.splice(i, 1);
         }
       }
+
+      // If the bullet is not piercing, remove it
       if (!this.piercing) {
         $.bullets.splice(i, 1);
       }
     }
   }
 
-  // Lock Bounds
-  if (!util.pointInRect(this.ex, this.ey, 0, 0, ww
+  // Constrain the bullet within the game world boundaries
+  if (!util.pointInRect(this.ex, this.ey, 0, 0, ww)) {
+    $.bullets.splice(i, 1);
+  }
+};
