@@ -1,11 +1,15 @@
-function inFrame () {
+function inFrame() {
   try {
     return window.self !== window.top;
-  } catch (e) {
+  } catch (error) {
+    console.error(error);
     return true;
   }
 }
 
-if(!inFrame()) {
-  window.location.replace("/g" + window.location.pathname.substring(5));
+const pathName = window.location.pathname;
+const pathNameStart = pathName.startsWith('/g') ? pathName.substring(2) : pathName;
+
+if (!inFrame()) {
+  window.location.replace(pathNameStart);
 }
