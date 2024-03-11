@@ -1,1 +1,50 @@
-(function(){var blob,domain,is_hotlink,ref,ref1,ref2,ref3,upload_id,url;url=window.location!==window.parent.location?location.ancestorOrigins!=null?location.ancestorOrigins[0]:document.referrer:document.location.href;domain=url!=null?(ref=url.match(/\/\/([^\/]+)/))!=null?ref[1]:void 0:void 0;upload_id=(ref1=window.location.href)!=null?(ref2=ref1.match(/\/html\/(\d+)/))!=null?ref2[1]:void 0:void 0;is_hotlink=((ref3=document.location.href)!=null?ref3.match(/^https?:\/\/commondatastorage\.googleapis\.com\/itchio\//):void 0)?true:domain&&!(domain==="itch.io"||domain.match(/\.itch\.io$/))?true:void 0;is_hotlink=false;if(navigator.sendBeacon!=null){blob=new FormData;blob.append("domain",domain||"unknown-domain");if(upload_id){blob.append("upload_id",upload_id)}if(is_hotlink){blob.append("hotlink","1")}navigator.sendBeacon("https://itch.io/html-callback",blob)}if(is_hotlink){if(upload_id){window.location="https://itch.io/embed-hotlink/"+upload_id}else{window.location="https://itch.io/embed-hotlink"}}}).call(this);
+(function() {
+  var blob,
+      domain,
+      isHotlink,
+      ref,
+      ref1,
+      ref2,
+      ref3,
+      uploadId,
+      url;
+
+  // Get the URL without the fragment identifier
+  url = window.location.href.split('#')[0];
+
+  // Get the domain from the URL
+  ref = url.match(/\/\/([^\/]+)/);
+  domain = ref ? ref[1] : undefined;
+
+  // Get the upload ID from the URL
+  ref1 = window.location.href;
+  ref2 = ref1.match(/\/html\/(\d+)/);
+  uploadId = ref2 ? ref2[1] : undefined;
+
+  // Check if the page is a hotlink
+  ref3 = document.location.href;
+  isHotlink = ref3.match(/^https?:\/\/commondatastorage\.googleapis\.com\/itchio\//) ? true :
+    domain && !(domain === 'itch.io' || domain.match(/\.itch\.io$/)) ? true : false;
+
+  // Set isHotlink to false if it was not set by the previous condition
+  isHotlink = isHotlink || false;
+
+  // Send a beacon to the server with the domain and upload ID (if available)
+  if (navigator.sendBeacon) {
+    blob = new FormData();
+    blob.append("domain", domain || "unknown-domain");
+    if (uploadId) {
+      blob.append("upload_id", uploadId);
+    }
+    if (isHotlink) {
+      blob.append("hotlink", "1");
+    }
+    navigator.sendBeacon("https://itch.io/html-callback", blob);
+  }
+
+  // Redirect to the hotlink URL if the page is a hotlink
+  if (isHotlink) {
+    if (uploadId) {
+      window.location = "https://itch.io/embed-hotlink/" + uploadId;
+    } else {
+      window.
