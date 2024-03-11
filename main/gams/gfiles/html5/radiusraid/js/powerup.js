@@ -2,14 +2,17 @@
 Init
 ==============================================================================*/
 /**
+ * Powerup constructor
  * @constructor
  * @param {object} opt - Options for the Powerup object.
  */
 $.Powerup = function(opt) {
+  // Initialize properties by copying the options object
   for (const [k, v] of Object.entries(opt)) {
     this[k] = v;
   }
 
+  // Create a text object for the powerup title
   const text = $.text({
     ctx: $.ctxmg,
     x: 0,
@@ -24,10 +27,13 @@ $.Powerup = function(opt) {
     render: 0,
   });
 
+  // Set padding and calculate the dimensions of the powerup
   this.hpadding = 8;
   this.vpadding = 8;
   this.width = text.width + this.hpadding * 2;
   this.height = text.height + this.vpadding * 2;
+
+  // Position the powerup and set its direction and speed
   this.x = this.x - this.width / 2;
   this.y = this.y - this.height / 2;
   this.direction = $.util.rand(0, $.twopi);
@@ -38,20 +44,21 @@ $.Powerup = function(opt) {
 Update
 ==============================================================================*/
 /**
+ * Powerup prototype update method
  * @prototype
  * @param {number} i - Index of the Powerup object in the array.
  */
 $.Powerup.prototype.update = function(i) {
-  // Apply Forces
+  // Apply forces to move the powerup
   this.x += Math.cos(this.direction) * this.speed * $.dt;
   this.y += Math.sin(this.direction) * this.speed * $.dt;
 
-  // Check Bounds
+  // Check if the powerup is within the game boundaries
   if (!$.util.rectInRect(this.x, this.y, this.width, this.height, 0, 0, $.ww, $.wh)) {
-    $.powerups.splice(i, 1);
+    $.powerups.splice(i, 1); // Remove the powerup if it's out of bounds
   }
 
-  // Check Collection Collision
+  // Check for collision with the hero and apply effects
   if (
     $.hero.life > 0 &&
     $.util.arcIntersectingRect(
@@ -64,8 +71,9 @@ $.Powerup.prototype.update = function(i) {
       this.height
     )
   ) {
-    $.audio.play("powerup");
-    $.powerupTimers[this.type] = 300;
+    $.audio.play("powerup"); // Play the powerup sound
+
+    // Create a particle emitter and update the powerup counters
     $.particleEmitters.push(
       new $.ParticleEmitter({
         x: this.x + this.width / 2,
@@ -81,8 +89,9 @@ $.Powerup.prototype.update = function(i) {
         saturation: 0,
       })
     );
-    $.powerups.splice(i, 1);
-    $.powerupsCollected++;
+
+    $.powerups.splice(i, 1); // Remove the powerup
+    $.powerupsCollected++; // Increment the powerups collected counter
   }
 };
 
@@ -90,10 +99,12 @@ $.Powerup.prototype.update = function(i) {
 Render
 ==============================================================================*/
 /**
+ * Powerup prototype render method
  * @prototype
  * @param {number} i - Index of the Powerup object in the array.
  */
 $.Powerup.prototype.render = function(i) {
+  // Draw the powerup's background and border
   $.ctxmg.fillStyle = "#000";
   $.ctxmg.fillRect(this.x - 2, this.y - 2, this.width + 4, this.height + 4);
   $.ctxmg.fillStyle = "#555";
@@ -102,6 +113,7 @@ $.Powerup.prototype.render = function(i) {
   $.ctxmg.fillStyle = "#111";
   $.ctxmg.fillRect(this.x, this.y, this.width, this.height);
 
+  // Draw the powerup's title
   $.ctxmg.beginPath();
   $.text({
     ctx: $.ctxmg,
@@ -134,8 +146,3 @@ $.Powerup.prototype.render = function(i) {
     render: true,
   });
   $.ctxmg.fillStyle = `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%)`;
-  $.ctxmg.fill();
-
-  $.ctxmg.fillStyle = "hsla(0, 0%, 100%, 0.2)";
-  $.ctxmg.fillRect(this.x, this.y, this.width, this.height / 2);
-
