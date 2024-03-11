@@ -1,23 +1,38 @@
-/* Use a class or id to target the body, instead of targeting all bodies */
+/*
+Targets the body of the webpage with the class "my-website".
+Sets the margin and padding to 0, and specifies the font family as Arial,
+with a fallback font of sans-serif. Sets the background color to white
+and the text color to black.
+*/
 body.my-website {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif; /* Add a fallback font */
+  font-family: Arial, sans-serif;
   background-color: white;
   color: black;
 }
 
-/* Use a class to target elements instead of targeting all elements with the same tag name */
+/*
+Hides elements with the class "classwork-item" by setting their display
+property to "none".
+*/
 .classwork-item {
-  display: none; /* Hide the element */
+  display: none;
 }
 
-/* Use a class or id to target links instead of targeting all links */
+/*
+Targets links with the class "nav-link". Sets the color to a specific
+shade of blue using the hsl color model.
+*/
 .nav-link {
-  color: hsl(215, 30%, 50%); /* Use a more specific color value */
+  color: hsl(215, 30%, 50%);
 }
 
-/* Add a hover state for links */
+/*
+Changes the color of links with the class "nav-link" when they are
+hovered over. Increases the saturation and decreases the lightness of
+the color slightly.
+*/
 .nav-link:hover {
-  color: hsl(215, 40%, 40%); /* Change the color slightly on hover */
+  color: hsl(215, 40%, 40%);
 }
