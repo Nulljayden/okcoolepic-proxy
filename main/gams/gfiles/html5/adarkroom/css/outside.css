@@ -1,60 +1,78 @@
-div#village {
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	border: 1px solid black;
-	cursor: default;
-	padding: 5px 10px;
-	width: 200px;
+/* General styles */
+body {
+  --border-color: #000;
+  --bg-color: #fff;
+  --padding: 5px 10px;
+  --width: 200px;
 }
 
-div#population {
-	position: absolute;
-	top: -13px;
-	right: 10px;
-	background-color: white;
+[data-legend] {
+  --legend-left: 8px;
+  --legend-top: -13px;
+}
+
+.container {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+  cursor: default;
+}
+
+.hide {
+  display: none;
+}
+
+.box {
+  border: 1px solid var(--border-color);
+  padding: var(--padding);
+  width: var(--width);
+}
+
+.bg-white {
+  background-color: var(--bg-color);
+}
+
+.tooltip {
+  width: 150px;
+  padding-right: 20px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Specific styles */
+#village {
+  top: 0px;
+  right: 0px;
+}
+
+#village:before {
+  content: attr(data-legend);
+  left: var(--legend-left);
+  top: var(--legend-top);
+}
+
+#population {
+  top: -13px;
+  right: 10px;
 }
 
 .noHuts #population {
-	display: none;
+  display: none;
 }
 
-div#village:before {
-	position: absolute;
-	background: white;
-	content: attr(data-legend);
-	left: 8px;
-	top: -13px;
-}
-
-div#workers {
-	position:absolute;
-	top: -4px;
-	left: 160px;
-	width: 150px;
+#workers {
+  top: -4px;
+  left: 160px;
 }
 
 .workerRow > .row_val {
-	position: relative;
-	padding-right: 20px;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+  margin: 10px 0px;
 }
 
-.workerRow {
-	position: relative;
-	margin: 10px 0px;
-	cursor: default;
-}
-
-.workerRow .tooltip {
-	width: 150px;
-}
-
-div.storeRow div.tooltip {
-	width: 160px;
-}
+.storeRow .tooltip {
