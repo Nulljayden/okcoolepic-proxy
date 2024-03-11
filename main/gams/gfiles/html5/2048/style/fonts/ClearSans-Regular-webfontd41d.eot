@@ -3,20 +3,40 @@ import os
 import sys
 
 def clear_screen():
+    # This function clears the console screen
     if os.name == 'nt':
+        # For Windows systems
         _ = os.system('cls')
     else:
+        # For other systems
         _ = os.system('clear')
 
 def sanitize_string(string):
+    # This function takes a string as input and returns a sanitized version
+    # of it by removing any non-alphanumeric characters and consecutive
+    # whitespace characters
+
+    # First, remove any non-alphanumeric characters from the string
     s1 = re.sub(r'[^\w\s]', '', string)
+    
+    # Then, replace any consecutive whitespace characters with a single space
     s2 = re.sub(r'\s+', ' ', s1)
+    
+    # Finally, return the sanitized string, after removing any leading or
+    # trailing whitespace characters
     return s2.strip().lower()
 
 if __name__ == '__main__':
+    # This block is executed when the script is run directly
     clear_screen()
     print("Sanitize String 1.0.0")
     print("---------------------")
+    
+    # Get the user's input string
     user_string = input("Enter a string: ")
+    
+    # Call the sanitize_string function to sanitize the user's input
     sanitized_string = sanitize_string(user_string)
+    
+    # Print the sanitized string
     print(f"Sanitized string: {sanitized_string}")
