@@ -1,3 +1,21 @@
 {
-  "phabricator.uri" : "https://phab.playfabdev.com/"
+  // The URI of your Phabricator instance
+  "phabricator.uri" : "https://phab.playfabdev.com/",
+
+  /*
+  Uncomment and add the following fields if you want to use an API token for authentication.
+  For more information on generating an API token, visit:
+  https://secure.phabricator.com/book/phabricator/article/apitoken_policies/
+  */
+
+  // "phabricator.apiToken" : "your-api-token",
+
+  /*
+  Uncomment and add the following fields if you want to use a Phabricator application password for authentication.
+  For more information on creating an application password, visit:
+  https://secure.phabricator.com/settings/panel/applicationpassword/
+  */
+
+  // "phabricator.appPasswordUsername" : "your-app-password-username",
+  // "phabricator.appPassword" : "your-app-password"
 }
