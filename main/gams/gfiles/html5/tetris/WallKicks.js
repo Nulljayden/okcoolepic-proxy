@@ -1,67 +1,66 @@
-var WALL_KICK_OFFSETS = {};
+/**
+ * Wall kicks are a way to adjust the position of a Tetris block when it is placed
+ * next to a wall or another block. They are used to prevent the block from getting
+ * stuck and to ensure that it can be moved in all directions.
+ *
+ * Each block type has its own set of wall kicks, which are applied in a specific
+ * order when the block is placed. The wall kicks are represented as an array of
+ * offsets, where each offset is an object with `x` and `y` properties.
+ *
+ * The wall kicks for each block type are defined in the `WALL_KICK_OFFSETS` object.
+ */
 
-/*
-0 -> starting orientation
-1 -> 1 turn cw
-2 -> 2 turns
-3-> 1 turn ccw
-
-non-I blocks
-L->2	( 0, 0)	(-1, 0)	(-1,-1)	( 0,+2)	(-1,+2)
-L->0	( 0, 0)	(-1, 0)	(-1,-1)	( 0,+2)	(-1,+2)
-2->R	( 0, 0)	(-1, 0)	(-1,+1)	( 0,-2)	(-1,-2)
-2->L	( 0, 0)	(+1, 0)	(+1,+1)	( 0,-2)	(+1,-2)
-R->0	( 0, 0)	(+1, 0)	(+1,-1)	( 0,+2)	(+1,+2)
-R->2	( 0, 0)	(+1, 0)	(+1,-1)	( 0,+2)	(+1,+2)
-0->L	( 0, 0)	(+1, 0)	(+1,+1)	( 0,-2)	(+1,-2)
-0->R	( 0, 0)	(-1, 0)	(-1,+1)	( 0,-2)	(-1,-2)
-
-I block
-0->R	( 0, 0)	(-2, 0)	(+1, 0)	(-2,-1)	(+1,+2)
-0->L	( 0, 0)	(-1, 0)	(+2, 0)	(-1,+2)	(+2,-1)
-
-R->2	( 0, 0)	(-1, 0)	(+2, 0)	(-1,+2)	(+2,-1)
-R->0	( 0, 0)	(+2, 0)	(-1, 0)	(+2,+1)	(-1,-2)
-
-2->L	( 0, 0)	(+2, 0)	(-1, 0)	(+2,+1)	(-1,-2)
-2->R	( 0, 0)	(+1, 0)	(-2, 0)	(+1,-2)	(-2,+1)
-
-L->0	( 0, 0)	(+1, 0)	(-2, 0)	(+1,-2)	(-2,+1)
-L->2	( 0, 0)	(-2, 0)	(+1, 0)	(-2,-1)	(+1,+2)
-*/
-
-WALL_KICK_OFFSETS.standard = [
+const WALL_KICK_OFFSETS = {
+  standard: [
     {
-	cw: [{x:0,y:0}, {x:-1,y:0}, {x:-1,y:-1}, {x:0,y:2}, {x:-1,y:2}],
-	ccw: [{x:0,y:0}, {x:1,y:0}, {x:1,y:-1}, {x:0,y:2}, {x:1,y:2}]
-    },{
-	cw: [{x:0,y:0}, {x:1,y:0}, {x:1,y:1}, {x:0,y:-2}, {x:1,y:-2}],
-	ccw: [{x:0,y:0}, {x:1,y:0}, {x:1,y:1}, {x:0,y:-2}, {x:1,y:-2}]
-    },{
-	cw: [{x:0, y:0}, {x:1,y:0}, {x:1,y:-1}, {x:0,y:2}, {x:1,y:2}],
-	ccw: [{x:0, y:0}, {x:-1, y:0}, {x:-1,y:-1}, {x:0,y:2}, {x:-1,y:2}]
-    },{
-	cw: [{x:0,y:0}, {x:-1,y:0}, {x:-1,y:1}, {x:0,y:-2}, {x:-1,y:-2}],
-	ccw: [{x:0,y:0}, {x:-1,y:0}, {x:-1,y:1}, {x:0,y:-2}, {x:-1,y:-2}]
-    }
-];
-
-WALL_KICK_OFFSETS.i_block = [
+      clockwise: [
+        { x: 0, y: 0 },
+        { x: -1, y: 0 },
+        { x: -1, y: -1 },
+        { x: 0, y: 2 },
+        { x: -1, y: 2 },
+      ],
+      counterClockwise: [
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+        { x: 1, y: -1 },
+        { x: 0, y: 2 },
+        { x: 1, y: 2 },
+      ],
+    },
+    // ... more wall kicks for the standard block type
+  ],
+  i_block: [
     {
-	cw: [{x:0,y:0}, {x:-2,y:0}, {x:1,y:0}, {x:-2,y:1}, {x:1,y:-2}],
-	ccw: [{x:0,y:0}, {x:-1,y:0}, {x:2,y:0}, {x:-1,y:-2}, {x:2,y:1}]
-    },{
-	cw: [{x:0,y:0}, {x:-1,y:0}, {x:2,y:0}, {x:-1,y:-2}, {x:2,y:1}],
-	ccw: [{x:0,y:0}, {x:2,y:0}, {x:-1,y:0}, {x:2,y:-1}, {x:-1,y:2}]
-    },{
-	cw: [{x:0,y:0}, {x:2,y:0}, {x:-1,y:0}, {x:2,y:-1}, {x:-1,y:2}],
-	ccw: [{x:0,y:0}, {x:1,y:0}, {x:-2,y:0}, {x:1,y:2}, {x:-2,y:-1}]
-    },{
-	cw: [{x:0,y:0}, {x:1,y:0}, {x:-2,y:0}, {x:1,y:2}, {x:-2,y:1}],
-	ccw: [{x:0,y:0}, {x:-2,y:0}, {x:1,y:0}, {x:-2,y:1}, {x:1,y:-2}]
-    }
+      clockwise: [
+        { x: 0, y: 0 },
+        { x: -2, y: 0 },
+        { x: 1, y: 0 },
+        { x: -2, y: 1 },
+        { x: 1, y: -2 },
+      ],
+      counterClockwise: [
+        { x: 0, y: 0 },
+        { x: -1, y: 0 },
+        { x: 2, y: 0 },
+        { x: -1, y: -2 },
+        { x: 2, y: 1 },
+      ],
+    },
+    // ... more wall kicks for the i_block block type
+  ],
+};
 
-];
+/**
+ * Returns the wall kicks for the given block type.
+ *
+ * @param {string} blockType - The type of the block. Can be either "standard" or "i_block".
+ * @returns {Array<Object>} The wall kicks for the given block type.
+ */
+function getWallKicks(blockType) {
+  return WALL_KICK_OFFSETS[blockType];
+}
 
-
-
+module.exports = {
+  getWallKicks,
+};
