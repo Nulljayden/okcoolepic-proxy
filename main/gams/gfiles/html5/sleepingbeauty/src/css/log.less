@@ -1,13 +1,25 @@
-#log {
+/* This is a CSS style rule for an element with the class "log". */
+
+.log {
+	/* Position the log element at the left and bottom edges of the viewport. */
+	position: fixed;
 	left: 0;
 	bottom: 0;
-	width: unit(@w, vw);
-	height: unit(100-@h, vh);
 
+	/* Set the width and height of the log element using viewport units. */
+	width: calc(var(--w, 100) * 1vw);
+	height: calc((100 - var(--h, 0)) * 1vh);
+
+	/* Ensure that any content that overflows the log element is hidden. */
 	overflow: hidden;
+
+	/* Add a thick border around the log element using a solid black color. */
 	border: 6px solid #000;
 
+	/* Style the paragraph elements within the log element. */
 	p {
+		/* Remove the top margin from paragraph elements within the log element. */
 		margin-top: 0;
 	}
 }
+
