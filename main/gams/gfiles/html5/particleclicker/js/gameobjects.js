@@ -1,6 +1,8 @@
+var Helpers = require('./helpers');
+var UI = require('./ui');
+
 var GameObjects = (function() {
   'use strict';
-  var GLOBAL_VISIBILITY_THRESHOLD = 0.5;
 
   /** @class GameObject
    * Base class for all objects in the game. This works together with the
@@ -8,6 +10,7 @@ var GameObjects = (function() {
    */
   var GameObject = function(obj) {
     this.state = {};
+    this.name = obj.name;
     $.extend(this, obj);
     if (!this.key) {
       throw 'Error: GameObject has to have a key!';
@@ -16,10 +19,18 @@ var GameObjects = (function() {
   GameObject.prototype.loadState =
       function(state) { $.extend(this.state, state); };
 
+  GameObject.prototype.saveState =
+      function() { return this.state; };
+
+  GameObject.prototype.toString = function() {
+    return JSON.stringify(this.state);
+  };
+
   /** @class Lab
    */
   var Lab = function() {
     GameObject.apply(this, [{
+                             name: 'Lab',
                              key : 'lab',
                              state : {
                                name : 'Give your lab an awesome name!',
@@ -36,11 +47,20 @@ var GameObjects = (function() {
                                time: 0
                              }
                            }]);
+    this.initialize();
   };
 
   Lab.prototype = Object.create(GameObject.prototype);
 
   Lab.prototype.constructor = Lab;
+
+  Lab.prototype.initialize = function() {
+    this.getGrant = this.getGrant.bind(this);
+    this.acquireData = this.acquireData.bind(this);
+    this.clickDetector = this.clickDetector.bind(this);
+    this.research = this.research.bind(this);
+    this.buy = this.buy.bind(this);
+  };
 
   Lab.prototype.getGrant = function() {
     var addition = this.state.reputation * this.state.factor;
@@ -78,24 +98,46 @@ var GameObjects = (function() {
     return false;
   };
 
+  Lab.prototype.getCostFormatted = function() {
+    return this.state.cost.toFixed(2);
+  };
+
   /** @class Research
    */
-  var Research = function(obj) {
-    GameObject.apply(this, [obj]);
-    this.state.level = 0;
-    this.state.interesting = false;
+  var Research = function() {
+    GameObject.apply(this, [{
+                             name: 'Research',
+                             key : 'research',
+                             state : {
+                               level : 0,
+                               interesting : false,
+                               cost : 10,
+                               cost_increase : 1.2,
+                               reputation : 10,
+                               info_levels : [1, 5, 10],
+                               info : 'research_info.html'
+                             }
+                           }]);
+    this.initialize();
   };
 
   Research.prototype = Object.create(GameObject.prototype);
 
   Research.prototype.constructor = Research;
 
+  Research.prototype.initialize = function() {
+    this.isVisible = this.isVisible.bind(this);
+    this.isAvailable = this.isAvailable.bind(this);
+    this.research = this.research.bind(this);
+    this.getInfo = this.getInfo.bind(this);
+  };
+
   Research.prototype.isVisible = function(lab) {
     if (!lab) {
       return false;
     }
     return this.state.level > 0 ||
-           lab.state.data >= this.state.cost * GLOBAL_VISIBILITY_THRESHOLD;
+           lab.state.data >= this.state.cost * 0.5;
   };
 
   Research.prototype.isAvailable = function(lab) {
@@ -108,166 +150,4 @@ var GameObjects = (function() {
   Research.prototype.research = function(lab) {
     if (lab && lab.research(this.state.cost, this.state.reputation)) {
       this.state.level++;
-      if (this.state.info_levels.length > 0 &&
-          this.state.level === this.state.info_levels[0]) {
-        this.state.interesting = true;
-        this.state.info_levels.splice(0, 1);
-      }
-      var old_cost = this.state.cost;
-      this.state.cost = Math.floor(this.state.cost * this.cost_increase);
-      return old_cost;
-    }
-    return -1;
-  };
-
-  Research.prototype.getInfo = function() {
-    if (!this._info) {
-      this._info = Helpers.loadFile(this.info);
-    }
-    this.state.interesting = false;
-    return this._info;
-  };
-
-  /** @class Worker
-   * Implement an auto-clicker in the game.
-   */
-  var Worker = function(obj) {
-    GameObject.apply(this, [obj]);
-    this.state.hired = 0;
-  };
-
-  Worker.prototype = Object.create(GameObject.prototype);
-
-  Worker.prototype.constructor = Worker;
-
-  Worker.prototype.isVisible = function(lab) {
-    if (!lab) {
-      return false;
-    }
-    return this.state.hired > 0 ||
-           lab.state.money >= this.state.cost * GLOBAL_VISIBILITY_THRESHOLD;
-  };
-
-  Worker.prototype.isAvailable = function(lab) {
-    if (!lab) {
-      return false;
-    }
-    return lab.state.money >= this.state.cost;
-  };
-
-  Worker.prototype.hire = function(lab) {
-    if (lab && lab.buy(this.state.cost)) {
-      this.state.hired++;
-      var cost = this.state.cost;
-      this.state.cost = Math.floor(cost * this.cost_increase);
-      return cost;
-    }
-    return -1;  // not enough money
-  };
-
-  Worker.prototype.getTotal =
-      function() { return this.state.hired * this.state.rate; };
-
-  /** @class Upgrade
-   */
-  var Upgrade = function(obj) {
-    GameObject.apply(this, [obj]);
-    this.state.visible = false;
-    this.state.used = false;
-  };
-
-  Upgrade.prototype = Object.create(GameObject.prototype);
-
-  Upgrade.prototype.constructor = Upgrade;
-
-  Upgrade.prototype.meetsRequirements = function(allObjects) {
-    if (!allObjects) {
-      return false;
-    }
-    for (var i = 0; i < this.requirements.length; i++) {
-      var req = this.requirements[i];
-      if (allObjects[req.key].state[req.property] < req.threshold) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  Upgrade.prototype.isAvailable = function(lab, allObjects) {
-    if (!lab || !allObjects) {
-      return false;
-    }
-    return !this.state.used && lab.state.money >= this.cost &&
-           this.meetsRequirements(allObjects);
-  };
-
-  Upgrade.prototype.isVisible = function(lab, allObjects) {
-    if (!lab || !allObjects) {
-      return false;
-    }
-    if (!this.state.used &&
-        (this.state.visible ||
-         lab.state.money >= this.cost * GLOBAL_VISIBILITY_THRESHOLD &&
-             this.meetsRequirements(allObjects))) {
-      this._visible = true;
-      return true;
-    }
-    return false;
-  };
-
-  Upgrade.prototype.buy = function(lab, allObjects) {
-    if (lab && allObjects && !this.state.used && lab.buy(this.cost)) {
-      for (var i = 0; i < this.targets.length; i++) {
-        var t = this.targets[i];
-        allObjects[t.key].state[t.property] *= this.factor || 1;
-        allObjects[t.key].state[t.property] += this.constant || 0;
-      }
-      this.state.used = true;  // How about actually REMOVING used upgrades?
-      this.state.visible = false;
-      return this.cost;
-    }
-    return -1;
-  };
-
-
-  /** @class Achievement
-   */
-  var Achievement = function(obj) {
-    GameObject.apply(this, [obj]);
-    this.state.timeAchieved = null;
-  };
-
-  Achievement.prototype = Object.create(GameObject.prototype);
-
-  Achievement.prototype.validate = function(lab, allObjects, saveTime) {
-    if (this.state.timeAchieved) {
-      return true;
-    }
-    if (allObjects.hasOwnProperty(this.targetKey) &&
-        allObjects[this.targetKey].state.hasOwnProperty(this.targetProperty) &&
-        allObjects[this.targetKey].state[this.targetProperty] >= this.threshold) {
-      this.state.timeAchieved = lab.state.time + new Date().getTime() - saveTime;
-      UI.showAchievement(this);
-      return true;
-    }
-    return false;
-  };
-
-  Achievement.prototype.isAchieved = function() {
-    if (this.state.timeAchieved) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-
-  // Expose classes in module.
-  return {
-    Lab: Lab,
-    Research: Research,
-    Worker: Worker,
-    Upgrade: Upgrade,
-    Achievement: Achievement
-  };
-}());
+      if (this.state.info_levels.length
