@@ -1,31 +1,41 @@
-.pointer:hover{
+/* Base styles */
+.pointer:hover {
 	cursor: pointer;
 }
-.default, .disabled{
+
+.default,
+.disabled {
 	cursor: default !important;
 }
-.no-select{
-	-webkit-user-select: none; /* Chrome/Safari */        
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+ */
+
+.no-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
-.red{
-	color: red !important;
+/* Text styles */
+.text-red {
+	color: red;
 }
-.bold{
-	font-weight:bold;
+
+.text-bold {
+	font-weight: bold;
 	text-decoration: underline;
 }
-.green{
-	color: #00b200 !important;
+
+.text-green {
+	color: #00b200;
 }
 
-.theader{
-	font-size:20px;
+/* Header styles */
+.header-large {
+	font-size: 20px;
 }
 
-.achievementTD{
-	padding: 0px;
+/* Table styles */
+.achievement-td {
+	padding: 0;
 	background-color: white !important;
 }
